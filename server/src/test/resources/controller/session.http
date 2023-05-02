@@ -1,0 +1,10 @@
+### SessionController
+
+### PUT login
+PUT {{host}}/session/
+Content-Type: application/json
+
+{
+  "username": "",
+  "password": ""
+}
