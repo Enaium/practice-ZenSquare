@@ -18,10 +18,10 @@
  */
 
 import { createRouter, createWebHistory } from "vue-router"
-import Home from "@/layouts/Home.tsx"
-import Forums from "@/pages/Forums.tsx"
-import WhatsNew from "@/pages/WhatsNew.tsx"
-import Members from "@/pages/Members.tsx"
+import Home from "@/layouts/Home"
+import Forums from "@/pages/Forums"
+import WhatsNew from "@/pages/WhatsNew"
+import Members from "@/pages/Members"
 
 const router = createRouter({
   history: createWebHistory(),
