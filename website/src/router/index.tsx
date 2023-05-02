@@ -19,9 +19,9 @@
 
 import { createRouter, createWebHistory } from "vue-router"
 import Home from "@/layouts/Home"
-import Forums from "@/pages/Forums"
-import WhatsNew from "@/pages/WhatsNew"
-import Members from "@/pages/Members"
+import Forums from "@/views/Forums"
+import WhatsNew from "@/views/WhatsNew"
+import Members from "@/views/Members"
 
 const router = createRouter({
   history: createWebHistory(),

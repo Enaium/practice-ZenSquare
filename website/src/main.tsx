@@ -1,5 +1,5 @@
 import { createApp } from "vue"
-import "bootstrap/scss/bootstrap.scss"
+import "@/style.css"
 import App from "@/App"
 import router from "@/router"
 import { createPinia } from "pinia"

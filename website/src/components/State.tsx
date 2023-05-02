@@ -19,12 +19,12 @@
 
 import { NButton, NPopover } from "naive-ui"
 import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
-import Login from "@/pages/Login"
+import Login from "@/views/Login"
 
 const State = () => {
   return (
     <>
-      <div class={"d-flex gap-2"}>
+      <div class={"flex gap-2"}>
         <NPopover
           trigger={"click"}
           v-slots={{

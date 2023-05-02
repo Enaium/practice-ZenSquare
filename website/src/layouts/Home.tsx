@@ -25,21 +25,21 @@ import State from "@/components/State"
 const Home = () => {
   return (
     <>
-      <NLayout class={"vh-100"}>
-        <NLayoutHeader style={{ height: "4rem" }} bordered>
-          <div class={"container d-flex justify-content-between align-items-center h-100"}>
+      <NLayout class={"h-screen"}>
+        <NLayoutHeader class={"h-16"} bordered>
+          <div class={"mx-48 flex justify-between items-center h-full"}>
             <Menu />
             <State />
           </div>
         </NLayoutHeader>
         <NLayout style={{ top: "64px" }} position={"absolute"} hasSider>
           <NLayout nativeScrollbar={false}>
-            <div class={"container"} style={{ minHeight: "85vh" }}>
+            <div class={"mx-48"} style={{ minHeight: "85vh" }}>
               <RouterView />
             </div>
             <NDivider />
-            <div class={"container"}>
-              <div class={"d-flex justify-content-center m-5"}>
+            <div class={"mx-48"}>
+              <div class={"flex justify-center m-5"}>
                 <p>Copyright &copy; 2023 Enaium</p>
               </div>
             </div>
