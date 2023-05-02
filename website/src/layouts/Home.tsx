@@ -18,43 +18,28 @@
  */
 
 import Menu from "@/components/Menu"
-import { NButton, NDivider, NLayout, NLayoutHeader, NPopover } from "naive-ui"
+import { NDivider, NLayout, NLayoutHeader } from "naive-ui"
 import { RouterView } from "vue-router"
-import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
+import State from "@/components/State"
 
 const Home = () => {
   return (
     <>
-      <NLayout class={"h-screen"}>
-        <NLayoutHeader class={"h-16"} bordered>
-          <div class={"mx-48 flex justify-between items-center h-full"}>
+      <NLayout class={"vh-100"}>
+        <NLayoutHeader style={{ height: "4rem" }} bordered>
+          <div class={"container d-flex justify-content-between align-items-center h-100"}>
             <Menu />
-            <div class={"flex gap-2"}>
-              <NPopover
-                trigger={"click"}
-                v-slots={{
-                  trigger: () => (
-                    <NButton renderIcon={() => <Key16Regular />} text>
-                      Login
-                    </NButton>
-                  ),
-                  default: () => <div>123</div>,
-                }}
-              />
-              <NButton renderIcon={() => <Clipboard16Regular />} text>
-                Register
-              </NButton>
-            </div>
+            <State />
           </div>
         </NLayoutHeader>
         <NLayout style={{ top: "64px" }} position={"absolute"} hasSider>
           <NLayout nativeScrollbar={false}>
-            <div class={"mx-48"} style={{ minHeight: "85vh" }}>
+            <div class={"container"} style={{ minHeight: "85vh" }}>
               <RouterView />
             </div>
             <NDivider />
-            <div class={"mx-48"}>
-              <div class={"flex flex-col items-center m-5"}>
+            <div class={"container"}>
+              <div class={"d-flex justify-content-center m-5"}>
                 <p>Copyright &copy; 2023 Enaium</p>
               </div>
             </div>

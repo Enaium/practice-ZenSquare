@@ -17,34 +17,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NButton, NPopover } from "naive-ui"
-import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
-import Login from "@/pages/Login"
+import { NButton, NForm, NFormItem, NInput } from "naive-ui"
 import { useI18n } from "vue-i18n"
 
-const State = () => {
+const Login = () => {
   const { t } = useI18n()
-
   return (
     <>
-      <div class={"d-flex gap-2"}>
-        <NPopover
-          trigger={"click"}
-          v-slots={{
-            trigger: () => (
-              <NButton renderIcon={() => <Key16Regular />} text>
-                {t("component.state.login")}
-              </NButton>
-            ),
-            default: () => <Login />,
-          }}
-        />
-        <NButton renderIcon={() => <Clipboard16Regular />} text>
-          {t("component.state.register")}
+      <NForm>
+        <NFormItem path={"username"} label={t("page.login.username")}>
+          <NInput />
+        </NFormItem>
+        <NFormItem path={"password"} label={t("page.login.password")}>
+          <NInput />
+        </NFormItem>
+        <NButton class={"w-100"} type={"primary"}>
+          {t("page.login.login")}
         </NButton>
-      </div>
+      </NForm>
     </>
   )
 }
 
-export default State
+export default Login
