@@ -30,5 +30,10 @@ export default {
       login: "登录",
       register: "注册",
     },
+    menu: {
+      forums: "论坛",
+      whatsNew: "新鲜事",
+      members: "会员",
+    },
   },
 }

@@ -18,21 +18,19 @@
  */
 
 import { NButton, NForm, NFormItem, NInput } from "naive-ui"
-import { useI18n } from "vue-i18n"
 
 const Login = () => {
-  const { t } = useI18n()
   return (
     <>
       <NForm>
-        <NFormItem path={"username"} label={t("page.login.username")}>
+        <NFormItem path={"username"} label={window.$i18n("page.login.username")}>
           <NInput />
         </NFormItem>
-        <NFormItem path={"password"} label={t("page.login.password")}>
+        <NFormItem path={"password"} label={window.$i18n("page.login.password")}>
           <NInput />
         </NFormItem>
         <NButton class={"w-100"} type={"primary"}>
-          {t("page.login.login")}
+          {window.$i18n("page.login.login")}
         </NButton>
       </NForm>
     </>

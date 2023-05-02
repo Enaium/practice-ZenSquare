@@ -20,11 +20,8 @@
 import { NButton, NPopover } from "naive-ui"
 import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
 import Login from "@/pages/Login"
-import { useI18n } from "vue-i18n"
 
 const State = () => {
-  const { t } = useI18n()
-
   return (
     <>
       <div class={"d-flex gap-2"}>
@@ -33,14 +30,14 @@ const State = () => {
           v-slots={{
             trigger: () => (
               <NButton renderIcon={() => <Key16Regular />} text>
-                {t("component.state.login")}
+                {window.$i18n("component.state.login")}
               </NButton>
             ),
             default: () => <Login />,
           }}
         />
         <NButton renderIcon={() => <Clipboard16Regular />} text>
-          {t("component.state.register")}
+          {window.$i18n("component.state.register")}
         </NButton>
       </div>
     </>

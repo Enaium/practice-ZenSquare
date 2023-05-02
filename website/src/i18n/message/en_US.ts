@@ -17,33 +17,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MenuOption, NMenu } from "naive-ui"
-import { RouterLink, useRoute } from "vue-router"
-
-const menuOptions: MenuOption[] = [
-  {
-    label: () => {
-      return <RouterLink to={{ name: "forums" }}>{window.$i18n("component.menu.forums")}</RouterLink>
+export default {
+  page: {
+    login: {
+      username: "Username",
+      password: "Password",
+      login: "Login",
     },
-    key: "forums",
   },
-  {
-    label: () => {
-      return <RouterLink to={{ name: "whats-new" }}>{window.$i18n("component.menu.whatsNew")}</RouterLink>
+  component: {
+    state: {
+      login: "Login",
+      register: "Register",
     },
-    key: "whats-new",
-  },
-  {
-    label: () => {
-      return <RouterLink to={{ name: "members" }}>{window.$i18n("component.menu.members")}</RouterLink>
+    menu: {
+      forums: "Forums",
+      whatsNew: "What's New",
+      members: "Members",
     },
-    key: "members",
   },
-]
-
-const Menu = () => {
-  const route = useRoute()
-  return <NMenu options={menuOptions} mode={"horizontal"} value={route.name!.toString()} />
 }
-
-export default Menu
