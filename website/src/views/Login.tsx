@@ -29,7 +29,7 @@ const Login = () => {
         <NFormItem path={"password"} label={window.$i18n("page.login.password")}>
           <NInput />
         </NFormItem>
-        <NButton class={"w-100"} type={"primary"}>
+        <NButton class={"w-full"} type={"primary"}>
           {window.$i18n("page.login.login")}
         </NButton>
       </NForm>
