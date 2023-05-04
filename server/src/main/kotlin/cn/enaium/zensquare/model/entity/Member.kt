@@ -48,7 +48,6 @@ interface Member : BaseEntity {
     @JoinTable(name = "follow_mapping", joinColumnName = "follower_id", inverseJoinColumnName = "following_id")
     val followers: List<Member>
 
-    @ManyToMany
-    @JoinTable(name = "follow_mapping", joinColumnName = "follower_id", inverseJoinColumnName = "following_id")
+    @ManyToMany(mappedBy = "followers")
     val followings: List<Member>
 }
