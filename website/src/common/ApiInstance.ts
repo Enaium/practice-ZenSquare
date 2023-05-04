@@ -36,7 +36,7 @@ export const api = new Api(async ({ uri, method, body }) => {
     },
   })
   if (response.status !== 200) {
-    throw await response.json()
+    throw await response.text()
   }
   const text = await response.text()
   if (text.length === 0) {

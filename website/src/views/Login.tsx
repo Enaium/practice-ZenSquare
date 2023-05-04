@@ -37,7 +37,7 @@ const submit = () => {
           sessionStore.token = data.token
         })
         .catch((error) => {
-          console.log(error)
+          window.$message.error(error)
         })
     }
   })

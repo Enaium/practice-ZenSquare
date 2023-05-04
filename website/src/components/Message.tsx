@@ -17,24 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NConfigProvider, NMessageProvider, zhCN } from "naive-ui"
-import { RouterView } from "vue-router"
-import { useI18n } from "vue-i18n"
-import Message from "@/components/Message"
+import { useMessage } from "naive-ui"
 
-const App = () => {
-  const { t } = useI18n()
-  window.$i18n = t
-  return (
-    <>
-      <NConfigProvider locale={zhCN}>
-        <NMessageProvider>
-          <Message />
-        </NMessageProvider>
-        <RouterView />
-      </NConfigProvider>
-    </>
-  )
+const Message = () => {
+  window.$message = useMessage()
+  return <div></div>
 }
 
-export default App
+export default Message
