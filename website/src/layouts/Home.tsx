@@ -37,7 +37,6 @@ const Home = () => {
             <div class={"mx-48"} style={{ minHeight: "85vh" }}>
               <RouterView />
             </div>
-            w
             <NDivider />
             <div class={"mx-48"}>
               <div class={"flex justify-center m-5"}>
