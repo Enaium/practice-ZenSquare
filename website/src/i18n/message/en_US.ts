@@ -18,7 +18,7 @@
  */
 
 export default {
-  page: {
+  view: {
     login: {
       username: {
         label: "Username",

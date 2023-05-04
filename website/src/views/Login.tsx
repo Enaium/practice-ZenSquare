@@ -37,7 +37,7 @@ const Login: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess }) =>
             const sessionStore = useSessionStore()
             sessionStore.id = data.id
             sessionStore.token = data.token
-            message.success(window.$i18n("page.login.success"))
+            message.success(window.$i18n("view.login.success"))
             onSuccess()
           })
           .catch((error) => {
@@ -52,15 +52,15 @@ const Login: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess }) =>
       <NForm model={form} ref={formRef} class={"w-64"}>
         <NFormItem
           path={"username"}
-          label={window.$i18n("page.login.username.label")}
-          rule={[{ required: true, message: window.$i18n("page.login.username.message") }]}
+          label={window.$i18n("view.login.username.label")}
+          rule={[{ required: true, message: window.$i18n("view.login.username.message") }]}
         >
           <NInput v-model:value={form.username} />
         </NFormItem>
         <NFormItem
           path={"password"}
-          label={window.$i18n("page.login.password.label")}
-          rule={[{ required: true, message: window.$i18n("page.login.password.message") }]}
+          label={window.$i18n("view.login.password.label")}
+          rule={[{ required: true, message: window.$i18n("view.login.password.message") }]}
         >
           <NInput
             v-model:value={form.password}
@@ -73,7 +73,7 @@ const Login: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess }) =>
           />
         </NFormItem>
         <NButton class={"w-full"} type={"primary"} onClick={submit}>
-          {window.$i18n("page.login.login")}
+          {window.$i18n("view.login.login")}
         </NButton>
       </NForm>
     </>
