@@ -17,19 +17,51 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NButton, NForm, NFormItem, NInput } from "naive-ui"
+import { FormInst, NButton, NForm, NFormItem, NInput } from "naive-ui"
+import { reactive, ref } from "vue"
+import { MemberInput } from "@/__generated/model/static"
+import { api } from "@/common/ApiInstance.ts"
+import { useSessionStore } from "@/store"
+
+const formRef = ref<FormInst | null>(null)
+const form = reactive<MemberInput>({})
+
+const submit = () => {
+  formRef.value?.validate((errors) => {
+    if (!errors) {
+      api.sessionController
+        .put({ body: form })
+        .then((data) => {
+          const sessionStore = useSessionStore()
+          sessionStore.id = data.id
+          sessionStore.token = data.token
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
+  })
+}
 
 const Login = () => {
   return (
     <>
-      <NForm>
-        <NFormItem path={"username"} label={window.$i18n("page.login.username")}>
-          <NInput />
+      <NForm model={form} ref={formRef} class={"w-64"}>
+        <NFormItem
+          path={"username"}
+          label={window.$i18n("page.login.username.label")}
+          rule={[{ required: true, message: window.$i18n("page.login.username.message") }]}
+        >
+          <NInput v-model:value={form.username} />
         </NFormItem>
-        <NFormItem path={"password"} label={window.$i18n("page.login.password")}>
-          <NInput />
+        <NFormItem
+          path={"password"}
+          label={window.$i18n("page.login.password.label")}
+          rule={[{ required: true, message: window.$i18n("page.login.password.message") }]}
+        >
+          <NInput v-model:value={form.password} />
         </NFormItem>
-        <NButton class={"w-full"} type={"primary"}>
+        <NButton class={"w-full"} type={"primary"} onClick={submit}>
           {window.$i18n("page.login.login")}
         </NButton>
       </NForm>

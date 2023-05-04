@@ -1,0 +1,4 @@
+### Controller
+
+### GET categorys
+GET {{host}}/categories

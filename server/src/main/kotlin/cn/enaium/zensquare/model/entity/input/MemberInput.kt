@@ -30,7 +30,7 @@ import java.util.*
 data class MemberInput(
     val id: UUID?,
     val username: String?,
-    val password: String?,
+    var password: String?,
 ) : Input<Member> {
 
     override fun toEntity(): Member {

@@ -20,8 +20,14 @@
 export default {
   page: {
     login: {
-      username: "Username",
-      password: "Password",
+      username: {
+        label: "Username",
+        message: "Please input your username",
+      },
+      password: {
+        label: "Password",
+        message: "Please input your password",
+      },
       login: "Login",
     },
   },

@@ -24,7 +24,6 @@ import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.SessionService
 import cn.enaium.zensquare.model.entity.input.MemberInput
 import cn.enaium.zensquare.model.response.LoginResponse
-import cn.enaium.zensquare.model.response.Response
 import cn.enaium.zensquare.repository.MemberRepository
 import cn.enaium.zensquare.util.createSession
 import cn.enaium.zensquare.util.deleteSession
@@ -43,38 +42,39 @@ class SessionServiceImpl(
     val messageSource: MessageSource,
     val memberRepository: MemberRepository
 ) : SessionService {
-    override fun register(memberInput: MemberInput) {
-        memberInput.username?.takeIf { it.isNotBlank() } ?: let {
-            throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.username.blank"))
-        }
-        memberInput.password?.takeIf { it.isNotBlank() } ?: let {
-            throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.password.blank"))
-        }
-        memberRepository.save(memberInput) {
-            setMode(SaveMode.INSERT_ONLY)
-        }
-    }
-
-    override fun login(memberInput: MemberInput): Response<LoginResponse> {
+    override fun login(memberInput: MemberInput): LoginResponse {
         //If username is blank, return not found
         memberInput.username?.takeIf { it.isNotBlank() }
-            ?: let { throw ServiceException(HttpStatus.NOT_FOUND, "The username doesn't exist") }
+            ?: let {
+                throw ServiceException(
+                    HttpStatus.NOT_FOUND,
+                    messageSource.i18n("controller.session.username.doesntExist")
+                )
+            }
         //If password is blank, return unauthorized
         memberInput.password?.takeIf { it.isNotBlank() }
-            ?: let { throw ServiceException(HttpStatus.UNAUTHORIZED, "The password is blank") }
+            ?: let {
+                throw ServiceException(
+                    HttpStatus.UNAUTHORIZED,
+                    messageSource.i18n("controller.session.password.blank")
+                )
+            }
         //Find the member by username
         memberRepository.findByUsername(memberInput.username)?.let { member ->
             //Check the member's password
             member.password.takeIf { BCrypt.checkpw(memberInput.password, it) }?.let {
                 //If successful, return the member id and token
-                return Response.Builder.success(metadata = LoginResponse(member.id, createSession(member.id)))
+                return LoginResponse(member.id, createSession(member.id))
             } ?: let {
                 //If failed, return unauthorized
-                throw ServiceException(HttpStatus.UNAUTHORIZED, "The password is incorrect")
+                throw ServiceException(
+                    HttpStatus.UNAUTHORIZED,
+                    messageSource.i18n("controller.session.password.incorrect")
+                )
             }
         }
         //If the member doesn't exist, returns not found
-        throw ServiceException(HttpStatus.NOT_FOUND, "The username doesn't exist")
+        throw ServiceException(HttpStatus.NOT_FOUND, messageSource.i18n("controller.session.username.doesntExist"))
     }
 
     override fun logout(id: UUID) {

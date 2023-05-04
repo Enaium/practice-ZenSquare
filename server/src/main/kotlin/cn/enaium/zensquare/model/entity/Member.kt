@@ -20,10 +20,9 @@
 package cn.enaium.zensquare.model.entity
 
 import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.Entity
-import org.babyfish.jimmer.sql.Id
-import org.babyfish.jimmer.sql.OneToMany
-import org.babyfish.jimmer.sql.OneToOne
+import org.babyfish.jimmer.sql.*
+import org.babyfish.jimmer.sql.GenerationType.USER
+import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.util.*
 
 /**
@@ -32,6 +31,7 @@ import java.util.*
 @Entity
 interface Member : BaseEntity {
     @Id
+    @GeneratedValue(strategy = USER, generatorType = UUIDIdGenerator::class)
     val id: UUID
 
     val username: String
@@ -43,4 +43,12 @@ interface Member : BaseEntity {
 
     @OneToMany(mappedBy = "targetMember")
     val alerts: List<Alert>
+
+    @ManyToMany
+    @JoinTable(name = "follow_mapping", joinColumnName = "follower_id", inverseJoinColumnName = "following_id")
+    val followers: List<Member>
+
+    @ManyToMany
+    @JoinTable(name = "follow_mapping", joinColumnName = "follower_id", inverseJoinColumnName = "following_id")
+    val followings: List<Member>
 }

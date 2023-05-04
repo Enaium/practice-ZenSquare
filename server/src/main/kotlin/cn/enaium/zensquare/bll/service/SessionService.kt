@@ -21,15 +21,12 @@ package cn.enaium.zensquare.bll.service
 
 import cn.enaium.zensquare.model.entity.input.MemberInput
 import cn.enaium.zensquare.model.response.LoginResponse
-import cn.enaium.zensquare.model.response.Response
-import org.springframework.http.ResponseEntity
 import java.util.*
 
 /**
  * @author Enaium
  */
 interface SessionService {
-    fun register(memberInput: MemberInput)
-    fun login(memberInput: MemberInput): Response<LoginResponse>
+    fun login(memberInput: MemberInput): LoginResponse
     fun logout(id: UUID)
 }

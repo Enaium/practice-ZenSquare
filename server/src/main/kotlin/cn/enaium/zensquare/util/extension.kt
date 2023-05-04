@@ -25,4 +25,5 @@ import org.springframework.context.i18n.LocaleContextHolder
 /**
  * @author Enaium
  */
-fun MessageSource.i18n(key: String,vararg arguments: Any): String = this.getMessage(key,arguments,LocaleContextHolder.getLocale())
+fun MessageSource.i18n(key: String, vararg arguments: Any): String =
+    this.getMessage(key, arguments, LocaleContextHolder.getLocale())

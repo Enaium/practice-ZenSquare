@@ -20,7 +20,9 @@
 package cn.enaium.zensquare.repository
 
 import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import org.babyfish.jimmer.spring.repository.KRepository
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -28,4 +30,11 @@ import java.util.*
  * @author Enaium
  */
 @Repository
-interface MemberProfileRepository : KRepository<MemberProfile, UUID>
+interface MemberProfileRepository : KRepository<MemberProfile, UUID> {
+
+    fun findByMemberId(memberId: UUID): MemberProfile?
+    fun findAllByMemberProfile(pageable: Pageable, memberProfile: MemberProfileInput?) =
+        pager(pageable).execute(sql.createQuery(MemberProfile::class) {
+            select(table)
+        })
+}

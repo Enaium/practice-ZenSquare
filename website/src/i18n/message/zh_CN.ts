@@ -20,8 +20,14 @@
 export default {
   page: {
     login: {
-      username: "用户名",
-      password: "密码",
+      username: {
+        label: "用户名",
+        message: "请输入你的用户名",
+      },
+      password: {
+        label: "密码",
+        message: "请输入你的密码",
+      },
       login: "登录",
     },
   },

@@ -1,0 +1,10 @@
+### MemberController
+
+### PUT register
+PUT {{host}}/member/
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}

@@ -19,7 +19,7 @@
 
 package cn.enaium.zensquare.bll.error
 
-import cn.enaium.zensquare.model.response.Response
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -30,9 +30,12 @@ import org.springframework.web.bind.annotation.ResponseBody
  */
 @ControllerAdvice
 class GlobalExceptionAdvice {
-    @ExceptionHandler(ServiceException::class)
+    @ExceptionHandler(Exception::class)
     @ResponseBody
-    fun service(e: ServiceException): ResponseEntity<Response<String?>> {
-        return ResponseEntity.status(e.httpStatus).body(Response.Builder.fail(e.message))
+    fun service(e: Exception): ResponseEntity<String> {
+        return when (e) {
+            is ServiceException -> ResponseEntity.status(e.httpStatus).body(e.message)
+            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("")
+        }
     }
 }

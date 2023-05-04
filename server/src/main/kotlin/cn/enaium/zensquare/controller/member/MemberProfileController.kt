@@ -17,25 +17,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.response
+package cn.enaium.zensquare.controller.member
+
+import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.repository.MemberProfileRepository
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 /**
  * @author Enaium
  */
-class Response<T>(val message: String?, val metadata: T) {
-    object Builder {
-        fun <T> success(
-            message: String? = null,
-            metadata: T
-        ): Response<T> {
-            return Response(message, metadata)
-        }
-
-        fun <T> fail(
-            message: String,
-            metadata: T? = null
-        ): Response<T?> {
-            return Response(message, metadata)
-        }
+@RestController
+@RequestMapping("/member/profile/")
+class MemberProfileController(
+    val memberProfileRepository: MemberProfileRepository
+) {
+    @GetMapping("{id}")
+    fun get(@PathVariable id: UUID): MemberProfile? {
+        return memberProfileRepository.findNullable(id)
     }
 }

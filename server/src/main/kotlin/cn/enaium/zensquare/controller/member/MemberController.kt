@@ -17,48 +17,40 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller
+package cn.enaium.zensquare.controller.member
 
-import cn.enaium.zensquare.bll.service.SessionService
+import cn.enaium.zensquare.bll.service.MemberService
 import cn.enaium.zensquare.model.entity.input.MemberInput
+import cn.enaium.zensquare.model.entity.input.MemberProfileInput
+import cn.enaium.zensquare.repository.MemberProfileRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 /**
  * @author Enaium
  */
 @RestController
-@RequestMapping("/session/")
-class SessionController(
-    val sessionService: SessionService
+@RequestMapping("/member/")
+class MemberController(
+    val memberService: MemberService,
+    val memberProfileRepository: MemberProfileRepository
 ) {
+    @GetMapping("profiles")
+    fun profiles(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10,
+        memberProfileInput: MemberProfileInput?
+    ) {
+        memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
+    }
+
     /**
      * Register
      */
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     fun put(@RequestBody memberInput: MemberInput) {
-        sessionService.register(memberInput)
-    }
-
-    /**
-     * Login
-     */
-    @PostMapping
-    @ResponseStatus(HttpStatus.OK)
-    fun post(@RequestBody memberInput: MemberInput) {
-        sessionService.login(memberInput)
-    }
-
-    /**
-     * Logout
-     *
-     * @param id Member
-     */
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    fun delete(@PathVariable id: UUID) {
-        sessionService.logout(id)
+        memberService.register(memberInput)
     }
 }
