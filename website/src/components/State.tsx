@@ -20,20 +20,25 @@
 import { NButton, NPopover } from "naive-ui"
 import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
 import Login from "@/views/Login"
+import { ref } from "vue"
+
+let showLogin = ref(false)
 
 const State = () => {
   return (
     <>
       <div class={"flex gap-2"}>
         <NPopover
+          show={showLogin.value}
+          onClickoutside={() => (showLogin.value = false)}
           trigger={"click"}
           v-slots={{
             trigger: () => (
-              <NButton renderIcon={() => <Key16Regular />} text>
+              <NButton renderIcon={() => <Key16Regular />} text onClick={() => (showLogin.value = true)}>
                 {window.$i18n("component.state.login")}
               </NButton>
             ),
-            default: () => <Login />,
+            default: () => <Login onSuccess={() => (showLogin.value = false)} />,
           }}
         />
         <NButton renderIcon={() => <Clipboard16Regular />} text>

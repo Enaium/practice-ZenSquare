@@ -29,6 +29,7 @@ export default {
         message: "Please input your password",
       },
       login: "Login",
+      success: "Login successful",
     },
   },
   component: {

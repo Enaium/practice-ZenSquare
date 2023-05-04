@@ -17,8 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FormInst, NButton, NForm, NFormItem, NInput } from "naive-ui"
-import { reactive, ref } from "vue"
+import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
+import { FunctionalComponent, reactive, ref } from "vue"
 import { MemberInput } from "@/__generated/model/static"
 import { api } from "@/common/ApiInstance.ts"
 import { useSessionStore } from "@/store"
@@ -26,24 +26,27 @@ import { useSessionStore } from "@/store"
 const formRef = ref<FormInst | null>(null)
 const form = reactive<MemberInput>({})
 
-const submit = () => {
-  formRef.value?.validate((errors) => {
-    if (!errors) {
-      api.sessionController
-        .put({ body: form })
-        .then((data) => {
-          const sessionStore = useSessionStore()
-          sessionStore.id = data.id
-          sessionStore.token = data.token
-        })
-        .catch((error) => {
-          window.$message.error(error)
-        })
-    }
-  })
-}
+const Login: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess }) => {
+  const message = useMessage()
+  const submit = () => {
+    formRef.value?.validate((errors) => {
+      if (!errors) {
+        api.sessionController
+          .put({ body: form })
+          .then((data) => {
+            const sessionStore = useSessionStore()
+            sessionStore.id = data.id
+            sessionStore.token = data.token
+            message.success(window.$i18n("page.login.success"))
+            onSuccess()
+          })
+          .catch((error) => {
+            window.$message.error(error)
+          })
+      }
+    })
+  }
 
-const Login = () => {
   return (
     <>
       <NForm model={form} ref={formRef} class={"w-64"}>
@@ -59,7 +62,15 @@ const Login = () => {
           label={window.$i18n("page.login.password.label")}
           rule={[{ required: true, message: window.$i18n("page.login.password.message") }]}
         >
-          <NInput v-model:value={form.password} />
+          <NInput
+            v-model:value={form.password}
+            type={"password"}
+            onKeydown={(e: KeyboardEvent) => {
+              if (e.key == "Enter") {
+                submit()
+              }
+            }}
+          />
         </NFormItem>
         <NButton class={"w-full"} type={"primary"} onClick={submit}>
           {window.$i18n("page.login.login")}

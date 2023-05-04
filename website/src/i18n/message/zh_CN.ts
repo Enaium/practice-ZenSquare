@@ -29,6 +29,7 @@ export default {
         message: "请输入你的密码",
       },
       login: "登录",
+      success: "登录成功",
     },
   },
   component: {
