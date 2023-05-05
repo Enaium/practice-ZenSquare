@@ -22,7 +22,7 @@ import { useSessionStore } from "@/store"
 import { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance.ts"
 import { useQuery } from "@tanstack/vue-query"
-import { NSpin } from "naive-ui"
+import { NButton, NPopconfirm, NSpin, NTag, useMessage } from "naive-ui"
 import { MemberProfileDto } from "@/__generated/model/dto"
 import Avatar from "@/components/Avatar"
 
@@ -31,6 +31,8 @@ const VisitorMenu = defineComponent({
     const session = useSessionStore()
 
     const options = reactive<RequestOf<typeof api.memberController.getProfile>>({ id: session.id! })
+
+    const message = useMessage()
 
     const { data, isLoading } = useQuery({
       queryKey: ["memberProfile", options],
@@ -44,12 +46,44 @@ const VisitorMenu = defineComponent({
         {isLoading.value ? (
           <NSpin />
         ) : (
-          <div class={"flex"}>
-            <Avatar id={profile.avatar} round bordered />
-            <div class={"flex flex-col"}>
-              <div>{profile.nickname}</div>
+          <>
+            <div class={"flex gap-5"}>
+              <Avatar id={profile.avatar} size={128} round bordered />
+              <div class={"flex flex-col w-32"}>
+                <NButton text class={"text-left"}>
+                  <h3>{profile.nickname}</h3>
+                </NButton>
+                <div class={"flex justify-between"}>
+                  <div>Role:</div>
+                  <NTag type={"primary"}>{profile.role.name}</NTag>
+                </div>
+                <div class={"flex justify-between"}>
+                  <div>Post:</div>
+                  <div>0</div>
+                </div>
+                <div class={"flex justify-between"}>
+                  <div>Reply:</div>
+                  <div>0</div>
+                </div>
+              </div>
             </div>
-          </div>
+            <div class={"bg-gray-200 w-full h-px"} />
+            <div>123</div>
+            <div class={"bg-gray-200 w-full h-px"} />
+            <NPopconfirm
+              v-slots={{
+                trigger: () => <NButton text>Logout</NButton>,
+                default: () => "Do you want to logout?",
+              }}
+              onPositiveClick={() => {
+                api.sessionController.delete({ id: session.id! }).then(() => {
+                  session.id = null
+                  session.token = null
+                  message.success("Logout successful")
+                })
+              }}
+            />
+          </>
         )}
       </>
     )
