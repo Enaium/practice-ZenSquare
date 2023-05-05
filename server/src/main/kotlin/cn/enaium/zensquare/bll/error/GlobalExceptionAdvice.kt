@@ -35,7 +35,10 @@ class GlobalExceptionAdvice {
     fun service(e: Exception): ResponseEntity<String> {
         return when (e) {
             is ServiceException -> ResponseEntity.status(e.httpStatus).body(e.message)
-            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("")
+            else -> {
+                e.printStackTrace()
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("")
+            }
         }
     }
 }
