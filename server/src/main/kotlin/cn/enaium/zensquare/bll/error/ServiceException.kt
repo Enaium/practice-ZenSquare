@@ -24,4 +24,5 @@ import org.springframework.http.HttpStatus
 /**
  * @author Enaium
  */
-class ServiceException(val httpStatus: HttpStatus, override val message: String) : Exception(message)
+class ServiceException(val httpStatus: HttpStatus, override val message: String = httpStatus.reasonPhrase) :
+    Exception(message)

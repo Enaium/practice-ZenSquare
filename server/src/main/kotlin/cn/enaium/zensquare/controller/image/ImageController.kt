@@ -17,41 +17,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.session
+package cn.enaium.zensquare.controller.image
 
 import cn.dev33.satoken.annotation.SaIgnore
-import cn.enaium.zensquare.bll.service.SessionService
-import cn.enaium.zensquare.model.entity.input.MemberInput
-import cn.enaium.zensquare.model.response.LoginResponse
-import org.springframework.http.HttpStatus
+import cn.enaium.zensquare.bll.service.ImageService
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 /**
  * @author Enaium
  */
-@SaIgnore
 @RestController
-@RequestMapping("/session/")
-class SessionController(
-    val sessionService: SessionService
+@RequestMapping("/image/")
+class ImageController(
+    val imageService: ImageService
 ) {
+
     /**
-     * Login
+     * Get a image
+     *
+     * @param id image id
      */
-    @PutMapping
-    fun put(@RequestBody memberInput: MemberInput): LoginResponse {
-        return sessionService.login(memberInput)
+    @SaIgnore
+    @GetMapping("{id}")
+    fun get(@PathVariable id: UUID, httpServletResponse: HttpServletResponse) {
+        httpServletResponse.contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE
+        httpServletResponse.outputStream.write(imageService.find(id))
     }
 
     /**
-     * Logout
+     * Update image assets
      *
-     * @param id Member
+     * @param file
      */
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.OK)
-    fun delete(@PathVariable id: UUID) {
-        sessionService.logout(id)
+    @PutMapping
+    fun put(file: MultipartFile): UUID {
+        return imageService.upload(file)
     }
 }

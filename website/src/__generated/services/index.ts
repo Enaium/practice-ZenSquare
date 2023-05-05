@@ -2,6 +2,8 @@ export { Controller } from './Controller';
 export type { ControllerOptions } from './Controller';
 export { CategoryController } from './CategoryController';
 export type { CategoryControllerOptions } from './CategoryController';
+export { ImageController } from './ImageController';
+export type { ImageControllerOptions } from './ImageController';
 export { MemberController } from './MemberController';
 export type { MemberControllerOptions } from './MemberController';
 export { MemberProfileController } from './MemberProfileController';

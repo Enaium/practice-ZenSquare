@@ -17,7 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineStore } from "pinia"
+import { createPinia, defineStore } from "pinia"
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate"
+
+const store = createPinia()
+store.use(piniaPluginPersistedstate)
+
+export default store
 
 export const useSessionStore = defineStore("session-store", {
   state: () => ({

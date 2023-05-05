@@ -28,4 +28,6 @@ import java.util.*
  * @author Enaium
  */
 @Repository
-interface ImageRepository : KRepository<Image, UUID>
+interface ImageRepository : KRepository<Image, UUID> {
+    fun findByHash(hash: String): Image?
+}

@@ -31,11 +31,18 @@ export default {
       login: "Login",
       success: "Login successful",
     },
+    register: {
+      confirmPassword: "Please input your password again",
+      passwordDifferent: "The input password is different from the confirm password",
+      register: "Register",
+      success: "Register successful",
+    },
   },
   component: {
     state: {
       login: "Login",
       register: "Register",
+      createProfile: "Create your profile",
     },
     menu: {
       forums: "Forums",

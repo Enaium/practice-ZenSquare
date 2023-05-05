@@ -14,6 +14,7 @@ export type MemberProfileDto = {
         readonly bilibili: string, 
         readonly email: string, 
         readonly roleId: string, 
-        readonly role: {readonly id: string}
+        readonly role: {readonly id: string}, 
+        readonly avatar: string
     }
 }

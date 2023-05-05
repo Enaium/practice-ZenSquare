@@ -2,12 +2,11 @@ import { createApp } from "vue"
 import "@/style.css"
 import App from "@/App"
 import router from "@/router"
-import { createPinia } from "pinia"
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate"
 import i18n from "@/i18n"
+import store from "@/store"
+import { VueQueryPlugin } from "@tanstack/vue-query"
 
 const app = createApp(<App />)
-const pinia = createPinia()
-pinia.use(piniaPluginPersistedstate)
-app.use(i18n).use(pinia).use(router)
+
+app.use(i18n).use(store).use(VueQueryPlugin).use(router)
 app.mount("#app")

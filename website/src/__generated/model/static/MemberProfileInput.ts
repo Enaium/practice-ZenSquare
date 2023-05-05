@@ -1,5 +1,7 @@
 export interface MemberProfileInput {
     
+    readonly avatar?: string;
+    
     readonly bilibili?: string;
     
     readonly birthday?: string;

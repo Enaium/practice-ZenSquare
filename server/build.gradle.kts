@@ -42,6 +42,7 @@ dependencies {
     implementation("com.github.therapi:therapi-runtime-javadoc-scribe:$therapi")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     runtimeOnly("org.postgresql:postgresql")
@@ -65,3 +66,5 @@ kotlin {
         kotlin.srcDir("build/generated/ksp/main/kotlin")
     }
 }
+
+File(project.projectDir, "run").takeUnless  { it.exists() }?.mkdirs()

@@ -17,34 +17,80 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NButton, NPopover } from "naive-ui"
+import { NAlert, NButton, NModal, NPopover } from "naive-ui"
 import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
 import Login from "@/views/Login"
-import { ref } from "vue"
+import { defineComponent, reactive, ref } from "vue"
+import Register from "@/views/Register.tsx"
+import { useSessionStore } from "@/store"
+import { api } from "@/common/ApiInstance.ts"
+import { useQuery } from "@tanstack/vue-query"
+import { RequestOf } from "@/__generated"
 
 let showLogin = ref(false)
+let showRegister = ref(false)
+
+const NoStatus = () => {
+  return (
+    <div class={"flex gap-2"}>
+      <NPopover
+        show={showLogin.value}
+        onClickoutside={() => (showLogin.value = false)}
+        trigger={"click"}
+        v-slots={{
+          trigger: () => (
+            <NButton renderIcon={() => <Key16Regular />} text onClick={() => (showLogin.value = true)}>
+              {window.$i18n("component.state.login")}
+            </NButton>
+          ),
+          default: () => <Login onSuccess={() => (showLogin.value = false)} />,
+        }}
+      />
+      <NButton renderIcon={() => <Clipboard16Regular />} text onClick={() => (showRegister.value = true)}>
+        {window.$i18n("component.state.register")}
+      </NButton>
+    </div>
+  )
+}
+
+const Stateful = defineComponent({
+  setup() {
+    const session = useSessionStore()
+
+    const options = reactive<RequestOf<typeof api.memberProfileController.get>>({ id: session.id! })
+
+    const { data } = useQuery({
+      queryKey: ["memberProfile", options],
+      queryFn: () => api.memberProfileController.get(options),
+    })
+    return () => (
+      <>
+        {data.value?.nickname ?? (
+          <NAlert type={"warning"}>
+            <NButton type={"warning"} text>
+              {window.$i18n("component.state.createProfile")}
+            </NButton>
+          </NAlert>
+        )}
+      </>
+    )
+  },
+})
 
 const State = () => {
+  const session = useSessionStore()
   return (
     <>
-      <div class={"flex gap-2"}>
-        <NPopover
-          show={showLogin.value}
-          onClickoutside={() => (showLogin.value = false)}
-          trigger={"click"}
-          v-slots={{
-            trigger: () => (
-              <NButton renderIcon={() => <Key16Regular />} text onClick={() => (showLogin.value = true)}>
-                {window.$i18n("component.state.login")}
-              </NButton>
-            ),
-            default: () => <Login onSuccess={() => (showLogin.value = false)} />,
-          }}
-        />
-        <NButton renderIcon={() => <Clipboard16Regular />} text>
-          {window.$i18n("component.state.register")}
-        </NButton>
-      </div>
+      {session.id ? <Stateful /> : <NoStatus />}
+      <NModal
+        v-model:show={showRegister.value}
+        preset={"dialog"}
+        onClose={() => (showRegister.value = false)}
+        v-slots={{
+          header: () => <div>{window.$i18n("view.register.register")}</div>,
+          default: () => <Register onSuccess={() => (showRegister.value = false)} />,
+        }}
+      />
     </>
   )
 }

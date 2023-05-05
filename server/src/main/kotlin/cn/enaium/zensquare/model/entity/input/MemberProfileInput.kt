@@ -40,6 +40,7 @@ data class MemberProfileInput(
     val bilibili: String?,
     val email: String?,
     val roleId: UUID?,
+    val avatar: UUID?
 ) : Input<MemberProfile> {
 
     override fun toEntity(): MemberProfile {

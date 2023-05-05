@@ -31,11 +31,18 @@ export default {
       login: "登录",
       success: "登录成功",
     },
+    register: {
+      confirmPassword: "请重新输入你的密码",
+      passwordDifferent: "输入的密码和确认的密码不同",
+      register: "注册",
+      success: "注册成功",
+    },
   },
   component: {
     state: {
       login: "登录",
       register: "注册",
+      createProfile: "创建个人资料",
     },
     menu: {
       forums: "论坛",

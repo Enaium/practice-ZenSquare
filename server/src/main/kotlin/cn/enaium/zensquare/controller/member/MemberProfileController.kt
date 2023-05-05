@@ -19,12 +19,14 @@
 
 package cn.enaium.zensquare.controller.member
 
+import cn.dev33.satoken.stp.StpUtil
+import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import cn.enaium.zensquare.util.checkOwner
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
@@ -38,5 +40,15 @@ class MemberProfileController(
     @GetMapping("{id}")
     fun get(@PathVariable id: UUID): MemberProfile? {
         return memberProfileRepository.findNullable(id)
+    }
+
+    @PutMapping
+    fun put(@RequestBody memberProfileInput: MemberProfileInput) {
+        memberProfileInput.id ?: memberProfileInput.memberId?.let {
+            if (!checkOwner(it) || !StpUtil.hasRole("admin")) {
+                throw ServiceException(HttpStatus.FORBIDDEN)
+            }
+        }
+        memberProfileRepository.save(memberProfileInput)
     }
 }

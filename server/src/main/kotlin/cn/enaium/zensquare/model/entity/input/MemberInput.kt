@@ -31,6 +31,7 @@ data class MemberInput(
     val id: UUID?,
     val username: String?,
     var password: String?,
+    val confirmPassword: String?
 ) : Input<Member> {
 
     override fun toEntity(): Member {

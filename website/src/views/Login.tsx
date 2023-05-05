@@ -20,7 +20,7 @@
 import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
 import { FunctionalComponent, reactive, ref } from "vue"
 import { MemberInput } from "@/__generated/model/static"
-import { api } from "@/common/ApiInstance.ts"
+import { api } from "@/common/ApiInstance"
 import { useSessionStore } from "@/store"
 
 const formRef = ref<FormInst | null>(null)

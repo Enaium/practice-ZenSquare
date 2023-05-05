@@ -27,3 +27,9 @@ import java.util.*
  */
 fun createSession(id: UUID): String = StpUtil.createLoginSession(id)
 fun deleteSession(id: UUID) = StpUtil.logout(id)
+
+fun checkOwner(id: UUID): Boolean = try {
+    UUID.fromString(StpUtil.getLoginId().toString()) == id
+} catch (_: Exception) {
+    false
+}

@@ -45,6 +45,11 @@ class MemberServiceImpl(
         memberInput.password?.takeIf { it.isNotBlank() } ?: let {
             throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.password.blank"))
         }
+
+        if (memberInput.password != memberInput.confirmPassword) {
+            throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.password.different"))
+        }
+
         memberInput.password = BCrypt.hashpw(memberInput.password)
         memberRepository.save(memberInput) {
             setMode(SaveMode.INSERT_ONLY)

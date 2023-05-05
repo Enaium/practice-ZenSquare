@@ -17,48 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.entity
+package cn.enaium.zensquare.bll.service
 
-import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.*
-import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
-import java.time.LocalDate
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 /**
  * @author Enaium
  */
-@Entity
-interface MemberProfile : BaseEntity {
-    @Id
-    @GeneratedValue(generatorType = UUIDIdGenerator::class)
-    val id: UUID
-
-    val memberId: UUID
-
-    @OneToOne
-    val member: Member
-
-    val nickname: String
-
-    val birthday: LocalDate
-
-    val location: String
-
-    val website: String
-
-    val description: String
-
-    val github: String
-
-    val bilibili: String
-
-    val email: String
-
-    val roleId: UUID
-
-    @ManyToOne
-    val role: Role
-
-    val avatar: UUID
+interface ImageService {
+    fun find(id: UUID): ByteArray
+    fun upload(file: MultipartFile): UUID
 }
