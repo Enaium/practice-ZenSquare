@@ -23,7 +23,7 @@
 import { Api } from "@/__generated"
 import { useSessionStore } from "@/store"
 
-const BASE_URL = "http://localhost:8080"
+export const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
 export const api = new Api(async ({ uri, method, body }) => {
   const token = useSessionStore().token as string | undefined
