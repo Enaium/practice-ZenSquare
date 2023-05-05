@@ -34,9 +34,6 @@ data class PostInput(
     val content: String?,
     val memberId: UUID?,
     val threadId: UUID?,
-    val replyCount: Int?,
-    val viewCount: Int?,
-    val likeCount: Int?,
     val replyTime: LocalDateTime?,
     val postTypeId: UUID?,
 ) : Input<Post> {

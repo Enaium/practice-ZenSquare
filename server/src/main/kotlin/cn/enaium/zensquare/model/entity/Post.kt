@@ -47,12 +47,6 @@ interface Post : BaseEntity {
     @ManyToOne
     val thread: Thread
 
-    val replyCount: Int
-
-    val viewCount: Int
-
-    val likeCount: Int
-
     val replyTime: LocalDateTime
 
     val postTypeId: UUID
