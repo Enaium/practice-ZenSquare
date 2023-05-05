@@ -21,9 +21,13 @@ package cn.enaium.zensquare.controller.member
 
 import cn.enaium.zensquare.bll.service.MemberService
 import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.MemberInput
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
+import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -43,13 +47,13 @@ class MemberController(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10,
         memberProfileInput: MemberProfileInput?
-    ) {
-        memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
+    ): Page<MemberProfile> {
+        return memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
     }
 
     @GetMapping("{id}/profile")
-    fun getProfile(@PathVariable id: UUID): MemberProfile? {
-        return memberProfileRepository.findByMemberId(id)
+    fun getProfile(@PathVariable id: UUID): @FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile? {
+        return memberProfileRepository.findByMemberId(id, DEFAULT_MEMBER_PROFILE)
     }
 
     /**
@@ -59,5 +63,14 @@ class MemberController(
     @ResponseStatus(HttpStatus.OK)
     fun put(@RequestBody memberInput: MemberInput) {
         memberService.register(memberInput)
+    }
+
+    companion object {
+        val DEFAULT_MEMBER_PROFILE = newFetcher(MemberProfile::class).by {
+            allScalarFields()
+            role {
+                name()
+            }
+        }
     }
 }
