@@ -24,6 +24,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 
 /**
  * @author Enaium
@@ -35,6 +36,7 @@ class GlobalExceptionAdvice {
     fun service(e: Exception): ResponseEntity<String> {
         return when (e) {
             is ServiceException -> ResponseEntity.status(e.httpStatus).body(e.message)
+            is MethodArgumentTypeMismatchException -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
             else -> {
                 e.printStackTrace()
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("")
