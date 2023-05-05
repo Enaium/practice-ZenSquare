@@ -1,22 +1,22 @@
 import type { Executor } from '../';
 import type { MemberProfileDto } from '../model/dto';
-import type { MemberInput, MemberProfileInput, Unit } from '../model/static';
+import type { MemberInput, MemberProfileInput, Page, Unit } from '../model/static';
 
 export class MemberController {
     
     constructor(private executor: Executor) {}
     
     async getProfile(options: MemberControllerOptions['getProfile']): Promise<
-        MemberProfileDto['DEFAULT'] | undefined
+        MemberProfileDto['MemberController/DEFAULT_MEMBER_PROFILE'] | undefined
     > {
         let _uri = '/member/';
         _uri += encodeURIComponent(options.id);
         _uri += '/profile';
-        return (await this.executor({uri: _uri, method: 'GET'})) as MemberProfileDto['DEFAULT'] | undefined
+        return (await this.executor({uri: _uri, method: 'GET'})) as MemberProfileDto['MemberController/DEFAULT_MEMBER_PROFILE'] | undefined
     }
     
     async profiles(options: MemberControllerOptions['profiles']): Promise<
-        Unit
+        Page<MemberProfileDto['DEFAULT']>
     > {
         let _uri = '/member/profiles';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
@@ -119,7 +119,7 @@ export class MemberController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Unit
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberProfileDto['DEFAULT']>
     }
     
     async put(options: MemberControllerOptions['put']): Promise<

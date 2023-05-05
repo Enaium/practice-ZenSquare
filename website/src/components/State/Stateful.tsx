@@ -46,10 +46,10 @@ const Stateful = defineComponent({
             trigger={"click"}
             v-slots={{
               trigger: () => (
-                <div class={"flex items-center"}>
+                <NButton class={"flex items-center h-5/6"}>
                   <Avatar id={data.value!.avatar} size={"large"} round bordered />
                   <div>{data.value!.nickname}</div>
-                </div>
+                </NButton>
               ),
               default: () => <VisitorMenu />,
             }}

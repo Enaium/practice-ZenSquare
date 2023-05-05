@@ -37,7 +37,6 @@ data class PostInput(
     val replyTime: LocalDateTime?,
     val postTypeId: UUID?,
 ) : Input<Post> {
-
     override fun toEntity(): Post {
         return CONVERTER.toPost(this)
     }
