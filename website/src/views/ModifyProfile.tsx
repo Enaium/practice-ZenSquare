@@ -18,24 +18,13 @@
  */
 
 import { defineComponent, PropType, reactive, ref } from "vue"
-import {
-  FormInst,
-  NAvatar,
-  NButton,
-  NDatePicker,
-  NForm,
-  NFormItem,
-  NGrid,
-  NGridItem,
-  NInput,
-  useMessage,
-} from "naive-ui"
+import { FormInst, NButton, NDatePicker, NForm, NFormItem, NGrid, NGridItem, NInput, useMessage } from "naive-ui"
 import { useQuery } from "@tanstack/vue-query"
-import { api, BASE_URL } from "@/common/ApiInstance.ts"
+import { api } from "@/common/ApiInstance.ts"
 import { useSessionStore } from "@/store"
 import { RequestOf } from "@/__generated"
 import { MemberProfileDto } from "@/__generated/model/dto"
-import Avatar from "@/assets/avatar.jpg"
+import Avatar from "@/components/Avatar.tsx"
 
 const ModifyProfile = defineComponent({
   props: {
@@ -69,7 +58,7 @@ const ModifyProfile = defineComponent({
       <>
         <NForm model={form} ref={formRef}>
           <NFormItem class={"flex justify-center"}>
-            <NAvatar size={96} round bordered src={`${BASE_URL}/image/${form.avatar}`} fallbackSrc={Avatar} />
+            <Avatar id={form.avatar} size={96} round bordered />
           </NFormItem>
           <NGrid xGap={12} yGap={8} cols={4}>
             <NGridItem>

@@ -20,11 +20,12 @@
 import { defineComponent, reactive, ref } from "vue"
 import { useSessionStore } from "@/store"
 import { RequestOf } from "@/__generated"
-import { api, BASE_URL } from "@/common/ApiInstance"
+import { api } from "@/common/ApiInstance"
 import { useQuery } from "@tanstack/vue-query"
-import { NAlert, NAvatar, NButton, NModal, NSpin } from "naive-ui"
-import Avatar from "@/assets/avatar.jpg"
+import { NAlert, NButton, NModal, NPopover, NSpin } from "naive-ui"
 import ModifyProfile from "@/views/ModifyProfile"
+import VisitorMenu from "@/views/VisitorMenu"
+import Avatar from "@/components/Avatar"
 
 let showModifyProfile = ref(false)
 
@@ -41,16 +42,18 @@ const Stateful = defineComponent({
     return () => (
       <>
         {data.value ? (
-          <div class={"flex items-center"}>
-            <NAvatar
-              size={"large"}
-              round
-              bordered
-              src={`${BASE_URL}/image/${data.value.avatar}`}
-              fallbackSrc={Avatar}
-            />
-            <div>{data.value.nickname}</div>
-          </div>
+          <NPopover
+            trigger={"click"}
+            v-slots={{
+              trigger: () => (
+                <div class={"flex items-center"}>
+                  <Avatar id={data.value!.avatar} size={"large"} round bordered />
+                  <div>{data.value!.nickname}</div>
+                </div>
+              ),
+              default: () => <VisitorMenu />,
+            }}
+          />
         ) : isLoading ? (
           <NSpin />
         ) : (
