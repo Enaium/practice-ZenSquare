@@ -37,11 +37,22 @@ export default {
       register: "Register",
       success: "Register successful",
     },
+    modifyProfile: {
+      nickname: { label: "Nickname", message: "Please input your nickname" },
+      birthday: { label: "Birthday" },
+      location: { label: "Location" },
+      website: { label: "Website" },
+      description: { label: "Description" },
+      github: { label: "GitHub" },
+      bilibili: { label: "BiliBili" },
+      email: { label: "Email" },
+    },
   },
   component: {
     state: {
       login: "Login",
       register: "Register",
+      profile: "Profile",
       createProfile: "Create your profile",
     },
     menu: {
@@ -49,5 +60,9 @@ export default {
       whatsNew: "What's New",
       members: "Members",
     },
+  },
+  common: {
+    submit: "Submit",
+    success: "Success",
   },
 }

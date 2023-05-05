@@ -37,15 +37,18 @@ import java.util.*
 class MemberProfileController(
     val memberProfileRepository: MemberProfileRepository
 ) {
-    @GetMapping("{id}")
-    fun get(@PathVariable id: UUID): MemberProfile? {
-        return memberProfileRepository.findNullable(id)
-    }
-
     @PutMapping
     fun put(@RequestBody memberProfileInput: MemberProfileInput) {
+        //Check member profile owner
         memberProfileInput.id ?: memberProfileInput.memberId?.let {
-            if (!checkOwner(it) || !StpUtil.hasRole("admin")) {
+            if (!(checkOwner(it) || StpUtil.hasRole("admin"))) {
+                throw ServiceException(HttpStatus.FORBIDDEN)
+            }
+        }
+
+        //Check admin
+        memberProfileInput.roleId?.let {
+            if (!StpUtil.hasRole("admin")) {
                 throw ServiceException(HttpStatus.FORBIDDEN)
             }
         }

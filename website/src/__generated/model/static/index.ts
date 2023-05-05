@@ -1,4 +1,4 @@
-export type { Unit } from './Unit';
+export type { MemberInput } from './MemberInput';
 export type { MemberProfileInput } from './MemberProfileInput';
 export type { LoginResponse } from './LoginResponse';
-export type { MemberInput } from './MemberInput';
+export type { Unit } from './Unit';

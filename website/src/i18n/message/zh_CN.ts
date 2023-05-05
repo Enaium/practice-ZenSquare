@@ -37,11 +37,22 @@ export default {
       register: "注册",
       success: "注册成功",
     },
+    modifyProfile: {
+      nickname: { label: "昵称", message: "请输入你的昵称" },
+      birthday: { label: "生日" },
+      location: { label: "地址" },
+      website: { label: "网站" },
+      description: { label: "描述" },
+      github: { label: "GitHub" },
+      bilibili: { label: "哔哩哔哩" },
+      email: { label: "邮箱" },
+    },
   },
   component: {
     state: {
       login: "登录",
       register: "注册",
+      profile: "个人资料",
       createProfile: "创建个人资料",
     },
     menu: {
@@ -49,5 +60,9 @@ export default {
       whatsNew: "新鲜事",
       members: "会员",
     },
+  },
+  common: {
+    submit: "提交",
+    success: "成功",
   },
 }

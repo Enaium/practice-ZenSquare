@@ -20,12 +20,14 @@
 package cn.enaium.zensquare.controller.member
 
 import cn.enaium.zensquare.bll.service.MemberService
+import cn.enaium.zensquare.model.entity.MemberProfile
 import cn.enaium.zensquare.model.entity.input.MemberInput
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 /**
  * @author Enaium
@@ -43,6 +45,11 @@ class MemberController(
         memberProfileInput: MemberProfileInput?
     ) {
         memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
+    }
+
+    @GetMapping("{id}/profile")
+    fun getProfile(@PathVariable id: UUID): MemberProfile? {
+        return memberProfileRepository.findByMemberId(id)
     }
 
     /**

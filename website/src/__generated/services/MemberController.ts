@@ -1,9 +1,19 @@
 import type { Executor } from '../';
+import type { MemberProfileDto } from '../model/dto';
 import type { MemberInput, MemberProfileInput, Unit } from '../model/static';
 
 export class MemberController {
     
     constructor(private executor: Executor) {}
+    
+    async getProfile(options: MemberControllerOptions['getProfile']): Promise<
+        MemberProfileDto['DEFAULT'] | undefined
+    > {
+        let _uri = '/member/';
+        _uri += encodeURIComponent(options.id);
+        _uri += '/profile';
+        return (await this.executor({uri: _uri, method: 'GET'})) as MemberProfileDto['DEFAULT'] | undefined
+    }
     
     async profiles(options: MemberControllerOptions['profiles']): Promise<
         Unit
@@ -121,6 +131,7 @@ export class MemberController {
 }
 
 export type MemberControllerOptions = {
+    'getProfile': {readonly id: string},
     'profiles': {
         readonly page?: number, 
         readonly size?: number, 
