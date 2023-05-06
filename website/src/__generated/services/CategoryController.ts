@@ -6,12 +6,12 @@ export class CategoryController {
     constructor(private executor: Executor) {}
     
     async forums(options: CategoryControllerOptions['forums']): Promise<
-        ReadonlyArray<ForumDto['DEFAULT']>
+        ReadonlyArray<ForumDto['CategoryController/DEFAULT_FORUM']>
     > {
         let _uri = '/category/';
         _uri += encodeURIComponent(options.id);
         _uri += '/forums';
-        return (await this.executor({uri: _uri, method: 'GET'})) as ReadonlyArray<ForumDto['DEFAULT']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as ReadonlyArray<ForumDto['CategoryController/DEFAULT_FORUM']>
     }
 }
 

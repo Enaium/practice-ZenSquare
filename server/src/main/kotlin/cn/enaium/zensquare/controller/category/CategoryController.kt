@@ -20,8 +20,11 @@
 package cn.enaium.zensquare.controller.category
 
 import cn.enaium.zensquare.model.entity.Forum
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.CategoryRepository
 import cn.enaium.zensquare.repository.ForumRepository
+import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -38,7 +41,14 @@ class CategoryController(
     val forumRepository: ForumRepository
 ) {
     @GetMapping("{id}/forums")
-    fun forums(@PathVariable id: UUID): List<Forum> {
-        return forumRepository.findAllByCategoryId(id)
+    fun forums(@PathVariable id: UUID): List<@FetchBy("DEFAULT_FORUM") Forum> {
+        return forumRepository.findAllByCategoryId(id, DEFAULT_FORUM)
+    }
+
+    companion object {
+        val DEFAULT_FORUM = newFetcher(Forum::class).by {
+            allScalarFields()
+            thread()
+        }
     }
 }

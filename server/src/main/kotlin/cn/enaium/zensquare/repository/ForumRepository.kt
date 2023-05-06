@@ -21,6 +21,7 @@ package cn.enaium.zensquare.repository
 
 import cn.enaium.zensquare.model.entity.Forum
 import org.babyfish.jimmer.spring.repository.KRepository
+import org.babyfish.jimmer.sql.fetcher.Fetcher
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -29,5 +30,5 @@ import java.util.*
  */
 @Repository
 interface ForumRepository : KRepository<Forum, UUID> {
-    fun findAllByCategoryId(categoryId: UUID): List<Forum>
+    fun findAllByCategoryId(categoryId: UUID, fetcher: Fetcher<Forum>? = null): List<Forum>
 }

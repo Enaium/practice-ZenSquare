@@ -19,11 +19,9 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.ForumThreadCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.Entity
-import org.babyfish.jimmer.sql.GeneratedValue
-import org.babyfish.jimmer.sql.Id
-import org.babyfish.jimmer.sql.ManyToOne
+import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.util.*
 
@@ -42,4 +40,13 @@ interface Forum : BaseEntity {
     @ManyToOne
     val category: Category
     val icon: UUID?
+
+    @OneToMany(mappedBy = "forum")
+    val threads: List<Thread>
+
+    /**
+     * thread count
+     */
+    @Transient(ForumThreadCountResolver::class)
+    val thread: Long
 }
