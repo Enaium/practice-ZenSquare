@@ -22,7 +22,7 @@ import { useSessionStore } from "@/store"
 import { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance.ts"
 import { useQuery } from "@tanstack/vue-query"
-import { NButton, NPopconfirm, NSpin, NTag, useMessage } from "naive-ui"
+import { NButton, NGrid, NGridItem, NPopconfirm, NSpin, NTag, useMessage } from "naive-ui"
 import { MemberProfileDto } from "@/__generated/model/dto"
 import Avatar from "@/components/Avatar"
 
@@ -39,7 +39,7 @@ const VisitorMenu = defineComponent({
       queryFn: () => api.memberController.getProfile(options),
     })
 
-    const profile = reactive(data.value ?? ({} as MemberProfileDto["DEFAULT"]))
+    const profile = reactive(data.value ?? ({} as MemberProfileDto["MemberController/DEFAULT_MEMBER_PROFILE"]))
 
     return () => (
       <>
@@ -54,32 +54,57 @@ const VisitorMenu = defineComponent({
                   <h3>{profile.nickname}</h3>
                 </NButton>
                 <div class={"flex justify-between"}>
-                  <div>Role:</div>
+                  <div>{window.$i18n("view.visitorMenu.role")}:</div>
                   <NTag type={"primary"}>{profile.role.name}</NTag>
                 </div>
                 <div class={"flex justify-between"}>
-                  <div>Post:</div>
+                  <div>{window.$i18n("view.visitorMenu.post")}:</div>
                   <div>0</div>
                 </div>
                 <div class={"flex justify-between"}>
-                  <div>Reply:</div>
+                  <div>{window.$i18n("view.visitorMenu.replies")}:</div>
                   <div>0</div>
                 </div>
               </div>
             </div>
             <div class={"bg-gray-200 w-full h-px"} />
-            <div>123</div>
+            <div>
+              <NGrid xGap={10} yGap={10} cols={2}>
+                <NGridItem>
+                  <NButton text>{window.$i18n("view.visitorMenu.posts")}</NButton>
+                </NGridItem>
+                <NGridItem>
+                  <NButton text>{window.$i18n("view.visitorMenu.replies")}</NButton>
+                </NGridItem>
+              </NGrid>
+            </div>
+            <div class={"bg-gray-200 w-full h-px"} />
+            <div>
+              <NGrid xGap={10} yGap={10} cols={2}>
+                <NGridItem>
+                  <NButton text>{window.$i18n("view.visitorMenu.accountDetails")}</NButton>
+                </NGridItem>
+                <NGridItem>
+                  <NButton text>{window.$i18n("view.visitorMenu.following")}</NButton>
+                </NGridItem>
+                <NGridItem>
+                  <NButton text>{window.$i18n("view.visitorMenu.security")}</NButton>
+                </NGridItem>
+              </NGrid>
+            </div>
             <div class={"bg-gray-200 w-full h-px"} />
             <NPopconfirm
               v-slots={{
-                trigger: () => <NButton text>Logout</NButton>,
-                default: () => "Do you want to logout?",
+                trigger: () => <NButton text>{window.$i18n("view.visitorMenu.logout")}</NButton>,
+                default: () => {
+                  return <div>{window.$i18n("view.visitorMenu.logoutConfirm")}</div>
+                },
               }}
               onPositiveClick={() => {
                 api.sessionController.delete({ id: session.id! }).then(() => {
                   session.id = null
                   session.token = null
-                  message.success("Logout successful")
+                  message.success(window.$i18n("view.visitorMenu.logoutSuccess"))
                 })
               }}
             />

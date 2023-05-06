@@ -23,11 +23,15 @@ import { BASE_URL } from "@/common/ApiInstance"
 import Default from "@/assets/avatar.jpg"
 
 interface Props extends AvatarProps {
-  id: string
+  id?: string
 }
 
 const Avatar: FunctionalComponent<Props> = ({ id, ...props }) => {
-  return <NAvatar src={`${BASE_URL}/image/${id}`} fallbackSrc={Default} {...props} class={"border-2 border-gray-50"} />
+  return id ? (
+    <NAvatar src={`${BASE_URL}/image/${id}`} fallbackSrc={Default} {...props} class={"border-2 border-gray-50"} />
+  ) : (
+    <NAvatar src={Default} {...props} class={"border-2 border-gray-50"} />
+  )
 }
 
 export default Avatar

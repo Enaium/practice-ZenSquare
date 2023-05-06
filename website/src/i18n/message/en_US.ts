@@ -47,6 +47,19 @@ export default {
       bilibili: { label: "BiliBili" },
       email: { label: "Email" },
     },
+    visitorMenu: {
+      role: "Role",
+      post: "Post",
+      reply: "Reply",
+      posts: "Posts",
+      replies: "replies",
+      accountDetails: "Account details",
+      following: "Following",
+      security: "Password and Security",
+      logout: "Logout",
+      logoutConfirm: "Are you sure you want to log out?",
+      logoutSuccess: "Logout successful",
+    },
   },
   component: {
     state: {

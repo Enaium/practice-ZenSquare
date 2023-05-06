@@ -47,6 +47,19 @@ export default {
       bilibili: { label: "哔哩哔哩" },
       email: { label: "邮箱" },
     },
+    visitorMenu: {
+      role: "角色",
+      post: "帖子",
+      reply: "回复",
+      posts: "帖子",
+      replies: "回复",
+      accountDetails: "账户详情",
+      following: "关注",
+      security: "密码和安全",
+      logout: "登出",
+      logoutConfirm: "你确定要登出吗?",
+      logoutSuccess: "登出成功",
+    },
   },
   component: {
     state: {
