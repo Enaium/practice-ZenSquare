@@ -22,6 +22,7 @@ import Home from "@/layouts/Home"
 import Forums from "@/views/Forums"
 import WhatsNew from "@/views/WhatsNew"
 import Members from "@/views/Members"
+import Threads from "@/views/Threads"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -45,6 +46,11 @@ const router = createRouter({
           path: "members",
           name: "members",
           component: <Members />,
+        },
+        {
+          path: "threads/:forum",
+          name: "threads",
+          component: <Threads />,
         },
       ],
     },
