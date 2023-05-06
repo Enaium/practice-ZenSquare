@@ -5,6 +5,8 @@ export type ApiErrors = {
     },
     "categoryController": {
     },
+    "forumController": {
+    },
     "imageController": {
     },
     "memberController": {
