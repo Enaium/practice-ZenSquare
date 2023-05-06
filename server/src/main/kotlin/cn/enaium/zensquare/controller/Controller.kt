@@ -39,14 +39,16 @@ class Controller(
 ) {
     @SaIgnore
     @GetMapping("categories")
-    fun categories(): List<@FetchBy("FULL_CATEGORY") Category> {
-        return categoryRepository.findAll(FULL_CATEGORY)
+    fun categories(): List<@FetchBy("DEFAULT_CATEGORY") Category> {
+        return categoryRepository.findAll(DEFAULT_CATEGORY)
     }
 
     companion object {
-        val FULL_CATEGORY = newFetcher(Category::class).by {
+        val DEFAULT_CATEGORY = newFetcher(Category::class).by {
             allScalarFields()
-            forums { allScalarFields() }
+            forums {
+                allScalarFields()
+            }
         }
     }
 }

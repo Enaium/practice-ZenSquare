@@ -1,5 +1,5 @@
 export type CategoryDto = {
-    'Controller/FULL_CATEGORY': {
+    'Controller/DEFAULT_CATEGORY': {
         readonly id: string, 
         readonly createdTime: string, 
         readonly modifiedTime: string, 

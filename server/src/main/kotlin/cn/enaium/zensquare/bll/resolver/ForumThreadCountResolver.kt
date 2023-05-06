@@ -17,30 +17,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.entity
+package cn.enaium.zensquare.bll.resolver
 
-import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.*
-import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
+import cn.enaium.zensquare.model.entity.*
+import org.babyfish.jimmer.sql.kt.KSqlClient
+import org.babyfish.jimmer.sql.kt.KTransientResolver
+import org.babyfish.jimmer.sql.kt.ast.expression.count
+import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
+import org.springframework.stereotype.Component
 import java.util.*
 
 /**
+ * count thread
+ *
  * @author Enaium
  */
-@Entity
-interface Reply : BaseEntity {
-    @Id
-    @GeneratedValue(generatorType = UUIDIdGenerator::class)
-    val id: UUID
-    val content: String
+@Component
+class ForumThreadCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
+    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Forum::class) {
+        where(table.id valueIn ids)
+        groupBy(table.id)
+        select(table.id, count(table.asTableEx().threads.id))
+    }.execute().associateBy({ it._1 }) { it._2 }
 
-    val memberId: UUID
-
-    @ManyToOne
-    val member: Member
-
-    val threadId: UUID
-
-    @ManyToOne
-    val thread: Thread
+    override fun getDefaultValue(): Long = 0
 }
