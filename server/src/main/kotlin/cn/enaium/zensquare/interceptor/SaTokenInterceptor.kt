@@ -41,7 +41,7 @@ class SaTokenInterceptor(
 ) :
     SaInterceptor({
         SaRouter.match("/**")
-            .notMatch("/swagger-ui/**", "/v3/api-docs/**", typescriptPath)
+            .notMatch("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", typescriptPath)
             .notMatchMethod("OPTIONS").check { _ ->
                 StpUtil.checkLogin()
             }
