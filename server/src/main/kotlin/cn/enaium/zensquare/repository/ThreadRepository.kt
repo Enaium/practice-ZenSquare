@@ -19,8 +19,9 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.model.entity.ThreadType
+import cn.enaium.zensquare.model.entity.Thread
 import org.babyfish.jimmer.spring.repository.KRepository
+import org.babyfish.jimmer.sql.fetcher.Fetcher
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -28,4 +29,6 @@ import java.util.*
  * @author Enaium
  */
 @Repository
-interface PostTypeRepository : KRepository<ThreadType, UUID>
+interface ThreadRepository : KRepository<Thread, UUID> {
+    fun findAllByForumId(forumId: UUID, fetcher: Fetcher<Thread>? = null): List<Thread>
+}
