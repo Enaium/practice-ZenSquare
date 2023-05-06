@@ -64,6 +64,10 @@ export default {
       newPost: "新帖子",
       newThread: "新主题",
     },
+    postThread: {
+      title: { label: "标题", message: "请输入标题" },
+      content: { label: "内容", message: "请输入内容" },
+    },
   },
   component: {
     state: {
