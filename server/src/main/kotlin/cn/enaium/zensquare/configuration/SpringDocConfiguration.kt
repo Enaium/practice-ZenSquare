@@ -32,6 +32,9 @@ import io.swagger.v3.oas.models.security.SecurityScheme.Type.APIKEY
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+/**
+ * @author Enaium
+ */
 @Configuration
 class SpringDocConfiguration {
     @Bean

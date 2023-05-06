@@ -27,6 +27,8 @@ import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 /**
+ * auto fill createdTime and modifiedTime
+ *
  * @author Enaium
  */
 @Component
