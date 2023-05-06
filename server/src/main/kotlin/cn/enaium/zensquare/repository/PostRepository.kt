@@ -19,7 +19,7 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.model.entity.Post
+import cn.enaium.zensquare.model.entity.Thread
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -28,4 +28,4 @@ import java.util.*
  * @author Enaium
  */
 @Repository
-interface PostRepository : KRepository<Post, UUID>
+interface PostRepository : KRepository<Thread, UUID>

@@ -17,12 +17,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Forums = () => {
-  return (
-    <div>
-      <div>Forums</div>
-    </div>
-  )
-}
+package cn.enaium.zensquare.model.entity
 
-export default Forums
+import cn.enaium.zensquare.model.entity.common.BaseEntity
+import org.babyfish.jimmer.sql.Entity
+import org.babyfish.jimmer.sql.GeneratedValue
+import org.babyfish.jimmer.sql.Id
+import org.babyfish.jimmer.sql.ManyToOne
+import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
+import java.util.*
+
+/**
+ * @author Enaium
+ */
+@Entity
+interface Forum : BaseEntity {
+    @Id
+    @GeneratedValue(generatorType = UUIDIdGenerator::class)
+    val id: UUID
+    val name: String
+    val description: String
+    val categoryId: UUID
+
+    @ManyToOne
+    val category: Category
+    val icon: UUID?
+}

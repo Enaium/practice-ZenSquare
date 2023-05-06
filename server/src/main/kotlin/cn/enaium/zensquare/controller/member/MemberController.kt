@@ -52,7 +52,7 @@ class MemberController(
     }
 
     @GetMapping("{id}/profile")
-    fun getProfile(@PathVariable id: UUID): @FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile? {
+    fun profile(@PathVariable id: UUID): @FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile? {
         return memberProfileRepository.findByMemberId(id, DEFAULT_MEMBER_PROFILE)
     }
 

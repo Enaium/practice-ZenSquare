@@ -6,7 +6,7 @@ export class MemberController {
     
     constructor(private executor: Executor) {}
     
-    async getProfile(options: MemberControllerOptions['getProfile']): Promise<
+    async profile(options: MemberControllerOptions['profile']): Promise<
         MemberProfileDto['MemberController/DEFAULT_MEMBER_PROFILE'] | undefined
     > {
         let _uri = '/member/';
@@ -131,7 +131,7 @@ export class MemberController {
 }
 
 export type MemberControllerOptions = {
-    'getProfile': {readonly id: string},
+    'profile': {readonly id: string},
     'profiles': {
         readonly page?: number, 
         readonly size?: number, 

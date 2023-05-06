@@ -19,7 +19,7 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.model.entity.Forum
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -28,4 +28,6 @@ import java.util.*
  * @author Enaium
  */
 @Repository
-interface ThreadRepository : KRepository<Thread, UUID>
+interface ForumRepository : KRepository<Forum, UUID> {
+    fun findAllByCategoryId(categoryId: UUID): List<Forum>
+}

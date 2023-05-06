@@ -22,6 +22,7 @@ package cn.enaium.zensquare.model.entity
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
+import java.time.LocalDateTime
 import java.util.*
 
 /**
@@ -32,9 +33,21 @@ interface Thread : BaseEntity {
     @Id
     @GeneratedValue(generatorType = UUIDIdGenerator::class)
     val id: UUID
-    val name: String
-    val description: String
-    val categoryId: UUID
+    val title: String
+
+    val content: String
+
+    val memberId: UUID?
+
     @ManyToOne
-    val category: Category
+    val member: Member
+
+    val forumId: UUID?
+
+    @ManyToOne
+    val forum: Forum
+
+    val replyTime: LocalDateTime
+
+    val threadTypeId: UUID
 }

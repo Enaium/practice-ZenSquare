@@ -19,10 +19,14 @@
 
 package cn.enaium.zensquare.controller.category
 
+import cn.enaium.zensquare.model.entity.Forum
 import cn.enaium.zensquare.repository.CategoryRepository
+import cn.enaium.zensquare.repository.ForumRepository
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 /**
  * @author Enaium
@@ -30,10 +34,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/category/")
 class CategoryController(
-    val categoryRepository: CategoryRepository
+    val categoryRepository: CategoryRepository,
+    val forumRepository: ForumRepository
 ) {
-    @GetMapping
-    fun get() {
-
+    @GetMapping("{id}/forums")
+    fun forums(@PathVariable id: UUID): List<Forum> {
+        return forumRepository.findAllByCategoryId(id)
     }
 }

@@ -17,37 +17,36 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.entity
+package cn.enaium.zensquare.model.entity.input
 
-import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.*
-import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
-import java.time.LocalDateTime
+import cn.enaium.zensquare.model.entity.Forum
+import org.babyfish.jimmer.Input
+import org.mapstruct.BeanMapping
+import org.mapstruct.Mapper
+import org.mapstruct.ReportingPolicy
+import org.mapstruct.factory.Mappers
 import java.util.*
 
-/**
- * @author Enaium
- */
-@Entity
-interface Post : BaseEntity {
-    @Id
-    @GeneratedValue(generatorType = UUIDIdGenerator::class)
-    val id: UUID
-    val title: String
+data class ForumInput(
+    val id: UUID?,
+    val name: String?,
+    val description: String?,
+    val categoryId: UUID?,
+) : Input<Forum> {
 
-    val content: String
+    override fun toEntity(): Forum {
+        return CONVERTER.toForum(this)
+    }
 
-    val memberId: UUID?
+    @Mapper
+    interface Converter {
+        @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+        fun toForum(input: ForumInput): Forum
+    }
 
-    @ManyToOne
-    val member: Member
-
-    val threadId: UUID?
-
-    @ManyToOne
-    val thread: Thread
-
-    val replyTime: LocalDateTime
-
-    val postTypeId: UUID
+    companion object {
+        @JvmStatic
+        private val CONVERTER = Mappers.getMapper(Converter::class.java)
+    }
 }
+

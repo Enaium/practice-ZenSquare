@@ -49,9 +49,9 @@ export default {
     },
     visitorMenu: {
       role: "Role",
-      post: "Post",
+      thread: "Thread",
       reply: "Reply",
-      posts: "Posts",
+      threads: "Threads",
       replies: "replies",
       accountDetails: "Account details",
       following: "Following",

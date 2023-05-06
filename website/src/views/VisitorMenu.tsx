@@ -30,13 +30,13 @@ const VisitorMenu = defineComponent({
   setup() {
     const session = useSessionStore()
 
-    const options = reactive<RequestOf<typeof api.memberController.getProfile>>({ id: session.id! })
+    const options = reactive<RequestOf<typeof api.memberController.profile>>({ id: session.id! })
 
     const message = useMessage()
 
     const { data, isLoading } = useQuery({
       queryKey: ["memberProfile", options],
-      queryFn: () => api.memberController.getProfile(options),
+      queryFn: () => api.memberController.profile(options),
     })
 
     const profile = reactive(data.value ?? ({} as MemberProfileDto["MemberController/DEFAULT_MEMBER_PROFILE"]))
@@ -58,7 +58,7 @@ const VisitorMenu = defineComponent({
                   <NTag type={"primary"}>{profile.role.name}</NTag>
                 </div>
                 <div class={"flex justify-between"}>
-                  <div>{window.$i18n("view.visitorMenu.post")}:</div>
+                  <div>{window.$i18n("view.visitorMenu.thread")}:</div>
                   <div>0</div>
                 </div>
                 <div class={"flex justify-between"}>
@@ -71,7 +71,7 @@ const VisitorMenu = defineComponent({
             <div>
               <NGrid xGap={10} yGap={10} cols={2}>
                 <NGridItem>
-                  <NButton text>{window.$i18n("view.visitorMenu.posts")}</NButton>
+                  <NButton text>{window.$i18n("view.visitorMenu.threads")}</NButton>
                 </NGridItem>
                 <NGridItem>
                   <NButton text>{window.$i18n("view.visitorMenu.replies")}</NButton>

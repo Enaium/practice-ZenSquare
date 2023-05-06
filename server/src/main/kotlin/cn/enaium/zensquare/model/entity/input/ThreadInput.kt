@@ -25,15 +25,18 @@ import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
+import java.time.LocalDateTime
 import java.util.*
 
 data class ThreadInput(
     val id: UUID?,
-    val name: String?,
-    val description: String?,
-    val categoryId: UUID?,
+    val title: String?,
+    val content: String?,
+    val memberId: UUID?,
+    val forumId: UUID?,
+    val replyTime: LocalDateTime?,
+    val threadTypeId: UUID?,
 ) : Input<Thread> {
-
     override fun toEntity(): Thread {
         return CONVERTER.toThread(this)
     }

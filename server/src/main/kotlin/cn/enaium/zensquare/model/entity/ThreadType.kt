@@ -17,35 +17,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.entity.input
+package cn.enaium.zensquare.model.entity
 
-import cn.enaium.zensquare.model.entity.PostType
-import org.babyfish.jimmer.Input
-import org.mapstruct.BeanMapping
-import org.mapstruct.Mapper
-import org.mapstruct.ReportingPolicy
-import org.mapstruct.factory.Mappers
+import cn.enaium.zensquare.model.entity.common.BaseEntity
+import org.babyfish.jimmer.sql.Entity
+import org.babyfish.jimmer.sql.GeneratedValue
+import org.babyfish.jimmer.sql.Id
+import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.util.*
 
-data class PostTypeInput(
-    val id: UUID?,
-    val name: String?,
-    val description: String?,
-) : Input<PostType> {
-
-    override fun toEntity(): PostType {
-        return CONVERTER.toPostType(this)
-    }
-
-    @Mapper
-    interface Converter {
-        @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-        fun toPostType(input: PostTypeInput): PostType
-    }
-
-    companion object {
-        @JvmStatic
-        private val CONVERTER = Mappers.getMapper(Converter::class.java)
-    }
+/**
+ * @author Enaium
+ */
+@Entity
+interface ThreadType : BaseEntity {
+    @Id
+    @GeneratedValue(generatorType = UUIDIdGenerator::class)
+    val id: UUID
+    val name: String
+    val description: String
 }
-

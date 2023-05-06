@@ -105,6 +105,24 @@ CREATE TABLE forums.follow_mapping (
 ALTER TABLE forums.follow_mapping OWNER TO postgres;
 
 --
+-- Name: forum; Type: TABLE; Schema: forums; Owner: postgres
+--
+
+CREATE TABLE forums.forum (
+    deleted boolean DEFAULT false NOT NULL,
+    created_time timestamp without time zone NOT NULL,
+    modified_time timestamp without time zone NOT NULL,
+    id uuid NOT NULL,
+    name character varying(30) NOT NULL,
+    description character varying(100) NOT NULL,
+    category_id uuid NOT NULL,
+    icon uuid
+);
+
+
+ALTER TABLE forums.forum OWNER TO postgres;
+
+--
 -- Name: image; Type: TABLE; Schema: forums; Owner: postgres
 --
 
@@ -189,42 +207,6 @@ CREATE TABLE forums.permission_mapping (
 ALTER TABLE forums.permission_mapping OWNER TO postgres;
 
 --
--- Name: post; Type: TABLE; Schema: forums; Owner: postgres
---
-
-CREATE TABLE forums.post (
-    deleted boolean DEFAULT false NOT NULL,
-    created_time timestamp without time zone NOT NULL,
-    modified_time timestamp without time zone NOT NULL,
-    id uuid NOT NULL,
-    title character varying(50) NOT NULL,
-    content text NOT NULL,
-    member_id uuid NOT NULL,
-    thread_id uuid,
-    reply_time timestamp without time zone NOT NULL,
-    post_type_id uuid NOT NULL
-);
-
-
-ALTER TABLE forums.post OWNER TO postgres;
-
---
--- Name: post_type; Type: TABLE; Schema: forums; Owner: postgres
---
-
-CREATE TABLE forums.post_type (
-    deleted boolean DEFAULT false NOT NULL,
-    created_time timestamp without time zone NOT NULL,
-    modified_time timestamp without time zone NOT NULL,
-    id uuid NOT NULL,
-    name character varying(10) NOT NULL,
-    description character varying(20) NOT NULL
-);
-
-
-ALTER TABLE forums.post_type OWNER TO postgres;
-
---
 -- Name: reply; Type: TABLE; Schema: forums; Owner: postgres
 --
 
@@ -235,7 +217,7 @@ CREATE TABLE forums.reply (
     id uuid NOT NULL,
     content character varying(500) NOT NULL,
     member_id uuid NOT NULL,
-    post_id uuid NOT NULL
+    thread_id uuid NOT NULL
 );
 
 
@@ -300,13 +282,32 @@ CREATE TABLE forums.thread (
     created_time timestamp without time zone NOT NULL,
     modified_time timestamp without time zone NOT NULL,
     id uuid NOT NULL,
-    name character varying(30) NOT NULL,
-    description character varying(100) NOT NULL,
-    category_id uuid NOT NULL
+    title character varying(50) NOT NULL,
+    content text NOT NULL,
+    member_id uuid NOT NULL,
+    forum_id uuid,
+    reply_time timestamp without time zone NOT NULL,
+    thread_type_id uuid NOT NULL
 );
 
 
 ALTER TABLE forums.thread OWNER TO postgres;
+
+--
+-- Name: thread_type; Type: TABLE; Schema: forums; Owner: postgres
+--
+
+CREATE TABLE forums.thread_type (
+    deleted boolean DEFAULT false NOT NULL,
+    created_time timestamp without time zone NOT NULL,
+    modified_time timestamp without time zone NOT NULL,
+    id uuid NOT NULL,
+    name character varying(10) NOT NULL,
+    description character varying(20) NOT NULL
+);
+
+
+ALTER TABLE forums.thread_type OWNER TO postgres;
 
 --
 -- Data for Name: alert; Type: TABLE DATA; Schema: forums; Owner: postgres
@@ -350,6 +351,16 @@ COPY forums.follow_mapping (follower_id, following_id) FROM stdin;
 
 
 --
+-- Data for Name: forum; Type: TABLE DATA; Schema: forums; Owner: postgres
+--
+
+COPY forums.forum (deleted, created_time, modified_time, id, name, description, category_id, icon) FROM stdin;
+f	2023-05-04 02:07:45.434759	2023-05-04 02:07:45.434759	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6	Announcements	Updates and notices about what's new with ZenSquare!	0f5ca4a1-2f71-400d-9997-d69f3e0ee4dc	\N
+f	2023-05-04 02:13:31.068988	2023-05-04 02:13:31.068988	9b5d2890-4dea-4f98-a418-afe51a42d82a	Feedback & Suggestions	Tell us what you think about all things ZenSquare.	0f5ca4a1-2f71-400d-9997-d69f3e0ee4dc	\N
+\.
+
+
+--
 -- Data for Name: image; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
@@ -384,12 +395,12 @@ f	2023-05-05 15:43:31.003228	2023-05-05 15:43:31.002716	09686101-fc02-4e64-ac2e-
 COPY forums.permission (deleted, created_time, modified_time, id, name, description) FROM stdin;
 f	2023-05-04 05:53:25.754451	2023-05-04 05:53:25.754451	3d8333d9-0ae1-4503-ab38-aac4568cd0bf	recycle-post	Recycle a post
 f	2023-05-04 05:53:33.585438	2023-05-04 05:53:33.585438	94b1b81e-a4ca-4441-a021-cf86cdb42c83	recycle-reply	Recycle a reply
-f	2023-05-04 06:02:29.385676	2023-05-04 06:02:29.385676	91d04c2b-6d23-4852-b8ac-45e0e6fcfead	put-thread	Create a new thread or edit a thread
 f	2023-05-04 06:03:03.710807	2023-05-04 06:03:03.710807	0fcbc615-2f8e-4053-9db3-a4ff8c0d49a0	put-category	Create a new category or edit a category
-f	2023-05-04 05:42:53.382359	2023-05-04 05:42:53.382359	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4	put-post	Publish a new post or edit a post
 f	2023-05-04 05:50:44.331411	2023-05-04 05:50:44.331411	d85486b4-b9ed-4204-b9bc-42d73be198fb	put-reply	Publish a new reply or edit a reply
 f	2023-05-04 06:09:01.250691	2023-05-04 06:09:01.250691	6e425eb0-a863-4c76-9c94-ad8294f54081	recycle-thread	Recycle a thread
 f	2023-05-04 06:09:10.526066	2023-05-04 06:09:10.526066	169f4365-99b6-4587-aac4-44bb43e3030b	recycle-category	Recycle a category
+f	2023-05-04 06:02:29.385676	2023-05-04 06:02:29.385676	91d04c2b-6d23-4852-b8ac-45e0e6fcfead	put-forum	Create a new forum or edit a forum
+f	2023-05-04 05:42:53.382359	2023-05-04 05:42:53.382359	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4	put-thread	Publish a new thread or edit a thread
 \.
 
 
@@ -408,26 +419,10 @@ COPY forums.permission_mapping (role_id, permission_id) FROM stdin;
 
 
 --
--- Data for Name: post; Type: TABLE DATA; Schema: forums; Owner: postgres
---
-
-COPY forums.post (deleted, created_time, modified_time, id, title, content, member_id, thread_id, reply_time, post_type_id) FROM stdin;
-\.
-
-
---
--- Data for Name: post_type; Type: TABLE DATA; Schema: forums; Owner: postgres
---
-
-COPY forums.post_type (deleted, created_time, modified_time, id, name, description) FROM stdin;
-\.
-
-
---
 -- Data for Name: reply; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.reply (deleted, created_time, modified_time, id, content, member_id, post_id) FROM stdin;
+COPY forums.reply (deleted, created_time, modified_time, id, content, member_id, thread_id) FROM stdin;
 \.
 
 
@@ -464,9 +459,15 @@ f	2023-05-04 05:39:17.825175	2023-05-04 05:39:17.825175	8ef8b336-d2e3-4808-86a3-
 -- Data for Name: thread; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.thread (deleted, created_time, modified_time, id, name, description, category_id) FROM stdin;
-f	2023-05-04 02:07:45.434759	2023-05-04 02:07:45.434759	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6	Announcements	Updates and notices about what's new with ZenSquare!	0f5ca4a1-2f71-400d-9997-d69f3e0ee4dc
-f	2023-05-04 02:13:31.068988	2023-05-04 02:13:31.068988	9b5d2890-4dea-4f98-a418-afe51a42d82a	Feedback & Suggestions	Tell us what you think about all things ZenSquare.	0f5ca4a1-2f71-400d-9997-d69f3e0ee4dc
+COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id, reply_time, thread_type_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: thread_type; Type: TABLE DATA; Schema: forums; Owner: postgres
+--
+
+COPY forums.thread_type (deleted, created_time, modified_time, id, name, description) FROM stdin;
 \.
 
 
@@ -543,18 +544,18 @@ ALTER TABLE ONLY forums.permission
 
 
 --
--- Name: post post_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: thread post_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.post
+ALTER TABLE ONLY forums.thread
     ADD CONSTRAINT post_pk PRIMARY KEY (id);
 
 
 --
--- Name: post_type post_type_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: thread_type post_type_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.post_type
+ALTER TABLE ONLY forums.thread_type
     ADD CONSTRAINT post_type_pk PRIMARY KEY (id);
 
 
@@ -599,10 +600,10 @@ ALTER TABLE ONLY forums.role
 
 
 --
--- Name: thread thread_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: forum thread_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.thread
+ALTER TABLE ONLY forums.forum
     ADD CONSTRAINT thread_pk PRIMARY KEY (id);
 
 
@@ -655,10 +656,10 @@ ALTER TABLE ONLY forums.member_profile
 
 
 --
--- Name: post post_member_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: thread post_member_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.post
+ALTER TABLE ONLY forums.thread
     ADD CONSTRAINT post_member_id_fk FOREIGN KEY (member_id) REFERENCES forums.member(id);
 
 
@@ -675,23 +676,23 @@ ALTER TABLE ONLY forums.conversation_mapping
 --
 
 ALTER TABLE ONLY forums.conversation_mapping
-    ADD CONSTRAINT post_member_relationship_post_id_fk FOREIGN KEY (post_id) REFERENCES forums.post(id);
+    ADD CONSTRAINT post_member_relationship_post_id_fk FOREIGN KEY (post_id) REFERENCES forums.thread(id);
 
 
 --
--- Name: post post_post_type_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: thread post_post_type_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.post
-    ADD CONSTRAINT post_post_type_id_fk FOREIGN KEY (post_type_id) REFERENCES forums.post_type(id);
+ALTER TABLE ONLY forums.thread
+    ADD CONSTRAINT post_post_type_id_fk FOREIGN KEY (thread_type_id) REFERENCES forums.thread_type(id);
 
 
 --
--- Name: post post_thread_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: thread post_thread_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.post
-    ADD CONSTRAINT post_thread_id_fk FOREIGN KEY (thread_id) REFERENCES forums.thread(id);
+ALTER TABLE ONLY forums.thread
+    ADD CONSTRAINT post_thread_id_fk FOREIGN KEY (forum_id) REFERENCES forums.forum(id);
 
 
 --
@@ -707,7 +708,7 @@ ALTER TABLE ONLY forums.reply
 --
 
 ALTER TABLE ONLY forums.reply
-    ADD CONSTRAINT reply_post_id_fk FOREIGN KEY (post_id) REFERENCES forums.post(id);
+    ADD CONSTRAINT reply_post_id_fk FOREIGN KEY (thread_id) REFERENCES forums.thread(id);
 
 
 --
@@ -743,11 +744,19 @@ ALTER TABLE ONLY forums.permission_mapping
 
 
 --
--- Name: thread thread_category_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: forum thread_category_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.thread
+ALTER TABLE ONLY forums.forum
     ADD CONSTRAINT thread_category_id_fk FOREIGN KEY (category_id) REFERENCES forums.category(id);
+
+
+--
+-- Name: forum thread_image_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+--
+
+ALTER TABLE ONLY forums.forum
+    ADD CONSTRAINT thread_image_id_fk FOREIGN KEY (icon) REFERENCES forums.image(id);
 
 
 --

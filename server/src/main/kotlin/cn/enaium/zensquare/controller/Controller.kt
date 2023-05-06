@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller
 
+import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Category
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.CategoryRepository
@@ -36,6 +37,7 @@ import org.springframework.web.bind.annotation.RestController
 class Controller(
     val categoryRepository: CategoryRepository
 ) {
+    @SaIgnore
     @GetMapping("categories")
     fun categories(): List<@FetchBy("FULL_CATEGORY") Category> {
         return categoryRepository.findAll(FULL_CATEGORY)
@@ -44,7 +46,7 @@ class Controller(
     companion object {
         val FULL_CATEGORY = newFetcher(Category::class).by {
             allScalarFields()
-            threads { allScalarFields() }
+            forums { allScalarFields() }
         }
     }
 }

@@ -31,7 +31,7 @@ data class ReplyInput(
     val id: UUID?,
     val content: String?,
     val memberId: UUID?,
-    val postId: UUID?,
+    val threadId: UUID?,
 ) : Input<Reply> {
 
     override fun toEntity(): Reply {

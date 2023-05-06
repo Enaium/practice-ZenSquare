@@ -19,32 +19,28 @@
 
 package cn.enaium.zensquare.model.entity.input
 
-import cn.enaium.zensquare.model.entity.Post
+import cn.enaium.zensquare.model.entity.ThreadType
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
-import java.time.LocalDateTime
 import java.util.*
 
-data class PostInput(
+data class ThreadTypeInput(
     val id: UUID?,
-    val title: String?,
-    val content: String?,
-    val memberId: UUID?,
-    val threadId: UUID?,
-    val replyTime: LocalDateTime?,
-    val postTypeId: UUID?,
-) : Input<Post> {
-    override fun toEntity(): Post {
-        return CONVERTER.toPost(this)
+    val name: String?,
+    val description: String?,
+) : Input<ThreadType> {
+
+    override fun toEntity(): ThreadType {
+        return CONVERTER.toThreadType(this)
     }
 
     @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-        fun toPost(input: PostInput): Post
+        fun toThreadType(input: ThreadTypeInput): ThreadType
     }
 
     companion object {

@@ -5,13 +5,14 @@ export type CategoryDto = {
         readonly modifiedTime: string, 
         readonly name: string, 
         readonly description: string, 
-        readonly threads: ReadonlyArray<{
+        readonly forums: ReadonlyArray<{
             readonly id: string, 
             readonly createdTime: string, 
             readonly modifiedTime: string, 
             readonly name: string, 
             readonly description: string, 
-            readonly categoryId: string
+            readonly categoryId: string, 
+            readonly icon?: string
         }>
     }
 }

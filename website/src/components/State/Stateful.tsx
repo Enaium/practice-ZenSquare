@@ -33,11 +33,11 @@ const Stateful = defineComponent({
   setup() {
     const session = useSessionStore()
 
-    const options = reactive<RequestOf<typeof api.memberController.getProfile>>({ id: session.id! })
+    const options = reactive<RequestOf<typeof api.memberController.profile>>({ id: session.id! })
 
     const { data, isLoading } = useQuery({
       queryKey: ["memberProfile", options],
-      queryFn: () => api.memberController.getProfile(options),
+      queryFn: () => api.memberController.profile(options),
     })
     return () => (
       <>

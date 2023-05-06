@@ -1,18 +1,20 @@
 import type { Executor } from '../';
-import type { Unit } from '../model/static';
+import type { ForumDto } from '../model/dto';
 
 export class CategoryController {
     
     constructor(private executor: Executor) {}
     
-    async get(): Promise<
-        Unit
+    async forums(options: CategoryControllerOptions['forums']): Promise<
+        ReadonlyArray<ForumDto['DEFAULT']>
     > {
         let _uri = '/category/';
-        return (await this.executor({uri: _uri, method: 'GET'})) as Unit
+        _uri += encodeURIComponent(options.id);
+        _uri += '/forums';
+        return (await this.executor({uri: _uri, method: 'GET'})) as ReadonlyArray<ForumDto['DEFAULT']>
     }
 }
 
 export type CategoryControllerOptions = {
-    'get': {}
+    'forums': {readonly id: string}
 }

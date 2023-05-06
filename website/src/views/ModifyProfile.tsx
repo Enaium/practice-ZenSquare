@@ -35,10 +35,10 @@ const ModifyProfile = defineComponent({
   setup() {
     const message = useMessage()
     const session = useSessionStore()
-    const options = reactive<RequestOf<typeof api.memberController.getProfile>>({ id: session.id! })
+    const options = reactive<RequestOf<typeof api.memberController.profile>>({ id: session.id! })
     const { data } = useQuery({
       queryKey: ["ModifyProfile", options],
-      queryFn: () => api.memberController.getProfile(options),
+      queryFn: () => api.memberController.profile(options),
     })
 
     const form = reactive(data.value ?? ({ memberId: session.id } as MemberProfileDto["DEFAULT"]))

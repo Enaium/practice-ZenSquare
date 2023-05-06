@@ -20,10 +20,7 @@
 package cn.enaium.zensquare.model.entity
 
 import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.Entity
-import org.babyfish.jimmer.sql.GeneratedValue
-import org.babyfish.jimmer.sql.Id
-import org.babyfish.jimmer.sql.OneToMany
+import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.util.*
 
@@ -39,5 +36,5 @@ interface Category : BaseEntity {
     val description: String
 
     @OneToMany(mappedBy = "category")
-    val threads: List<Thread>
+    val forums: List<Forum>
 }

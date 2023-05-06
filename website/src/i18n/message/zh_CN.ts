@@ -49,9 +49,9 @@ export default {
     },
     visitorMenu: {
       role: "角色",
-      post: "帖子",
+      thread: "帖子",
       reply: "回复",
-      posts: "帖子",
+      threads: "帖子",
       replies: "回复",
       accountDetails: "账户详情",
       following: "关注",
