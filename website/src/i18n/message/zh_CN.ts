@@ -60,6 +60,10 @@ export default {
       logoutConfirm: "你确定要登出吗?",
       logoutSuccess: "登出成功",
     },
+    forums: {
+      newPost: "新帖子",
+      newThread: "新主题",
+    },
   },
   component: {
     state: {

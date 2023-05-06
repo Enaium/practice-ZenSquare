@@ -60,6 +60,10 @@ export default {
       logoutConfirm: "Are you sure you want to log out?",
       logoutSuccess: "Logout successful",
     },
+    forums: {
+      newPost: "New Post",
+      newThread: "New Thread",
+    },
   },
   component: {
     state: {

@@ -18,12 +18,16 @@
  */
 
 import { createI18n } from "vue-i18n"
-import zh_CN from "@/i18n/message/zh_CN.ts"
-import en_US from "@/i18n/message/en_US.ts"
+import zh_CN from "@/i18n/message/zh_CN"
+import en_US from "@/i18n/message/en_US"
+import ja_JP from "@/i18n/message/ja_JP"
+import fr_FR from "@/i18n/message/fr_FR.ts"
 
 const messages = {
   zh: zh_CN,
   en: en_US,
+  ja: ja_JP,
+  fr: fr_FR,
 }
 
 const i18n = createI18n({ legacy: false, locale: "zh", messages })

@@ -18,7 +18,8 @@
  */
 
 import { NButton, NButtonGroup } from "naive-ui"
-import CategoryList from "@/components/CategoryList.tsx"
+import CategoryList from "@/components/CategoryList"
+import { Flash16Regular, NotepadEdit16Regular } from "@vicons/fluent"
 
 const Forums = () => (
   <>
@@ -26,8 +27,12 @@ const Forums = () => (
       <div>Forums</div>
       <div>
         <NButtonGroup>
-          <NButton type={"primary"}>New posts</NButton>
-          <NButton type={"warning"}>Post thread...</NButton>
+          <NButton renderIcon={() => <Flash16Regular />} type={"primary"}>
+            {window.$i18n("view.forums.newPost")}
+          </NButton>
+          <NButton renderIcon={() => <NotepadEdit16Regular />} type={"warning"}>
+            {`${window.$i18n("view.forums.newThread")}...`}
+          </NButton>
         </NButtonGroup>
       </div>
     </div>
