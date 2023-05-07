@@ -23,6 +23,7 @@ import Forums from "@/views/Forums"
 import WhatsNew from "@/views/WhatsNew"
 import Members from "@/views/Members"
 import Threads from "@/views/Threads"
+import PostThread from "@/views/PostThread"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -51,6 +52,11 @@ const router = createRouter({
           path: "threads/:forum",
           name: "threads",
           component: <Threads />,
+        },
+        {
+          path: "threads/:forum/post-thread",
+          name: "post-thread",
+          component: <PostThread />,
         },
       ],
     },

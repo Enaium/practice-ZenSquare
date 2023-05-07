@@ -64,10 +64,6 @@ export default {
       newPost: "新帖子",
       newThread: "新主题",
     },
-    postThread: {
-      title: { label: "标题", message: "请输入标题" },
-      content: { label: "内容", message: "请输入内容" },
-    },
   },
   component: {
     state: {
@@ -80,6 +76,10 @@ export default {
       forums: "论坛",
       whatsNew: "新鲜事",
       members: "会员",
+    },
+    threadForm: {
+      title: { label: "标题", message: "请输入标题" },
+      content: { label: "内容", message: "请输入内容" },
     },
   },
   common: {

@@ -49,12 +49,12 @@ class ImageController(
     }
 
     /**
-     * Update image assets
+     * update images
      *
-     * @param file
+     * @param file images
      */
     @PutMapping
-    fun put(file: MultipartFile): UUID {
-        return imageService.upload(file)
+    fun put(file: Array<MultipartFile>): List<UUID> {
+        return file.map { imageService.upload(it) }
     }
 }

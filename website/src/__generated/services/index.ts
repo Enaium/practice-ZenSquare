@@ -12,3 +12,5 @@ export { MemberProfileController } from './MemberProfileController';
 export type { MemberProfileControllerOptions } from './MemberProfileController';
 export { SessionController } from './SessionController';
 export type { SessionControllerOptions } from './SessionController';
+export { ThreadController } from './ThreadController';
+export type { ThreadControllerOptions } from './ThreadController';

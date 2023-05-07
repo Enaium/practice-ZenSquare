@@ -14,5 +14,7 @@ export type ApiErrors = {
     "memberProfileController": {
     },
     "sessionController": {
+    },
+    "threadController": {
     }
 };
