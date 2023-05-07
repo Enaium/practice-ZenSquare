@@ -41,7 +41,8 @@ const Forums = defineComponent({
         ) : (
           <NBreadcrumb>
             <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>Forums</NBreadcrumbItem>
-            <NBreadcrumbItem>{data.value?.category.name}</NBreadcrumbItem>
+            <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>{data.value?.category.name}</NBreadcrumbItem>
+            <NBreadcrumbItem>{data.value?.name}</NBreadcrumbItem>
           </NBreadcrumb>
         )}
         <NCard>
