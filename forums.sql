@@ -81,18 +81,6 @@ CREATE TABLE forums.category (
 ALTER TABLE forums.category OWNER TO postgres;
 
 --
--- Name: conversation_mapping; Type: TABLE; Schema: forums; Owner: postgres
---
-
-CREATE TABLE forums.conversation_mapping (
-    post_id uuid NOT NULL,
-    member_id uuid NOT NULL
-);
-
-
-ALTER TABLE forums.conversation_mapping OWNER TO postgres;
-
---
 -- Name: follow_mapping; Type: TABLE; Schema: forums; Owner: postgres
 --
 
@@ -195,18 +183,6 @@ CREATE TABLE forums.permission (
 ALTER TABLE forums.permission OWNER TO postgres;
 
 --
--- Name: permission_mapping; Type: TABLE; Schema: forums; Owner: postgres
---
-
-CREATE TABLE forums.permission_mapping (
-    role_id uuid NOT NULL,
-    permission_id uuid NOT NULL
-);
-
-
-ALTER TABLE forums.permission_mapping OWNER TO postgres;
-
---
 -- Name: reply; Type: TABLE; Schema: forums; Owner: postgres
 --
 
@@ -217,7 +193,8 @@ CREATE TABLE forums.reply (
     id uuid NOT NULL,
     content character varying(500) NOT NULL,
     member_id uuid NOT NULL,
-    thread_id uuid NOT NULL
+    thread_id uuid NOT NULL,
+    parent_id uuid
 );
 
 
@@ -274,6 +251,18 @@ CREATE TABLE forums.role (
 ALTER TABLE forums.role OWNER TO postgres;
 
 --
+-- Name: role_permission_mapping; Type: TABLE; Schema: forums; Owner: postgres
+--
+
+CREATE TABLE forums.role_permission_mapping (
+    role_id uuid NOT NULL,
+    permission_id uuid NOT NULL
+);
+
+
+ALTER TABLE forums.role_permission_mapping OWNER TO postgres;
+
+--
 -- Name: thread; Type: TABLE; Schema: forums; Owner: postgres
 --
 
@@ -285,29 +274,11 @@ CREATE TABLE forums.thread (
     title character varying(50) NOT NULL,
     content text NOT NULL,
     member_id uuid NOT NULL,
-    forum_id uuid,
-    reply_time timestamp without time zone NOT NULL,
-    thread_type_id uuid NOT NULL
+    forum_id uuid
 );
 
 
 ALTER TABLE forums.thread OWNER TO postgres;
-
---
--- Name: thread_type; Type: TABLE; Schema: forums; Owner: postgres
---
-
-CREATE TABLE forums.thread_type (
-    deleted boolean DEFAULT false NOT NULL,
-    created_time timestamp without time zone NOT NULL,
-    modified_time timestamp without time zone NOT NULL,
-    id uuid NOT NULL,
-    name character varying(10) NOT NULL,
-    description character varying(20) NOT NULL
-);
-
-
-ALTER TABLE forums.thread_type OWNER TO postgres;
 
 --
 -- Data for Name: alert; Type: TABLE DATA; Schema: forums; Owner: postgres
@@ -335,14 +306,6 @@ f	2023-05-04 02:02:44.784642	2023-05-04 02:02:44.784642	0f5ca4a1-2f71-400d-9997-
 
 
 --
--- Data for Name: conversation_mapping; Type: TABLE DATA; Schema: forums; Owner: postgres
---
-
-COPY forums.conversation_mapping (post_id, member_id) FROM stdin;
-\.
-
-
---
 -- Data for Name: follow_mapping; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
@@ -366,6 +329,7 @@ f	2023-05-04 02:13:31.068988	2023-05-04 02:13:31.068988	9b5d2890-4dea-4f98-a418-
 
 COPY forums.image (deleted, created_time, modified_time, id, hash) FROM stdin;
 f	2023-05-04 21:07:40.35961	2023-05-04 21:07:40.35961	34289f06-5fc2-4fab-9c75-0b704b4dd5e3	fa8fabe0d847a018387f57bcca757aea
+f	2023-05-06 19:38:51.911234	2023-05-06 19:38:51.910721	5be57fe4-ec09-47a0-8abe-739de5835b1f	118d225faad0e555ccf4a803f3db7d41
 \.
 
 
@@ -405,24 +369,12 @@ f	2023-05-04 05:42:53.382359	2023-05-04 05:42:53.382359	34706b4b-4f5c-4875-bcaa-
 
 
 --
--- Data for Name: permission_mapping; Type: TABLE DATA; Schema: forums; Owner: postgres
---
-
-COPY forums.permission_mapping (role_id, permission_id) FROM stdin;
-8ef8b336-d2e3-4808-86a3-a8344d4c355b	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
-8ef8b336-d2e3-4808-86a3-a8344d4c355b	d85486b4-b9ed-4204-b9bc-42d73be198fb
-59ed7c97-e236-42d3-9b4c-25674c89c7d1	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
-59ed7c97-e236-42d3-9b4c-25674c89c7d1	d85486b4-b9ed-4204-b9bc-42d73be198fb
-59ed7c97-e236-42d3-9b4c-25674c89c7d1	3d8333d9-0ae1-4503-ab38-aac4568cd0bf
-59ed7c97-e236-42d3-9b4c-25674c89c7d1	94b1b81e-a4ca-4441-a021-cf86cdb42c83
-\.
-
-
---
 -- Data for Name: reply; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.reply (deleted, created_time, modified_time, id, content, member_id, thread_id) FROM stdin;
+COPY forums.reply (deleted, created_time, modified_time, id, content, member_id, thread_id, parent_id) FROM stdin;
+f	2023-05-07 16:39:31.804297	2023-05-07 16:39:31.804297	af5a1841-7ed5-4d6c-83f4-6e99478559f9	Congratulations for new forum!\n\nI wish luck to ZenSquare.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
+f	2023-05-07 17:14:51.697343	2023-05-07 17:14:51.696827	26a271e7-f487-403e-a123-c8811a72a0c9	👍	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
 \.
 
 
@@ -456,18 +408,25 @@ f	2023-05-04 05:39:17.825175	2023-05-04 05:39:17.825175	8ef8b336-d2e3-4808-86a3-
 
 
 --
--- Data for Name: thread; Type: TABLE DATA; Schema: forums; Owner: postgres
+-- Data for Name: role_permission_mapping; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id, reply_time, thread_type_id) FROM stdin;
+COPY forums.role_permission_mapping (role_id, permission_id) FROM stdin;
+8ef8b336-d2e3-4808-86a3-a8344d4c355b	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
+8ef8b336-d2e3-4808-86a3-a8344d4c355b	d85486b4-b9ed-4204-b9bc-42d73be198fb
+59ed7c97-e236-42d3-9b4c-25674c89c7d1	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
+59ed7c97-e236-42d3-9b4c-25674c89c7d1	d85486b4-b9ed-4204-b9bc-42d73be198fb
+59ed7c97-e236-42d3-9b4c-25674c89c7d1	3d8333d9-0ae1-4503-ab38-aac4568cd0bf
+59ed7c97-e236-42d3-9b4c-25674c89c7d1	94b1b81e-a4ca-4441-a021-cf86cdb42c83
 \.
 
 
 --
--- Data for Name: thread_type; Type: TABLE DATA; Schema: forums; Owner: postgres
+-- Data for Name: thread; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.thread_type (deleted, created_time, modified_time, id, name, description) FROM stdin;
+COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id) FROM stdin;
+f	2023-05-07 11:30:13.115439	2023-05-07 11:30:13.115439	b692ea79-12a8-4e10-aad1-9a35d76bc561	Welcome to ZenSquare	Welcome to ZenSquare! This is the community forum space for our open source community - here we ask questions, give answers and talk about everything related to our projects.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6
 \.
 
 
@@ -549,14 +508,6 @@ ALTER TABLE ONLY forums.permission
 
 ALTER TABLE ONLY forums.thread
     ADD CONSTRAINT post_pk PRIMARY KEY (id);
-
-
---
--- Name: thread_type post_type_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
---
-
-ALTER TABLE ONLY forums.thread_type
-    ADD CONSTRAINT post_type_pk PRIMARY KEY (id);
 
 
 --
@@ -664,30 +615,6 @@ ALTER TABLE ONLY forums.thread
 
 
 --
--- Name: conversation_mapping post_member_relationship_member_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
---
-
-ALTER TABLE ONLY forums.conversation_mapping
-    ADD CONSTRAINT post_member_relationship_member_id_fk FOREIGN KEY (member_id) REFERENCES forums.member(id);
-
-
---
--- Name: conversation_mapping post_member_relationship_post_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
---
-
-ALTER TABLE ONLY forums.conversation_mapping
-    ADD CONSTRAINT post_member_relationship_post_id_fk FOREIGN KEY (post_id) REFERENCES forums.thread(id);
-
-
---
--- Name: thread post_post_type_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
---
-
-ALTER TABLE ONLY forums.thread
-    ADD CONSTRAINT post_post_type_id_fk FOREIGN KEY (thread_type_id) REFERENCES forums.thread_type(id);
-
-
---
 -- Name: thread post_thread_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
@@ -712,6 +639,14 @@ ALTER TABLE ONLY forums.reply
 
 
 --
+-- Name: reply reply_reply_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+--
+
+ALTER TABLE ONLY forums.reply
+    ADD CONSTRAINT reply_reply_id_fk FOREIGN KEY (parent_id) REFERENCES forums.reply(id);
+
+
+--
 -- Name: report report_member_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
@@ -728,18 +663,18 @@ ALTER TABLE ONLY forums.report
 
 
 --
--- Name: permission_mapping role_to_permission_permission_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: role_permission_mapping role_to_permission_permission_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.permission_mapping
+ALTER TABLE ONLY forums.role_permission_mapping
     ADD CONSTRAINT role_to_permission_permission_id_fk FOREIGN KEY (permission_id) REFERENCES forums.permission(id);
 
 
 --
--- Name: permission_mapping role_to_permission_role_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+-- Name: role_permission_mapping role_to_permission_role_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
 --
 
-ALTER TABLE ONLY forums.permission_mapping
+ALTER TABLE ONLY forums.role_permission_mapping
     ADD CONSTRAINT role_to_permission_role_id_fk FOREIGN KEY (role_id) REFERENCES forums.role(id);
 
 
