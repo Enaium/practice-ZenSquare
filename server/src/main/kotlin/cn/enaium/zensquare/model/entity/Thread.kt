@@ -19,11 +19,10 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.ThreadLastReplyMemberResolver
+import cn.enaium.zensquare.bll.resolver.ThreadLastReplyTimeResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.Entity
-import org.babyfish.jimmer.sql.GeneratedValue
-import org.babyfish.jimmer.sql.Id
-import org.babyfish.jimmer.sql.ManyToOne
+import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.time.LocalDateTime
 import java.util.*
@@ -49,4 +48,13 @@ interface Thread : BaseEntity {
 
     @ManyToOne
     val forum: Forum
+
+    @OneToMany(mappedBy = "thread")
+    val replies: List<Reply>
+
+    @Transient(ThreadLastReplyTimeResolver::class)
+    val lastReplyTime: LocalDateTime?
+
+    @Transient(ThreadLastReplyMemberResolver::class)
+    val lastReplyMember: Member?
 }

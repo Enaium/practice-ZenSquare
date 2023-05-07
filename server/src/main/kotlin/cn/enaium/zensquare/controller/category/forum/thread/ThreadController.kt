@@ -130,6 +130,8 @@ class ThreadController(
                     allScalarFields()
                 }
             }
+            lastReplyTime()
+            lastReplyMember()
         }
     }
 }
