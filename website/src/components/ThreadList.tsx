@@ -53,7 +53,7 @@ const ThreadList = defineComponent({
                   </div>
                 </div>
                 {/*right*/}
-                <div class={"w-24"}>
+                <div class={"w-24 flex flex-col justify-between"}>
                   <div class={"flex justify-between"}>
                     <span>Replies:</span>
                     <span>0</span>
