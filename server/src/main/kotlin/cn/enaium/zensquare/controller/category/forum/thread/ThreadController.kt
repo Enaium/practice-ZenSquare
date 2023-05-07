@@ -110,6 +110,13 @@ class ThreadController(
                     avatar()
                 }
             }
+            lastReplyTime()
+            lastReplyMember {
+                profile {
+                    nickname()
+                    avatar()
+                }
+            }
         }
 
         val FULL_THREAD = newFetcher(Thread::class).by {
@@ -131,7 +138,12 @@ class ThreadController(
                 }
             }
             lastReplyTime()
-            lastReplyMember()
+            lastReplyMember {
+                profile {
+                    nickname()
+                    avatar()
+                }
+            }
         }
     }
 }
