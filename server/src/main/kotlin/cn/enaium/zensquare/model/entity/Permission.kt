@@ -23,7 +23,7 @@ import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.Entity
 import org.babyfish.jimmer.sql.GeneratedValue
 import org.babyfish.jimmer.sql.Id
-import org.babyfish.jimmer.sql.ManyToOne
+import org.babyfish.jimmer.sql.ManyToMany
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.util.*
 
@@ -38,6 +38,6 @@ interface Permission : BaseEntity {
     val name: String
     val description: String
 
-    @ManyToOne
-    val role: Role
+    @ManyToMany
+    val roles: List<Role>
 }
