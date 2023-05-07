@@ -43,10 +43,10 @@ const ReplyList = defineComponent({
       ) : (
         <NList bordered>
           {data.value?.content.map((reply, index) => (
-            <NListItem key={index}>
+            <NListItem key={index} style={{ padding: 0 }}>
               <div class={"flex"}>
                 {/*member*/}
-                <div class={"flex flex-col items-center mr-5"}>
+                <div class={"flex flex-col items-center m-5"}>
                   <Avatar id={reply.member.profile?.avatar} size={128} bordered round />
                   <div>{reply.member.profile?.nickname}</div>
                   <NTag type={"primary"}>{reply.member.profile?.role.name}</NTag>
