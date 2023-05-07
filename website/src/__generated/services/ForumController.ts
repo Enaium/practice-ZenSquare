@@ -1,17 +1,18 @@
 import type { Executor } from '../';
 import type { ForumDto } from '../model/dto';
-import type { Optional, Page } from '../model/static';
+import type { Page } from '../model/static';
 
 export class ForumController {
     
     constructor(private executor: Executor) {}
     
     async findForum(options: ForumControllerOptions['findForum']): Promise<
-        Optional<ForumDto['DEFAULT']>
+        ForumDto['ForumController/DEFAULT_FORUM'] | undefined
     > {
         let _uri = '/categories/forums/';
         _uri += encodeURIComponent(options.id);
-        return (await this.executor({uri: _uri, method: 'GET'})) as Optional<ForumDto['DEFAULT']>
+        _uri += '/';
+        return (await this.executor({uri: _uri, method: 'GET'})) as ForumDto['ForumController/DEFAULT_FORUM'] | undefined
     }
     
     async findForums(options: ForumControllerOptions['findForums']): Promise<
@@ -19,7 +20,7 @@ export class ForumController {
     > {
         let _uri = '/categories/';
         _uri += encodeURIComponent(options.categoryId);
-        _uri += '/forums';
+        _uri += '/forums/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.page;

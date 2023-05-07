@@ -28,8 +28,17 @@ export class CategoryController {
         }
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
     }
+    
+    async findCategory(options: CategoryControllerOptions['findCategory']): Promise<
+        CategoryDto['DEFAULT'] | undefined
+    > {
+        let _uri = '/categories/';
+        _uri += encodeURIComponent(options.id);
+        return (await this.executor({uri: _uri, method: 'GET'})) as CategoryDto['DEFAULT'] | undefined
+    }
 }
 
 export type CategoryControllerOptions = {
-    'findCategories': {readonly page?: number, readonly size?: number}
+    'findCategories': {readonly page?: number, readonly size?: number},
+    'findCategory': {readonly id: string}
 }

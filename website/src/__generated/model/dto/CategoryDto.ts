@@ -1,4 +1,11 @@
 export type CategoryDto = {
+    'DEFAULT': {
+        readonly createdTime: string, 
+        readonly modifiedTime: string, 
+        readonly id: string, 
+        readonly name: string, 
+        readonly description: string
+    }, 
     'CategoryController/DEFAULT_CATEGORY': {
         readonly id: string, 
         readonly createdTime: string, 

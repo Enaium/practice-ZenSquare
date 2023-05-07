@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller.category.forum
 
+import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Forum
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.ForumRepository
@@ -45,8 +46,9 @@ class ForumController(val forumRepository: ForumRepository) {
      *
      * @param id forum id
      */
-    @GetMapping("/categories/forums/{id}")
-    fun findForum(@PathVariable id: UUID) = forumRepository.findById(id)
+    @GetMapping("/categories/forums/{id}/")
+    fun findForum(@PathVariable id: UUID): @FetchBy("DEFAULT_FORUM") Forum? =
+        forumRepository.findNullable(id, DEFAULT_FORUM)
 
     /**
      * Get forums by category id
@@ -56,7 +58,8 @@ class ForumController(val forumRepository: ForumRepository) {
      * @param size size
      * @return Page<Forum>
      */
-    @GetMapping("/categories/{categoryId}/forums")
+    @SaIgnore
+    @GetMapping("/categories/{categoryId}/forums/")
     fun findForums(
         @PathVariable categoryId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
@@ -68,6 +71,9 @@ class ForumController(val forumRepository: ForumRepository) {
     companion object {
         val DEFAULT_FORUM = newFetcher(Forum::class).by {
             allScalarFields()
+            category {
+                name()
+            }
             thread()
         }
     }

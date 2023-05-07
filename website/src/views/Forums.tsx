@@ -17,19 +17,39 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import ThreadList from "@/components/ThreadList.tsx"
-import { NCard } from "naive-ui"
+import { NBreadcrumb, NBreadcrumbItem, NCard, NSpin } from "naive-ui"
+import { defineComponent } from "vue"
+import { useQuery } from "@tanstack/vue-query"
+import { api } from "@/common/ApiInstance.ts"
 
-const Forums = () => {
-  const route = useRoute()
-  return (
-    <>
-      <NCard>
-        <ThreadList forum={route.params.forum as string} />
-      </NCard>
-    </>
-  )
-}
+const Forums = defineComponent({
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+
+    const { data, isLoading } = useQuery({
+      queryKey: ["findForum"],
+      queryFn: () => api.forumController.findForum({ id: route.params.forum as string }),
+    })
+
+    return () => (
+      <>
+        {isLoading.value ? (
+          <NSpin />
+        ) : (
+          <NBreadcrumb>
+            <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>Forums</NBreadcrumbItem>
+            <NBreadcrumbItem>{data.value?.category.name}</NBreadcrumbItem>
+          </NBreadcrumb>
+        )}
+        <NCard>
+          <ThreadList forum={route.params.forum as string} />
+        </NCard>
+      </>
+    )
+  },
+})
 
 export default Forums

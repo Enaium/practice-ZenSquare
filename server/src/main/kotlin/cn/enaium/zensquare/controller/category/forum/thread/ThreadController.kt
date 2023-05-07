@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller.category.forum.thread
 
+import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Thread
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.ThreadInput
@@ -60,6 +61,7 @@ class ThreadController(
      * @param size size
      * @return Page<Thread>
      */
+    @SaIgnore
     @GetMapping("/categories/forums/{forumId}/threads/")
     fun findThreads(
         @PathVariable forumId: UUID,

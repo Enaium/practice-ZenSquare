@@ -21,7 +21,7 @@ import { computed, defineComponent } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance"
 import { RouterLink, useRoute } from "vue-router"
-import { NCard, NList, NListItem } from "naive-ui"
+import { NCard, NList, NListItem, NSpin } from "naive-ui"
 import ThreadForm from "@/components/ThreadForm"
 
 const PostThread = defineComponent({
@@ -33,7 +33,7 @@ const PostThread = defineComponent({
   },
   setup: function (props) {
     const route = useRoute()
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
       queryKey: ["categoryList"],
       queryFn: () => api.categoryController.findCategories(),
     })
@@ -44,27 +44,27 @@ const PostThread = defineComponent({
       <>
         {forum.value ? (
           <ThreadForm forum={forum.value as string} />
+        ) : isLoading.value ? (
+          <NSpin />
         ) : (
-          <>
-            {data.value?.content.map((category, categoryIndex) => (
-              <NCard title={category.name} key={categoryIndex} segmented={{ content: true }}>
-                <NList>
-                  {category.forums?.map((forum, forumIndex) => (
-                    <NListItem key={forumIndex}>
-                      <RouterLink
-                        to={{
-                          name: "post-thread",
-                          params: { forum: forum.id },
-                        }}
-                      >
-                        {forum.name}
-                      </RouterLink>
-                    </NListItem>
-                  ))}
-                </NList>
-              </NCard>
-            ))}
-          </>
+          data.value?.content.map((category, categoryIndex) => (
+            <NCard title={category.name} key={categoryIndex} segmented={{ content: true }}>
+              <NList>
+                {category.forums?.map((forum, forumIndex) => (
+                  <NListItem key={forumIndex}>
+                    <RouterLink
+                      to={{
+                        name: "post-thread",
+                        params: { forum: forum.id },
+                      }}
+                    >
+                      {forum.name}
+                    </RouterLink>
+                  </NListItem>
+                ))}
+              </NList>
+            </NCard>
+          ))
         )}
       </>
     )

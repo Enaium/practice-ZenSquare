@@ -19,10 +19,10 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
+import { api } from "@/common/ApiInstance"
 import { RequestOf } from "@/__generated"
-import { NIcon, NList, NListItem, NTime, NTooltip } from "naive-ui"
-import Avatar from "@/components/Avatar.tsx"
+import { NIcon, NList, NListItem, NSpin, NTime, NTooltip } from "naive-ui"
+import Avatar from "@/components/Avatar"
 import dayjs from "dayjs"
 import { RouterLink } from "vue-router"
 import { Clock16Regular } from "@vicons/fluent"
@@ -33,12 +33,14 @@ const ThreadList = defineComponent({
   },
   setup(props) {
     const options = reactive<RequestOf<typeof api.threadController.findThreads>>({ forumId: props.forum! })
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
       queryKey: ["findThreads", options],
       queryFn: () => api.threadController.findThreads(options),
     })
-    return () => (
-      <>
+    return () =>
+      isLoading.value ? (
+        <NSpin />
+      ) : (
         <NList bordered>
           {data.value?.content.map((thread, index) => (
             <NListItem key={index}>
@@ -86,8 +88,7 @@ const ThreadList = defineComponent({
             </NListItem>
           ))}
         </NList>
-      </>
-    )
+      )
   },
 })
 

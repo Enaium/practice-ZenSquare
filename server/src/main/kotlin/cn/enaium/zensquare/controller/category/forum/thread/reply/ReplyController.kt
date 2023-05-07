@@ -50,7 +50,7 @@ class ReplyController(
      * @param size size
      * @return Page<Reply>
      */
-    @GetMapping("/categories/forum/thread/{threadId}/replies")
+    @GetMapping("/categories/forum/thread/{threadId}/replies/")
     fun findReplies(
         @PathVariable threadId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
@@ -64,7 +64,7 @@ class ReplyController(
      *
      * @param replyInput
      */
-    @PutMapping("/categories/forum/thread/replies")
+    @PutMapping("/categories/forum/thread/replies/")
     @ResponseStatus(HttpStatus.OK)
     fun saveReply(@RequestBody replyInput: ReplyInput) {
         replyService.saveReply(replyInput)

@@ -11,7 +11,7 @@ export class ReplyController {
     > {
         let _uri = '/categories/forum/thread/';
         _uri += encodeURIComponent(options.threadId);
-        _uri += '/replies';
+        _uri += '/replies/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.page;
@@ -34,7 +34,7 @@ export class ReplyController {
     async saveReply(options: ReplyControllerOptions['saveReply']): Promise<
         Unit
     > {
-        let _uri = '/categories/forum/thread/replies';
+        let _uri = '/categories/forum/thread/replies/';
         return (await this.executor({uri: _uri, method: 'PUT', body: options.body})) as Unit
     }
 }

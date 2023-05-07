@@ -7,16 +7,10 @@ export type ForumDto = {
         readonly description: string, 
         readonly categoryId: string, 
         readonly icon?: string, 
+        readonly category: {
+            readonly id: string, 
+            readonly name: string
+        }, 
         readonly thread: number
-    }, 
-    'DEFAULT': {
-        readonly createdTime: string, 
-        readonly modifiedTime: string, 
-        readonly id: string, 
-        readonly name: string, 
-        readonly description: string, 
-        readonly categoryId: string, 
-        readonly category: {readonly id: string}, 
-        readonly icon?: string
     }
 }

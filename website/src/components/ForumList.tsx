@@ -21,7 +21,7 @@ import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
 import { RequestOf } from "@/__generated"
-import { NIcon, NList, NListItem } from "naive-ui"
+import { NIcon, NList, NListItem, NSpin } from "naive-ui"
 import { Chat24Regular } from "@vicons/fluent"
 import Image from "@/views/Image.tsx"
 import { RouterLink } from "vue-router"
@@ -33,13 +33,15 @@ const ForumList = defineComponent({
   setup: function (props) {
     const options = reactive<RequestOf<typeof api.forumController.findForums>>({ categoryId: props.category! })
 
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
       queryKey: ["findForums", options],
       queryFn: () => api.forumController.findForums(options),
     })
 
-    return () => (
-      <>
+    return () =>
+      isLoading.value ? (
+        <NSpin />
+      ) : (
         <NList bordered>
           {data.value?.content.map((forum, index) => (
             <NListItem key={index}>
@@ -81,8 +83,7 @@ const ForumList = defineComponent({
             </NListItem>
           ))}
         </NList>
-      </>
-    )
+      )
   },
 })
 

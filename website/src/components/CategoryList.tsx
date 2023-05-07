@@ -20,12 +20,12 @@
 import { defineComponent } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
-import { NCard, NCollapse, NCollapseItem } from "naive-ui"
-import ForumList from "@/components/ForumList.tsx"
+import { NCard, NCollapse, NCollapseItem, NSpin } from "naive-ui"
+import ForumList from "@/components/ForumList"
 
 const CategoryList = defineComponent({
   setup() {
-    const { data } = useQuery({
+    const { data, isLoading } = useQuery({
       queryKey: ["findCategories"],
       queryFn: () => api.categoryController.findCategories(),
     })
@@ -33,15 +33,19 @@ const CategoryList = defineComponent({
     return () => (
       <>
         <NCard>
-          <NCollapse>
-            {data.value?.content.map((category, index) => {
-              return (
-                <NCollapseItem title={category.name} name={index} key={index}>
-                  <ForumList category={category.id} />
-                </NCollapseItem>
-              )
-            })}
-          </NCollapse>
+          {isLoading.value ? (
+            <NSpin />
+          ) : (
+            <NCollapse>
+              {data.value?.content.map((category, index) => {
+                return (
+                  <NCollapseItem title={category.name} name={index} key={index}>
+                    <ForumList category={category.id} />
+                  </NCollapseItem>
+                )
+              })}
+            </NCollapse>
+          )}
         </NCard>
       </>
     )
