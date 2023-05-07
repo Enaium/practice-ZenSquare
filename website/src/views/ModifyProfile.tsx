@@ -35,10 +35,10 @@ const ModifyProfile = defineComponent({
   setup() {
     const message = useMessage()
     const session = useSessionStore()
-    const options = reactive<RequestOf<typeof api.memberController.profile>>({ id: session.id! })
+    const options = reactive<RequestOf<typeof api.memberProfileController.findProfile>>({ memberId: session.id! })
     const { data } = useQuery({
-      queryKey: ["ModifyProfile", options],
-      queryFn: () => api.memberController.profile(options),
+      queryKey: ["findProfile", options],
+      queryFn: () => api.memberProfileController.findProfile(options),
     })
 
     const form = reactive(data.value ?? ({ memberId: session.id } as MemberProfileDto["DEFAULT"]))
@@ -47,7 +47,7 @@ const ModifyProfile = defineComponent({
     const submit = () => {
       formRef.value?.validate((errors) => {
         if (!errors) {
-          api.memberProfileController.put({ body: form }).then(() => {
+          api.memberProfileController.save({ body: form }).then(() => {
             message.success(window.$i18n("common.success"))
           })
         }

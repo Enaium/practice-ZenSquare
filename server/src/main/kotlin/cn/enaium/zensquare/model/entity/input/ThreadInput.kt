@@ -34,8 +34,7 @@ data class ThreadInput(
     val content: String?,
     val memberId: UUID?,
     val forumId: UUID?,
-    val replyTime: LocalDateTime?,
-    val threadTypeId: UUID?,
+    val replyTime: LocalDateTime?
 ) : Input<Thread> {
     override fun toEntity(): Thread {
         return CONVERTER.toThread(this)

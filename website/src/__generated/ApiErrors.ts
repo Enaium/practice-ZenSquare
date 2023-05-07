@@ -1,11 +1,13 @@
 export type AllErrors = {};
 
 export type ApiErrors = {
-    "controller": {
-    },
     "categoryController": {
     },
     "forumController": {
+    },
+    "threadController": {
+    },
+    "replyController": {
     },
     "imageController": {
     },
@@ -14,7 +16,5 @@ export type ApiErrors = {
     "memberProfileController": {
     },
     "sessionController": {
-    },
-    "threadController": {
     }
 };

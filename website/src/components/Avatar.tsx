@@ -28,7 +28,7 @@ interface Props extends AvatarProps {
 
 const Avatar: FunctionalComponent<Props> = ({ id, ...props }) => {
   return id ? (
-    <NAvatar src={`${BASE_URL}/image/${id}`} fallbackSrc={Default} {...props} class={"border-2 border-gray-50"} />
+    <NAvatar src={`${BASE_URL}/images/${id}`} fallbackSrc={Default} {...props} class={"border-2 border-gray-50"} />
   ) : (
     <NAvatar src={Default} {...props} class={"border-2 border-gray-50"} />
   )

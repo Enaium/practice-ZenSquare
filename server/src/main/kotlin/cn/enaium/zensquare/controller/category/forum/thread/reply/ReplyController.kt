@@ -17,32 +17,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.thread
+package cn.enaium.zensquare.controller.category.forum.thread.reply
 
-import cn.enaium.zensquare.model.entity.input.ThreadInput
-import cn.enaium.zensquare.repository.ThreadRepository
+import cn.enaium.zensquare.bll.service.ReplyService
+import cn.enaium.zensquare.model.entity.input.ReplyInput
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 /**
+ * reply controller
+ *
  * @author Enaium
  */
 @RestController
-@RequestMapping("/thread/")
-class ThreadController(
-    val threadRepository: ThreadRepository
+class ReplyController(
+    val replyService: ReplyService
 ) {
     /**
-     * Create a thread
+     * Reply to a thread or reply
      *
-     * @param threadInput thread input
+     * @param replyInput
      */
-    @PutMapping
+    @PutMapping("/categories/forum/thread/reply")
     @ResponseStatus(HttpStatus.OK)
-    fun put(threadInput: ThreadInput) {
-//        threadRepository.save(threadInput)
+    fun save(@RequestBody replyInput: ReplyInput) {
+        replyService.reply(replyInput)
     }
 }

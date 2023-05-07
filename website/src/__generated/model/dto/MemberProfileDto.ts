@@ -1,5 +1,5 @@
 export type MemberProfileDto = {
-    'MemberController/DEFAULT_MEMBER_PROFILE': {
+    'MemberProfileController/DEFAULT_MEMBER_PROFILE': {
         readonly id: string, 
         readonly createdTime: string, 
         readonly modifiedTime: string, 

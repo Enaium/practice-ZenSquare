@@ -32,7 +32,7 @@ const Login: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess }) =>
     formRef.value?.validate((errors) => {
       if (!errors) {
         api.sessionController
-          .put({ body: form })
+          .save({ body: form })
           .then((data) => {
             const sessionStore = useSessionStore()
             sessionStore.id = data.id

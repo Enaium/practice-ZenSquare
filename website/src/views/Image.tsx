@@ -27,7 +27,7 @@ interface Props extends ImageProps {
 }
 
 const Image: FunctionalComponent<Props> = ({ id, fallback, ...props }) => {
-  return id ? <NImage src={`${BASE_URL}/image/${id}`} {...props} /> : fallback
+  return id ? <NImage src={`${BASE_URL}/images/${id}`} {...props} /> : fallback
 }
 
 export default Image

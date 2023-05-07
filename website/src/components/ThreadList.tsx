@@ -28,15 +28,15 @@ const ThreadList = defineComponent({
     forum: String,
   },
   setup(props) {
-    const options = reactive<RequestOf<typeof api.forumController.threads>>({ id: props.forum! })
+    const options = reactive<RequestOf<typeof api.threadController.findThreads>>({ forumId: props.forum! })
     const { data } = useQuery({
-      queryKey: ["threads", options],
-      queryFn: () => api.forumController.threads(options),
+      queryKey: ["findThreads", options],
+      queryFn: () => api.threadController.findThreads(options),
     })
     return () => (
       <>
         <NList>
-          {data.value?.map((thread, index) => (
+          {data.value?.content.map((thread, index) => (
             <NListItem key={index}>{thread.title}</NListItem>
           ))}
         </NList>

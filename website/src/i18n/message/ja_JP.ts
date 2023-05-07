@@ -94,6 +94,16 @@ export default {
       whatsNew: "新着情報",
       members: "メンバー",
     },
+    threadForm: {
+      title: {
+        label: "タイトル",
+        message: "タイトルを入力してください",
+      },
+      content: {
+        label: "内容",
+        message: "内容を入力してください",
+      },
+    },
   },
   common: {
     submit: "提出する",

@@ -17,16 +17,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.forum
+package cn.enaium.zensquare.controller.category.forum
 
-import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.model.entity.Forum
 import cn.enaium.zensquare.model.entity.by
-import cn.enaium.zensquare.repository.ThreadRepository
+import cn.enaium.zensquare.repository.ForumRepository
 import org.babyfish.jimmer.client.FetchBy
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -34,19 +36,23 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/forum/")
-class ForumController(
-    val threadRepository: ThreadRepository
-) {
-    @GetMapping("{id}/threads")
-    fun threads(@PathVariable id: UUID): List<@FetchBy("DEFAULT_THREAD") Thread> {
-        return threadRepository.findAllByForumId(id, DEFAULT_THREAD)
+class ForumController(val forumRepository: ForumRepository) {
+    @GetMapping("/categories/forums/{id}")
+    fun findForum(@PathVariable id: UUID) = forumRepository.findById(id)
+
+    @GetMapping("/categories/{categoryId}/forums")
+    fun findForums(
+        @PathVariable categoryId: UUID,
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10
+    ): Page<@FetchBy("DEFAULT_FORUM") Forum> {
+        return forumRepository.findAllByCategoryId(categoryId, DEFAULT_FORUM, PageRequest.of(page, size))
     }
 
     companion object {
-        val DEFAULT_THREAD = newFetcher(Thread::class).by {
+        val DEFAULT_FORUM = newFetcher(Forum::class).by {
             allScalarFields()
-            content(false)
+            thread()
         }
     }
 }

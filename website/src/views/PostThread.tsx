@@ -35,7 +35,7 @@ const PostThread = defineComponent({
     const route = useRoute()
     const { data } = useQuery({
       queryKey: ["categoryList"],
-      queryFn: () => api.controller.categories(),
+      queryFn: () => api.categoryController.findCategories(),
     })
 
     const forum = computed(() => props.forum ?? route.params.forum ?? null)
@@ -46,7 +46,7 @@ const PostThread = defineComponent({
           <ThreadForm forum={forum.value as string} />
         ) : (
           <>
-            {data.value?.map((category, categoryIndex) => {
+            {data.value?.content.map((category, categoryIndex) => {
               return (
                 <NCard title={category.name} key={categoryIndex} segmented={{ content: true }}>
                   <NList>

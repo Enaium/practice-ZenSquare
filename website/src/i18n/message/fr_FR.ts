@@ -77,6 +77,16 @@ export default {
       whatsNew: "Quoi de neuf",
       members: "Membres",
     },
+    threadForm: {
+      title: {
+        label: "Titre",
+        message: "Veuillez saisir le titre",
+      },
+      content: {
+        label: "Contenu",
+        message: "Veuillez saisir le contenu",
+      },
+    },
   },
   common: {
     submit: "Soumettre",

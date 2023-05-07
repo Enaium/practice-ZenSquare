@@ -31,7 +31,7 @@ const ContentEditor: FunctionalComponent<EditorProps> = ({ ...props }) => {
       formData.append("file", file)
     })
     //upload image
-    fetch(`${BASE_URL}/image/`, {
+    fetch(`${BASE_URL}/images/`, {
       method: "PUT",
       body: formData,
       headers: {
@@ -40,7 +40,7 @@ const ContentEditor: FunctionalComponent<EditorProps> = ({ ...props }) => {
     })
       .then((response) => response.json())
       .then((data: Array<string>) => {
-        callback(data.map((id) => `${BASE_URL}/image/${id}`))
+        callback(data.map((id) => `${BASE_URL}/images/${id}`))
       })
       .catch((error) => {
         console.error(error)

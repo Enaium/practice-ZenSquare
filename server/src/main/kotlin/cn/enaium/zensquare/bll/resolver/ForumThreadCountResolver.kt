@@ -19,7 +19,9 @@
 
 package cn.enaium.zensquare.bll.resolver
 
-import cn.enaium.zensquare.model.entity.*
+import cn.enaium.zensquare.model.entity.Forum
+import cn.enaium.zensquare.model.entity.id
+import cn.enaium.zensquare.model.entity.threads
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
 import org.babyfish.jimmer.sql.kt.ast.expression.count
@@ -34,11 +36,23 @@ import java.util.*
  */
 @Component
 class ForumThreadCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
+
+    /**
+     * resolve count thread
+     *
+     * @param ids forum id
+     * @return count thread
+     */
     override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Forum::class) {
         where(table.id valueIn ids)
         groupBy(table.id)
         select(table.id, count(table.asTableEx().threads.id))
     }.execute().associateBy({ it._1 }) { it._2 }
 
+    /**
+     * default value
+     *
+     * @return 0
+     */
     override fun getDefaultValue(): Long = 0
 }

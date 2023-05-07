@@ -27,20 +27,24 @@ val springdoc: String by project
 val therapi: String by project
 
 dependencies {
+    //jimmer
     implementation("org.babyfish.jimmer:jimmer-spring-boot-starter:$jimmer")
     ksp("org.babyfish.jimmer:jimmer-ksp:$jimmer")
     implementation("org.mapstruct:mapstruct:$mapstruct")
     kapt("org.mapstruct:mapstruct-processor:$mapstruct")
     kapt("org.babyfish.jimmer:jimmer-mapstruct-apt:$jimmer")
 
+    //satoken
     implementation("cn.dev33:sa-token-spring-boot3-starter:$satoken")
     implementation("cn.dev33:sa-token-dao-redis-jackson:$satoken")
     implementation("org.apache.commons:commons-pool2")
 
+    //springdoc
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdoc")
     implementation("com.github.therapi:therapi-runtime-javadoc:$therapi")
     implementation("com.github.therapi:therapi-runtime-javadoc-scribe:$therapi")
 
+    //springboot
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

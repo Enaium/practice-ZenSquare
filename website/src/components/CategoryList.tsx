@@ -26,15 +26,15 @@ import ForumList from "@/components/ForumList.tsx"
 const CategoryList = defineComponent({
   setup() {
     const { data } = useQuery({
-      queryKey: ["categoryList"],
-      queryFn: () => api.controller.categories(),
+      queryKey: ["findCategories"],
+      queryFn: () => api.categoryController.findCategories(),
     })
 
     return () => (
       <>
         <NCard>
           <NCollapse>
-            {data.value?.map((category, index) => {
+            {data.value?.content.map((category, index) => {
               return (
                 <NCollapseItem title={category.name} name={index} key={index}>
                   <ForumList category={category.id} />

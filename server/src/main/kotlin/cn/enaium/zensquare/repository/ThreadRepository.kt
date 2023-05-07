@@ -19,9 +19,15 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.controller.category.forum.thread.ThreadController
+import cn.enaium.zensquare.model.entity.*
+import cn.enaium.zensquare.model.entity.input.ThreadInput
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.babyfish.jimmer.sql.fetcher.Fetcher
+import org.babyfish.jimmer.sql.kt.ast.expression.eq
+import org.babyfish.jimmer.sql.kt.ast.expression.ilike
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -30,5 +36,20 @@ import java.util.*
  */
 @Repository
 interface ThreadRepository : KRepository<Thread, UUID> {
-    fun findAllByForumId(forumId: UUID, fetcher: Fetcher<Thread>? = null): List<Thread>
+    fun findAllByForumId(forumId: UUID, fetcher: Fetcher<Thread>? = null, pageable: Pageable): Page<Thread>
+
+    fun findAllByThread(pageable: Pageable, threadInput: ThreadInput?): Page<Thread> =
+        pager(pageable).execute(sql.createQuery(Thread::class) {
+            if (threadInput != null) {
+                threadInput.title?.takeIf { it.isNotBlank() }?.let { where(table.title ilike it) }
+                threadInput.content?.takeIf { it.isNotBlank() }?.let { where(table.content ilike it) }
+                threadInput.memberId?.let {
+                    where(table.memberId eq it)
+                }
+                threadInput.forumId?.let {
+                    where(table.forumId eq it)
+                }
+            }
+            select(table.fetch(ThreadController.DEFAULT_THREAD))
+        })
 }

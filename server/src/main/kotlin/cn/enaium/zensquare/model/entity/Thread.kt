@@ -48,6 +48,4 @@ interface Thread : BaseEntity {
     val forum: Forum
 
     val replyTime: LocalDateTime
-
-    val threadTypeId: UUID
 }

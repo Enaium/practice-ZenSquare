@@ -30,8 +30,9 @@ import java.util.*
 data class ReplyInput(
     val id: UUID?,
     val content: String?,
-    val memberId: UUID?,
+    var memberId: UUID?,
     val threadId: UUID?,
+    val parentId: UUID?
 ) : Input<Reply> {
 
     override fun toEntity(): Reply {

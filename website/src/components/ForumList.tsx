@@ -31,17 +31,17 @@ const ForumList = defineComponent({
     category: String,
   },
   setup(props) {
-    const options = reactive<RequestOf<typeof api.categoryController.forums>>({ id: props.category! })
+    const options = reactive<RequestOf<typeof api.forumController.findForums>>({ categoryId: props.category! })
 
     const { data } = useQuery({
-      queryKey: ["forum", options],
-      queryFn: () => api.categoryController.forums(options),
+      queryKey: ["findForums", options],
+      queryFn: () => api.forumController.findForums(options),
     })
 
     return () => (
       <>
         <NList>
-          {data.value?.map((forum, index) => {
+          {data.value?.content.map((forum, index) => {
             return (
               <NListItem key={index}>
                 <div class={"flex justify-between items-center"}>

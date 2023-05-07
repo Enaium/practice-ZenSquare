@@ -30,16 +30,16 @@ const VisitorMenu = defineComponent({
   setup() {
     const session = useSessionStore()
 
-    const options = reactive<RequestOf<typeof api.memberController.profile>>({ id: session.id! })
+    const options = reactive<RequestOf<typeof api.memberProfileController.findProfile>>({ memberId: session.id! })
 
     const message = useMessage()
 
     const { data, isLoading } = useQuery({
-      queryKey: ["memberProfile", options],
-      queryFn: () => api.memberController.profile(options),
+      queryKey: ["findProfile", options],
+      queryFn: () => api.memberProfileController.findProfile(options),
     })
 
-    const profile = reactive(data.value ?? ({} as MemberProfileDto["MemberController/DEFAULT_MEMBER_PROFILE"]))
+    const profile = reactive(data.value ?? ({} as MemberProfileDto["MemberProfileController/DEFAULT_MEMBER_PROFILE"]))
 
     return () => (
       <>

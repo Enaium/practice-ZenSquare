@@ -17,15 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.repository
+package cn.enaium.zensquare.bll.service
 
-import cn.enaium.zensquare.model.entity.ThreadType
-import org.babyfish.jimmer.spring.repository.KRepository
-import org.springframework.stereotype.Repository
-import java.util.*
+import cn.enaium.zensquare.model.entity.input.ReplyInput
 
 /**
  * @author Enaium
  */
-@Repository
-interface ThreadTypeRepository : KRepository<ThreadType, UUID>
+interface ReplyService {
+    fun reply(replyInput: ReplyInput)
+}

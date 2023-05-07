@@ -78,8 +78,14 @@ export default {
       members: "会员",
     },
     threadForm: {
-      title: { label: "标题", message: "请输入标题" },
-      content: { label: "内容", message: "请输入内容" },
+      title: {
+        label: "标题",
+        message: "请输入标题",
+      },
+      content: {
+        label: "内容",
+        message: "请输入内容",
+      },
     },
   },
   common: {

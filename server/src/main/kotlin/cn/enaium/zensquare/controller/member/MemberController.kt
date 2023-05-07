@@ -20,15 +20,7 @@
 package cn.enaium.zensquare.controller.member
 
 import cn.enaium.zensquare.bll.service.MemberService
-import cn.enaium.zensquare.model.entity.MemberProfile
-import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.MemberInput
-import cn.enaium.zensquare.model.entity.input.MemberProfileInput
-import cn.enaium.zensquare.repository.MemberProfileRepository
-import org.babyfish.jimmer.client.FetchBy
-import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -37,40 +29,14 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/member/")
-class MemberController(
-    val memberService: MemberService,
-    val memberProfileRepository: MemberProfileRepository
-) {
-    @GetMapping("profiles")
-    fun profiles(
-        @RequestParam(defaultValue = "0") page: Int = 0,
-        @RequestParam(defaultValue = "10") size: Int = 10,
-        memberProfileInput: MemberProfileInput?
-    ): Page<MemberProfile> {
-        return memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
-    }
-
-    @GetMapping("{id}/profile")
-    fun profile(@PathVariable id: UUID): @FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile? {
-        return memberProfileRepository.findByMemberId(id, DEFAULT_MEMBER_PROFILE)
-    }
-
+@RequestMapping("/members/")
+class MemberController(val memberService: MemberService) {
     /**
      * Register
      */
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun put(@RequestBody memberInput: MemberInput) {
+    fun save(@RequestBody memberInput: MemberInput) {
         memberService.register(memberInput)
-    }
-
-    companion object {
-        val DEFAULT_MEMBER_PROFILE = newFetcher(MemberProfile::class).by {
-            allScalarFields()
-            role {
-                name()
-            }
-        }
     }
 }

@@ -1,20 +1,35 @@
 import type { Executor } from '../';
-import type { ForumDto } from '../model/dto';
+import type { CategoryDto } from '../model/dto';
+import type { Page } from '../model/static';
 
 export class CategoryController {
     
     constructor(private executor: Executor) {}
     
-    async forums(options: CategoryControllerOptions['forums']): Promise<
-        ReadonlyArray<ForumDto['CategoryController/DEFAULT_FORUM']>
+    async findCategories(options?: CategoryControllerOptions['findCategories']): Promise<
+        Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
     > {
-        let _uri = '/category/';
-        _uri += encodeURIComponent(options.id);
-        _uri += '/forums';
-        return (await this.executor({uri: _uri, method: 'GET'})) as ReadonlyArray<ForumDto['CategoryController/DEFAULT_FORUM']>
+        let _uri = '/categories/';
+        let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
+        let _value: any = undefined;
+        _value = options?.page;
+        if (_value !== undefined && _value !== null) {
+            _uri += _separator
+            _uri += 'page='
+            _uri += encodeURIComponent(_value);
+            _separator = '&';
+        }
+        _value = options?.size;
+        if (_value !== undefined && _value !== null) {
+            _uri += _separator
+            _uri += 'size='
+            _uri += encodeURIComponent(_value);
+            _separator = '&';
+        }
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
     }
 }
 
 export type CategoryControllerOptions = {
-    'forums': {readonly id: string}
+    'findCategories': {readonly page?: number, readonly size?: number}
 }

@@ -31,7 +31,7 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/image/")
+@RequestMapping("/images/")
 class ImageController(
     val imageService: ImageService
 ) {
@@ -43,7 +43,7 @@ class ImageController(
      */
     @SaIgnore
     @GetMapping("{id}")
-    fun get(@PathVariable id: UUID, httpServletResponse: HttpServletResponse) {
+    fun findImage(@PathVariable id: UUID, httpServletResponse: HttpServletResponse) {
         httpServletResponse.contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE
         httpServletResponse.outputStream.write(imageService.find(id))
     }
@@ -54,7 +54,7 @@ class ImageController(
      * @param file images
      */
     @PutMapping
-    fun put(file: Array<MultipartFile>): List<UUID> {
+    fun saveImages(file: Array<MultipartFile>): List<UUID> {
         return file.map { imageService.upload(it) }
     }
 }

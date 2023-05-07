@@ -19,15 +19,17 @@
 
 package cn.enaium.zensquare.controller.category
 
-import cn.enaium.zensquare.model.entity.Forum
+import cn.dev33.satoken.annotation.SaIgnore
+import cn.enaium.zensquare.model.entity.Category
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.CategoryRepository
-import cn.enaium.zensquare.repository.ForumRepository
 import org.babyfish.jimmer.client.FetchBy
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
@@ -35,20 +37,30 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/category/")
+@RequestMapping("/categories/")
 class CategoryController(
-    val categoryRepository: CategoryRepository,
-    val forumRepository: ForumRepository
+    val categoryRepository: CategoryRepository
 ) {
-    @GetMapping("{id}/forums")
-    fun forums(@PathVariable id: UUID): List<@FetchBy("DEFAULT_FORUM") Forum> {
-        return forumRepository.findAllByCategoryId(id, DEFAULT_FORUM)
+    /**
+     * Get all categories
+     *
+     * @return
+     */
+    @SaIgnore
+    @GetMapping
+    fun findCategories(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10
+    ): Page<@FetchBy("DEFAULT_CATEGORY") Category> {
+        return categoryRepository.findAll(PageRequest.of(page, size), DEFAULT_CATEGORY)
     }
 
     companion object {
-        val DEFAULT_FORUM = newFetcher(Forum::class).by {
+        val DEFAULT_CATEGORY = newFetcher(Category::class).by {
             allScalarFields()
-            thread()
+            forums {
+                allScalarFields()
+            }
         }
     }
 }

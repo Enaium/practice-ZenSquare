@@ -1,5 +1,5 @@
 export type ThreadDto = {
-    'ForumController/DEFAULT_THREAD': {
+    'ThreadController/DEFAULT_THREAD': {
         readonly id: string, 
         readonly createdTime: string, 
         readonly modifiedTime: string, 

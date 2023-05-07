@@ -29,11 +29,13 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
+ * session controller
+ *
  * @author Enaium
  */
 @SaIgnore
 @RestController
-@RequestMapping("/session/")
+@RequestMapping("/sessions/")
 class SessionController(
     val sessionService: SessionService
 ) {
@@ -41,7 +43,7 @@ class SessionController(
      * Login
      */
     @PutMapping
-    fun put(@RequestBody memberInput: MemberInput): LoginResponse {
+    fun save(@RequestBody memberInput: MemberInput): LoginResponse {
         return sessionService.login(memberInput)
     }
 

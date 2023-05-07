@@ -8,20 +8,20 @@ export class SessionController {
     async delete(options: SessionControllerOptions['delete']): Promise<
         Unit
     > {
-        let _uri = '/session/';
+        let _uri = '/sessions/';
         _uri += encodeURIComponent(options.id);
         return (await this.executor({uri: _uri, method: 'DELETE'})) as Unit
     }
     
-    async put(options: SessionControllerOptions['put']): Promise<
+    async save(options: SessionControllerOptions['save']): Promise<
         LoginResponse
     > {
-        let _uri = '/session/';
+        let _uri = '/sessions/';
         return (await this.executor({uri: _uri, method: 'PUT', body: options.body})) as LoginResponse
     }
 }
 
 export type SessionControllerOptions = {
     'delete': {readonly id: string},
-    'put': {readonly body: MemberInput}
+    'save': {readonly body: MemberInput}
 }

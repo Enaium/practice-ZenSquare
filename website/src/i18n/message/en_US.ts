@@ -77,6 +77,16 @@ export default {
       whatsNew: "What's New",
       members: "Members",
     },
+    threadForm: {
+      title: {
+        label: "Title",
+        message: "Please input title",
+      },
+      content: {
+        label: "Content",
+        message: "Please input content",
+      },
+    },
   },
   common: {
     submit: "Submit",

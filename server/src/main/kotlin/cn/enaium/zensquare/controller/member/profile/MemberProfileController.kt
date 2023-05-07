@@ -17,28 +17,69 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.member
+package cn.enaium.zensquare.controller.member.profile
 
 import cn.dev33.satoken.stp.StpUtil
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
 import cn.enaium.zensquare.util.checkOwner
+import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
+ * Member profile controller
+ *
  * @author Enaium
  */
 @RestController
-@RequestMapping("/member/profile/")
 class MemberProfileController(
     val memberProfileRepository: MemberProfileRepository
 ) {
-    @PutMapping
-    fun put(@RequestBody memberProfileInput: MemberProfileInput) {
+
+    /**
+     * Get member profile by member id
+     *
+     * @param memberId Member id
+     * @return MemberProfile
+     */
+    @GetMapping("/members/{memberId}/profiles/")
+    fun findProfile(@PathVariable memberId: UUID): @FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile? {
+        return memberProfileRepository.findByMemberId(memberId, DEFAULT_MEMBER_PROFILE)
+    }
+
+    /**
+     * Get member profiles
+     *
+     * @param page Page
+     * @param size Size
+     * @param memberProfileInput MemberProfileInput
+     * @return Page<MemberProfile>
+     */
+    @GetMapping("/members/profiles/")
+    fun findComplexProfiles(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10,
+        memberProfileInput: MemberProfileInput?
+    ): Page<MemberProfile> {
+        return memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
+    }
+
+
+    /**
+     * Put member profile
+     *
+     * @param memberProfileInput MemberProfileInput
+     */
+    @PutMapping("/members/profiles/")
+    fun save(@RequestBody memberProfileInput: MemberProfileInput) {
         //Check member profile owner
         memberProfileInput.id ?: memberProfileInput.memberId?.let {
             if (!(checkOwner(it) || StpUtil.hasRole("admin"))) {
@@ -53,5 +94,18 @@ class MemberProfileController(
             }
         }
         memberProfileRepository.save(memberProfileInput)
+    }
+
+
+    companion object {
+        /**
+         * Default member profile fetcher
+         */
+        val DEFAULT_MEMBER_PROFILE = newFetcher(MemberProfile::class).by {
+            allScalarFields()
+            role {
+                name()
+            }
+        }
     }
 }
