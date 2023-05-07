@@ -21,6 +21,9 @@ package cn.enaium.zensquare.repository
 
 import cn.enaium.zensquare.model.entity.Reply
 import org.babyfish.jimmer.spring.repository.KRepository
+import org.babyfish.jimmer.sql.fetcher.Fetcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -28,4 +31,6 @@ import java.util.*
  * @author Enaium
  */
 @Repository
-interface ReplyRepository : KRepository<Reply, UUID>
+interface ReplyRepository : KRepository<Reply, UUID> {
+    fun findAllByThreadId(pageable: Pageable, threadId: UUID, defaultReply: Fetcher<Reply>? = null): Page<Reply>
+}

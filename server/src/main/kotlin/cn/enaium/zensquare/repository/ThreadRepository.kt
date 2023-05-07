@@ -36,7 +36,7 @@ import java.util.*
  */
 @Repository
 interface ThreadRepository : KRepository<Thread, UUID> {
-    fun findAllByForumId(forumId: UUID, fetcher: Fetcher<Thread>? = null, pageable: Pageable): Page<Thread>
+    fun findAllByForumId(pageable: Pageable, forumId: UUID, fetcher: Fetcher<Thread>? = null): Page<Thread>
 
     fun findAllByThread(pageable: Pageable, threadInput: ThreadInput?): Page<Thread> =
         pager(pageable).execute(sql.createQuery(Thread::class) {

@@ -30,7 +30,7 @@ const ForumList = defineComponent({
   props: {
     category: String,
   },
-  setup(props) {
+  setup: function (props) {
     const options = reactive<RequestOf<typeof api.forumController.findForums>>({ categoryId: props.category! })
 
     const { data } = useQuery({
@@ -41,47 +41,45 @@ const ForumList = defineComponent({
     return () => (
       <>
         <NList bordered>
-          {data.value?.content.map((forum, index) => {
-            return (
-              <NListItem key={index}>
-                <div class={"flex justify-between items-center"}>
-                  {/*left*/}
-                  <div class={"flex gap-5"}>
-                    {/*icon*/}
-                    <div class={"text-4xl flex justify-center items-center"}>
-                      <Image
-                        id={forum.icon}
-                        fallback={
-                          <NIcon>
-                            <Chat24Regular />
-                          </NIcon>
-                        }
-                      />
-                    </div>
-                    {/*content*/}
-                    <div class={"flex flex-col"}>
-                      <RouterLink class={"font-bold"} to={{ name: "threads", params: { forum: forum.id } }}>
-                        {forum.name}
-                      </RouterLink>
-                      <div>{forum.description}</div>
-                    </div>
+          {data.value?.content.map((forum, index) => (
+            <NListItem key={index}>
+              <div class={"flex justify-between items-center"}>
+                {/*left*/}
+                <div class={"flex gap-5"}>
+                  {/*icon*/}
+                  <div class={"text-4xl flex justify-center items-center"}>
+                    <Image
+                      id={forum.icon}
+                      fallback={
+                        <NIcon>
+                          <Chat24Regular />
+                        </NIcon>
+                      }
+                    />
                   </div>
-                  {/*right*/}
-                  <div class={"flex gap-5"}>
-                    <div class={"flex flex-col items-center"}>
-                      <div>thread</div>
-                      <div>{forum.thread}</div>
-                    </div>
-                    <div class={"bg-gray-200 w-px"} />
-                    <div class={"flex flex-col items-center"}>
-                      <div>message</div>
-                      <div>0</div>
-                    </div>
+                  {/*content*/}
+                  <div class={"flex flex-col"}>
+                    <RouterLink class={"font-bold"} to={{ name: "forums", params: { forum: forum.id } }}>
+                      {forum.name}
+                    </RouterLink>
+                    <div>{forum.description}</div>
                   </div>
                 </div>
-              </NListItem>
-            )
-          })}
+                {/*right*/}
+                <div class={"flex gap-5"}>
+                  <div class={"flex flex-col items-center"}>
+                    <div>thread</div>
+                    <div>{forum.thread}</div>
+                  </div>
+                  <div class={"bg-gray-200 w-px"} />
+                  <div class={"flex flex-col items-center"}>
+                    <div>message</div>
+                    <div>0</div>
+                  </div>
+                </div>
+              </div>
+            </NListItem>
+          ))}
         </NList>
       </>
     )

@@ -28,6 +28,8 @@ import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 /**
+ * image controller
+ *
  * @author Enaium
  */
 @RestController

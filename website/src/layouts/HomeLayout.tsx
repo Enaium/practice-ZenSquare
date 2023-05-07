@@ -22,7 +22,7 @@ import { NDivider, NLayout, NLayoutHeader } from "naive-ui"
 import { RouterView } from "vue-router"
 import Index from "@/components/State"
 
-const Home = () => {
+const HomeLayout = () => {
   return (
     <>
       <NLayout class={"h-screen"}>
@@ -50,4 +50,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default HomeLayout

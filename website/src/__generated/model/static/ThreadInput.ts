@@ -8,7 +8,5 @@ export interface ThreadInput {
     
     readonly memberId?: string;
     
-    readonly replyTime?: string;
-    
     readonly title?: string;
 }

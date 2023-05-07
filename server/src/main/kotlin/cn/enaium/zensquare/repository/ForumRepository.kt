@@ -32,5 +32,5 @@ import java.util.*
  */
 @Repository
 interface ForumRepository : KRepository<Forum, UUID> {
-    fun findAllByCategoryId(categoryId: UUID, fetcher: Fetcher<Forum>? = null, pageable: Pageable): Page<Forum>
+    fun findAllByCategoryId(pageable: Pageable, categoryId: UUID, fetcher: Fetcher<Forum>? = null): Page<Forum>
 }

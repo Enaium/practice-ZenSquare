@@ -104,6 +104,12 @@ export default {
         message: "内容を入力してください",
       },
     },
+    replyForm: {
+      reply: {
+        label: "返信",
+        message: "返信を入力してください",
+      },
+    },
   },
   common: {
     submit: "提出する",

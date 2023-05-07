@@ -41,6 +41,16 @@ import java.util.*
 class ThreadController(
     val threadRepository: ThreadRepository
 ) {
+    /**
+     * Get thread by id
+     *
+     * @param id
+     * @return
+     */
+    @GetMapping("/categories/forums/threads/{id}/")
+    fun findThread(@PathVariable id: UUID): @FetchBy("FULL_THREAD") Thread? {
+        return threadRepository.findNullable(id, FULL_THREAD)
+    }
 
     /**
      * Get threads by forum id
@@ -56,7 +66,7 @@ class ThreadController(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
     ): Page<@FetchBy("DEFAULT_THREAD") Thread> {
-        return threadRepository.findAllByForumId(forumId, DEFAULT_THREAD, PageRequest.of(page, size))
+        return threadRepository.findAllByForumId(PageRequest.of(page, size), forumId, DEFAULT_THREAD)
     }
 
     /**
@@ -67,7 +77,7 @@ class ThreadController(
      * @param threadInput thread input
      * @return Page<Thread>
      */
-    @GetMapping("/categories/forums/threads")
+    @GetMapping("/categories/forums/threads/")
     fun findComplexThreads(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10,
@@ -96,6 +106,26 @@ class ThreadController(
                 profile {
                     nickname()
                     avatar()
+                }
+            }
+        }
+
+        val FULL_THREAD = newFetcher(Thread::class).by {
+            allScalarFields()
+            member {
+                profile {
+                    nickname()
+                    avatar()
+                    role {
+                        name()
+                        description()
+                    }
+                }
+            }
+            forum {
+                allTableFields()
+                category {
+                    allScalarFields()
                 }
             }
         }

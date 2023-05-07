@@ -21,11 +21,14 @@ package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.ReplyService
+import cn.enaium.zensquare.model.entity.Reply
 import cn.enaium.zensquare.model.entity.input.ReplyInput
 import cn.enaium.zensquare.repository.ReplyRepository
+import cn.enaium.zensquare.repository.ThreadRepository
 import cn.enaium.zensquare.util.getSession
 import cn.enaium.zensquare.util.i18n
 import org.springframework.context.MessageSource
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -35,22 +38,22 @@ import org.springframework.stereotype.Service
 @Service
 class ReplyServiceImpl(
     val replyRepository: ReplyRepository,
+    val threadRepository: ThreadRepository,
     val messageSource: MessageSource
 ) : ReplyService {
-
     /**
      * Reply to a thread or reply
      *
      * @param replyInput ReplyInput
      */
-    override fun reply(replyInput: ReplyInput) {
+    override fun saveReply(replyInput: ReplyInput) {
         replyInput.memberId = getSession()
         replyInput.parentId?.let {// If parentId is not null
             val reply = replyRepository.findNullable(it)
                 ?: throw ServiceException(
                     HttpStatus.NOT_FOUND,
                     messageSource.i18n("controller.forum.thread.reply.doesntExist")
-                )
+                )// If reply is null
             if (reply.threadId != replyInput.threadId) {// If parentId is not null and threadId is not equal
                 throw ServiceException(
                     HttpStatus.BAD_REQUEST,
@@ -59,10 +62,10 @@ class ReplyServiceImpl(
             }
         }
         replyInput.threadId?.let {// If threadId is not null
-            replyRepository.findNullable(it) ?: throw ServiceException(
+            threadRepository.findNullable(it) ?: throw ServiceException(
                 HttpStatus.NOT_FOUND,
                 messageSource.i18n("controller.forum.thread.doesntExist")
-            )// If threadId is not null and threadId is not equal
+            )// If thread is null
         }
         replyRepository.save(replyInput)
     }

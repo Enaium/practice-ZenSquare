@@ -23,7 +23,7 @@ import { FunctionalComponent } from "vue"
 import { BASE_URL } from "@/common/ApiInstance.ts"
 import { useSessionStore } from "@/store"
 
-const ContentEditor: FunctionalComponent<EditorProps> = ({ ...props }) => {
+const Content: FunctionalComponent<EditorProps> = ({ ...props }) => {
   const session = useSessionStore()
   const onUpdateImage = (files: Array<File>, callback: (urls: Array<string>) => void) => {
     const formData = new FormData()
@@ -49,4 +49,4 @@ const ContentEditor: FunctionalComponent<EditorProps> = ({ ...props }) => {
   return <MdEditor onUploadImg={onUpdateImage} {...props} />
 }
 
-export default ContentEditor
+export default Content

@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
+ * member controller
+ *
  * @author Enaium
  */
 @RestController

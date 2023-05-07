@@ -18,20 +18,15 @@
  */
 
 import { NConfigProvider, NMessageProvider, zhCN } from "naive-ui"
-import { RouterView, useRouter } from "vue-router"
+import { RouterView } from "vue-router"
 import { useI18n } from "vue-i18n"
-import Message from "@/components/Message"
 
 const App = () => {
   const { t } = useI18n()
   window.$i18n = t
-  window.$router = useRouter()
   return (
     <>
       <NConfigProvider locale={zhCN}>
-        <NMessageProvider>
-          <Message />
-        </NMessageProvider>
         <NMessageProvider>
           <RouterView />
         </NMessageProvider>

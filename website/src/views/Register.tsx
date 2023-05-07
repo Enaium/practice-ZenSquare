@@ -37,7 +37,7 @@ const Register: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess })
             onSuccess()
           })
           .catch((error) => {
-            window.$message.error(error)
+            message.error(error)
           })
       }
     })

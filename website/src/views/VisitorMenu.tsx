@@ -101,7 +101,7 @@ const VisitorMenu = defineComponent({
                 },
               }}
               onPositiveClick={() => {
-                api.sessionController.delete({ id: session.id! }).then(() => {
+                api.sessionController.deleteSession({ id: session.id! }).then(() => {
                   session.id = null
                   session.token = null
                   message.success(window.$i18n("view.visitorMenu.logoutSuccess"))

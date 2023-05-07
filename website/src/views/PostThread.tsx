@@ -31,7 +31,7 @@ const PostThread = defineComponent({
       nullable: true,
     },
   },
-  setup(props) {
+  setup: function (props) {
     const route = useRoute()
     const { data } = useQuery({
       queryKey: ["categoryList"],
@@ -46,26 +46,24 @@ const PostThread = defineComponent({
           <ThreadForm forum={forum.value as string} />
         ) : (
           <>
-            {data.value?.content.map((category, categoryIndex) => {
-              return (
-                <NCard title={category.name} key={categoryIndex} segmented={{ content: true }}>
-                  <NList>
-                    {category.forums?.map((forum, forumIndex) => (
-                      <NListItem key={forumIndex}>
-                        <RouterLink
-                          to={{
-                            name: "post-thread",
-                            params: { forum: forum.id },
-                          }}
-                        >
-                          {forum.name}
-                        </RouterLink>
-                      </NListItem>
-                    ))}
-                  </NList>
-                </NCard>
-              )
-            })}
+            {data.value?.content.map((category, categoryIndex) => (
+              <NCard title={category.name} key={categoryIndex} segmented={{ content: true }}>
+                <NList>
+                  {category.forums?.map((forum, forumIndex) => (
+                    <NListItem key={forumIndex}>
+                      <RouterLink
+                        to={{
+                          name: "post-thread",
+                          params: { forum: forum.id },
+                        }}
+                      >
+                        {forum.name}
+                      </RouterLink>
+                    </NListItem>
+                  ))}
+                </NList>
+              </NCard>
+            ))}
           </>
         )}
       </>

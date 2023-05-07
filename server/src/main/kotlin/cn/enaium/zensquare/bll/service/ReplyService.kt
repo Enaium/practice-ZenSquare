@@ -25,5 +25,5 @@ import cn.enaium.zensquare.model.entity.input.ReplyInput
  * @author Enaium
  */
 interface ReplyService {
-    fun reply(replyInput: ReplyInput)
+    fun saveReply(replyInput: ReplyInput)
 }

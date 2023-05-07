@@ -21,9 +21,11 @@ import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
 import { RequestOf } from "@/__generated"
-import { NList, NListItem, NTime } from "naive-ui"
+import { NIcon, NList, NListItem, NTime, NTooltip } from "naive-ui"
 import Avatar from "@/components/Avatar.tsx"
 import dayjs from "dayjs"
+import { RouterLink } from "vue-router"
+import { Clock16Regular } from "@vicons/fluent"
 
 const ThreadList = defineComponent({
   props: {
@@ -45,10 +47,27 @@ const ThreadList = defineComponent({
                 <div class={"flex"}>
                   <Avatar id={thread.member.profile?.avatar} size={48} bordered round />
                   <div class={"flex flex-col justify-between"}>
-                    <div>{thread.title}</div>
-                    <div>
+                    <RouterLink
+                      to={{
+                        name: "threads",
+                        params: { thread: thread.id },
+                      }}
+                    >
+                      {thread.title}
+                    </RouterLink>
+                    <div class={"flex"}>
                       <span>{thread.member.profile?.nickname}</span>
-                      <NTime time={new Date()} to={dayjs(thread.modifiedTime).toDate()} type={"relative"} />
+                      <NIcon size={24}>
+                        <Clock16Regular />
+                      </NIcon>
+                      <NTooltip
+                        v-slots={{
+                          trigger: () => (
+                            <NTime time={new Date()} to={dayjs(thread.modifiedTime).toDate()} type={"relative"} />
+                          ),
+                          default: () => <div>{dayjs(thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+                        }}
+                      />
                     </div>
                   </div>
                 </div>

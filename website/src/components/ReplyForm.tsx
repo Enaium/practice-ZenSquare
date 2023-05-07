@@ -18,21 +18,22 @@
  */
 
 import { FunctionalComponent, reactive, ref } from "vue"
-import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
-import Content from "@/components/Content"
-import { api } from "@/common/ApiInstance"
-import { ThreadInput } from "@/__generated/model/static"
+import { ReplyInput } from "@/__generated/model/static"
+import { FormInst, NButton, NForm, NFormItem, useMessage } from "naive-ui"
+import Content from "@/components/Content.tsx"
+import { ArrowReply16Regular } from "@vicons/fluent"
+import { api } from "@/common/ApiInstance.ts"
 
-const form = reactive<ThreadInput>({})
+const form = reactive<ReplyInput>({})
 const formRef = ref<FormInst | null>(null)
 
-const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
+const ReplyForm: FunctionalComponent<{ thread: string }> = ({ thread }) => {
   const message = useMessage()
   const submit = () => {
     formRef.value?.validate((errors) => {
       if (!errors) {
-        api.threadController
-          .saveThread({ body: { ...form, forumId: forum } })
+        api.replyController
+          .saveReply({ body: { ...form, threadId: thread } })
           .then(() => {
             message.success(window.$i18n("common.success"))
           })
@@ -42,29 +43,25 @@ const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
       }
     })
   }
+
   return (
     <>
       <NForm model={form} ref={formRef}>
         <NFormItem
-          path={"title"}
-          label={window.$i18n("component.threadForm.title.label")}
-          rule={[{ required: true, message: window.$i18n("component.threadForm.title.message") }]}
-        >
-          <NInput v-model:value={form.title} />
-        </NFormItem>
-        <NFormItem
           path={"content"}
-          label={window.$i18n("component.threadForm.content.label")}
-          rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
+          label={window.$i18n("component.replyForm.reply.label")}
+          rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
         >
           <Content v-model={form.content} />
         </NFormItem>
-        <NButton onClick={submit} type={"primary"}>
-          {window.$i18n("common.submit")}
-        </NButton>
+        <div class={"flex flex-row-reverse"}>
+          <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>
+            {window.$i18n("common.submit")}
+          </NButton>
+        </div>
       </NForm>
     </>
   )
 }
 
-export default ThreadForm
+export default ReplyForm

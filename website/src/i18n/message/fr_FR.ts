@@ -87,6 +87,12 @@ export default {
         message: "Veuillez saisir le contenu",
       },
     },
+    replyForm: {
+      replyForm: {
+        label: "Répondre",
+        message: "Veuillez saisir le contenu",
+      },
+    },
   },
   common: {
     submit: "Soumettre",

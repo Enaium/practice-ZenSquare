@@ -33,20 +33,36 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 /**
+ * forum controller
+ *
  * @author Enaium
  */
 @RestController
 class ForumController(val forumRepository: ForumRepository) {
+
+    /**
+     * Get forum by id
+     *
+     * @param id forum id
+     */
     @GetMapping("/categories/forums/{id}")
     fun findForum(@PathVariable id: UUID) = forumRepository.findById(id)
 
+    /**
+     * Get forums by category id
+     *
+     * @param categoryId category id
+     * @param page page
+     * @param size size
+     * @return Page<Forum>
+     */
     @GetMapping("/categories/{categoryId}/forums")
     fun findForums(
         @PathVariable categoryId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
     ): Page<@FetchBy("DEFAULT_FORUM") Forum> {
-        return forumRepository.findAllByCategoryId(categoryId, DEFAULT_FORUM, PageRequest.of(page, size))
+        return forumRepository.findAllByCategoryId(PageRequest.of(page, size), categoryId, DEFAULT_FORUM)
     }
 
     companion object {

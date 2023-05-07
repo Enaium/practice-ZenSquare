@@ -9,7 +9,7 @@ export class ThreadController {
     async findComplexThreads(options: ThreadControllerOptions['findComplexThreads']): Promise<
         Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     > {
-        let _uri = '/categories/forums/threads';
+        let _uri = '/categories/forums/threads/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.threadInput.content;
@@ -40,13 +40,6 @@ export class ThreadController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        _value = options.threadInput.replyTime;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'replyTime='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
         _value = options.threadInput.title;
         if (_value !== undefined && _value !== null) {
             _uri += _separator
@@ -69,6 +62,15 @@ export class ThreadController {
             _separator = '&';
         }
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+    }
+    
+    async findThread(options: ThreadControllerOptions['findThread']): Promise<
+        ThreadDto['ThreadController/FULL_THREAD'] | undefined
+    > {
+        let _uri = '/categories/forums/threads/';
+        _uri += encodeURIComponent(options.id);
+        _uri += '/';
+        return (await this.executor({uri: _uri, method: 'GET'})) as ThreadDto['ThreadController/FULL_THREAD'] | undefined
     }
     
     async findThreads(options: ThreadControllerOptions['findThreads']): Promise<
@@ -110,6 +112,7 @@ export type ThreadControllerOptions = {
         readonly size?: number, 
         readonly threadInput: ThreadInput
     },
+    'findThread': {readonly id: string},
     'findThreads': {
         readonly forumId: string, 
         readonly page?: number, 

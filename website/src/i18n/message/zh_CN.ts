@@ -87,6 +87,12 @@ export default {
         message: "请输入内容",
       },
     },
+    replyForm: {
+      reply: {
+        label: "回复",
+        message: "请输入回复",
+      },
+    },
   },
   common: {
     submit: "提交",

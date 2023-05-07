@@ -18,25 +18,25 @@
  */
 
 import { createRouter, createWebHistory } from "vue-router"
-import Home from "@/layouts/Home"
-import Forums from "@/views/Forums"
+import HomeLayout from "@/layouts/HomeLayout"
+import Home from "@/views/Home"
 import WhatsNew from "@/views/WhatsNew"
 import Members from "@/views/Members"
-import Threads from "@/views/Threads"
+import Forums from "@/views/Forums"
 import PostThread from "@/views/PostThread"
+import Threads from "@/views/Threads"
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
-      component: <Home />,
-      redirect: { name: "forums" },
+      component: <HomeLayout />,
       children: [
         {
-          path: "forums",
-          name: "forums",
-          component: <Forums />,
+          path: "",
+          name: "home",
+          component: <Home />,
         },
         {
           path: "whats-new",
@@ -49,14 +49,19 @@ const router = createRouter({
           component: <Members />,
         },
         {
-          path: "threads/:forum",
-          name: "threads",
-          component: <Threads />,
+          path: "forums/:forum",
+          name: "forums",
+          component: <Forums />,
         },
         {
-          path: "threads/:forum/post-thread",
+          path: "forums/:forum/threads",
           name: "post-thread",
           component: <PostThread />,
+        },
+        {
+          path: "forums/threads/:thread",
+          name: "threads",
+          component: <Threads />,
         },
       ],
     },

@@ -23,9 +23,9 @@ import { RouterLink, useRoute } from "vue-router"
 const menuOptions: MenuOption[] = [
   {
     label: () => {
-      return <RouterLink to={{ name: "forums" }}>{window.$i18n("component.menu.forums")}</RouterLink>
+      return <RouterLink to={{ name: "home" }}>{window.$i18n("component.menu.forums")}</RouterLink>
     },
-    key: "forums",
+    key: "home",
   },
   {
     label: () => {

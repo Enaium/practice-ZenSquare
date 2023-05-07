@@ -44,9 +44,12 @@ interface Reply : BaseEntity {
     @ManyToOne
     val thread: Thread
 
+    @ManyToOne
+    val parent: Reply?
+
     /**
      * self join
      */
-    @OneToMany(mappedBy = "parentId", orderedProps = [OrderedProp("crateTime")])
+    @OneToMany(mappedBy = "parent", orderedProps = [OrderedProp("crateTime")])
     val children: List<Reply>
 }

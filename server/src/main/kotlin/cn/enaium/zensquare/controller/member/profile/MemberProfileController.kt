@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
- * Member profile controller
+ * member profile controller
  *
  * @author Enaium
  */

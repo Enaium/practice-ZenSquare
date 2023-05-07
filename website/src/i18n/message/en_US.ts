@@ -87,6 +87,12 @@ export default {
         message: "Please input content",
       },
     },
+    replyForm: {
+      reply: {
+        label: "Reply",
+        message: "Please input reply",
+      },
+    },
   },
   common: {
     submit: "Submit",

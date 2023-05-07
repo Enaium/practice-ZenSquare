@@ -20,12 +20,17 @@
 package cn.enaium.zensquare.controller.category.forum.thread.reply
 
 import cn.enaium.zensquare.bll.service.ReplyService
+import cn.enaium.zensquare.model.entity.Reply
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.ReplyInput
+import cn.enaium.zensquare.repository.ReplyRepository
+import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import java.util.*
 
 /**
  * reply controller
@@ -34,16 +39,50 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 class ReplyController(
-    val replyService: ReplyService
+    val replyService: ReplyService,
+    val replyRepository: ReplyRepository
 ) {
+    /**
+     * Get replies by thread id
+     *
+     * @param threadId thread id
+     * @param page page
+     * @param size size
+     * @return Page<Reply>
+     */
+    @GetMapping("/categories/forum/thread/{threadId}/replies")
+    fun findReplies(
+        @PathVariable threadId: UUID,
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10
+    ): Page<@FetchBy("FULL_REPLY") Reply> {
+        return replyRepository.findAllByThreadId(PageRequest.of(page, size), threadId, FULL_REPLY)
+    }
+
     /**
      * Reply to a thread or reply
      *
      * @param replyInput
      */
-    @PutMapping("/categories/forum/thread/reply")
+    @PutMapping("/categories/forum/thread/replies")
     @ResponseStatus(HttpStatus.OK)
     fun saveReply(@RequestBody replyInput: ReplyInput) {
-        replyService.reply(replyInput)
+        replyService.saveReply(replyInput)
+    }
+
+    companion object {
+        val FULL_REPLY = newFetcher(Reply::class).by {
+            allScalarFields()
+            member {
+                profile {
+                    allScalarFields()
+                    nickname()
+                    avatar()
+                    role {
+                        name()
+                    }
+                }
+            }
+        }
     }
 }
