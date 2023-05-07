@@ -30,7 +30,7 @@ const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
   const submit = () => {
     formRef.value?.validate((errors) => {
       if (!errors) {
-        api.threadController.saveThread({ threadInput: { ...form, forumId: forum } }).then(() => {
+        api.threadController.saveThread({ body: { ...form, forumId: forum } }).then(() => {
           window.$message.success(window.$i18n("common.success"))
         })
       }

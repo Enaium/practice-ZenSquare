@@ -19,12 +19,15 @@
 
 import { useRoute } from "vue-router"
 import ThreadList from "@/components/ThreadList.tsx"
+import { NCard } from "naive-ui"
 
 const Threads = () => {
   const route = useRoute()
   return (
     <>
-      <ThreadList forum={route.params.forum as string} />
+      <NCard>
+        <ThreadList forum={route.params.forum as string} />
+      </NCard>
     </>
   )
 }

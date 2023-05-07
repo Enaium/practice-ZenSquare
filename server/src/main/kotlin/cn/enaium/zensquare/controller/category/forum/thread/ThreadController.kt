@@ -77,13 +77,13 @@ class ThreadController(
     }
 
     /**
-     * Create a thread
+     * Create thread or update thread
      *
      * @param threadInput thread input
      */
     @PutMapping("/categories/forums/threads/")
     @ResponseStatus(HttpStatus.OK)
-    fun saveThread(threadInput: ThreadInput) {
+    fun saveThread(@RequestBody threadInput: ThreadInput) {
         threadInput.memberId = getSession()
         threadRepository.save(threadInput)
     }
@@ -92,6 +92,12 @@ class ThreadController(
         val DEFAULT_THREAD = newFetcher(Thread::class).by {
             allScalarFields()
             content(false)
+            member {
+                profile {
+                    nickname()
+                    avatar()
+                }
+            }
         }
     }
 }

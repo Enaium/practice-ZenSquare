@@ -40,7 +40,7 @@ const ForumList = defineComponent({
 
     return () => (
       <>
-        <NList>
+        <NList bordered>
           {data.value?.content.map((forum, index) => {
             return (
               <NListItem key={index}>

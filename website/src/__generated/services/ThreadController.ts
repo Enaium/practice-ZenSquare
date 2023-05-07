@@ -100,51 +100,7 @@ export class ThreadController {
         Unit
     > {
         let _uri = '/categories/forums/threads/';
-        let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
-        let _value: any = undefined;
-        _value = options.threadInput.content;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'content='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.threadInput.forumId;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'forumId='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.threadInput.id;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'id='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.threadInput.memberId;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'memberId='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.threadInput.replyTime;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'replyTime='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.threadInput.title;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'title='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        return (await this.executor({uri: _uri, method: 'PUT'})) as Unit
+        return (await this.executor({uri: _uri, method: 'PUT', body: options.body})) as Unit
     }
 }
 
@@ -159,5 +115,5 @@ export type ThreadControllerOptions = {
         readonly page?: number, 
         readonly size?: number
     },
-    'saveThread': {readonly threadInput: ThreadInput}
+    'saveThread': {readonly body: ThreadInput}
 }

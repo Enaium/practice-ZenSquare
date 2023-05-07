@@ -21,7 +21,9 @@ import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
 import { RequestOf } from "@/__generated"
-import { NList, NListItem } from "naive-ui"
+import { NList, NListItem, NTime } from "naive-ui"
+import Avatar from "@/components/Avatar.tsx"
+import dayjs from "dayjs"
 
 const ThreadList = defineComponent({
   props: {
@@ -35,9 +37,34 @@ const ThreadList = defineComponent({
     })
     return () => (
       <>
-        <NList>
+        <NList bordered>
           {data.value?.content.map((thread, index) => (
-            <NListItem key={index}>{thread.title}</NListItem>
+            <NListItem key={index}>
+              <div class={"flex justify-between"}>
+                {/*left*/}
+                <div class={"flex"}>
+                  <Avatar id={thread.member.profile?.avatar} size={48} bordered round />
+                  <div class={"flex flex-col justify-between"}>
+                    <div>{thread.title}</div>
+                    <div>
+                      <span>{thread.member.profile?.nickname}</span>
+                      <NTime time={new Date()} to={dayjs(thread.modifiedTime).toDate()} type={"relative"} />
+                    </div>
+                  </div>
+                </div>
+                {/*right*/}
+                <div class={"w-24"}>
+                  <div class={"flex justify-between"}>
+                    <span>Replies:</span>
+                    <span>0</span>
+                  </div>
+                  <div class={"flex justify-between"}>
+                    <span>Views:</span>
+                    <span>0</span>
+                  </div>
+                </div>
+              </div>
+            </NListItem>
           ))}
         </NList>
       </>
