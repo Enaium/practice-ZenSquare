@@ -32,7 +32,7 @@ data class ThreadInput(
     val id: UUID?,
     val title: String?,
     val content: String?,
-    val memberId: UUID?,
+    var memberId: UUID?,
     val forumId: UUID?,
     val replyTime: LocalDateTime?
 ) : Input<Thread> {

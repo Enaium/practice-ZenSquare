@@ -47,13 +47,6 @@ export class ThreadController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        _value = options.threadInput.threadTypeId;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'threadTypeId='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
         _value = options.threadInput.title;
         if (_value !== undefined && _value !== null) {
             _uri += _separator
@@ -141,13 +134,6 @@ export class ThreadController {
         if (_value !== undefined && _value !== null) {
             _uri += _separator
             _uri += 'replyTime='
-            _uri += encodeURIComponent(_value);
-            _separator = '&';
-        }
-        _value = options.threadInput.threadTypeId;
-        if (_value !== undefined && _value !== null) {
-            _uri += _separator
-            _uri += 'threadTypeId='
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }

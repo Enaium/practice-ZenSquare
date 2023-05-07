@@ -10,7 +10,5 @@ export interface ThreadInput {
     
     readonly replyTime?: string;
     
-    readonly threadTypeId?: string;
-    
     readonly title?: string;
 }

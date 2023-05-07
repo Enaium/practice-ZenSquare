@@ -36,7 +36,7 @@ class MemberController(val memberService: MemberService) {
      */
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun save(@RequestBody memberInput: MemberInput) {
+    fun saveMember(@RequestBody memberInput: MemberInput) {
         memberService.register(memberInput)
     }
 }

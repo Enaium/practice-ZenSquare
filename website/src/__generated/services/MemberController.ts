@@ -5,7 +5,7 @@ export class MemberController {
     
     constructor(private executor: Executor) {}
     
-    async save(options: MemberControllerOptions['save']): Promise<
+    async saveMember(options: MemberControllerOptions['saveMember']): Promise<
         Unit
     > {
         let _uri = '/members/';
@@ -14,5 +14,5 @@ export class MemberController {
 }
 
 export type MemberControllerOptions = {
-    'save': {readonly body: MemberInput}
+    'saveMember': {readonly body: MemberInput}
 }

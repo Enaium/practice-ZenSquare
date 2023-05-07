@@ -31,7 +31,7 @@ const Register: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess })
     formRef.value?.validate((errors) => {
       if (!errors) {
         api.memberController
-          .put({ body: form })
+          .saveMember({ body: form })
           .then(() => {
             message.success(window.$i18n("view.register.success"))
             onSuccess()

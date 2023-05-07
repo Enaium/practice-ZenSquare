@@ -23,6 +23,7 @@ import cn.enaium.zensquare.model.entity.Thread
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.ThreadInput
 import cn.enaium.zensquare.repository.ThreadRepository
+import cn.enaium.zensquare.util.getSession
 import org.babyfish.jimmer.client.FetchBy
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
@@ -83,7 +84,8 @@ class ThreadController(
     @PutMapping("/categories/forums/threads/")
     @ResponseStatus(HttpStatus.OK)
     fun saveThread(threadInput: ThreadInput) {
-//        threadRepository.save(threadInput)
+        threadInput.memberId = getSession()
+        threadRepository.save(threadInput)
     }
 
     companion object {

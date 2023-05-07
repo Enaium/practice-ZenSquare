@@ -43,7 +43,7 @@ class SessionController(
      * Login
      */
     @PutMapping
-    fun save(@RequestBody memberInput: MemberInput): LoginResponse {
+    fun saveSession(@RequestBody memberInput: MemberInput): LoginResponse {
         return sessionService.login(memberInput)
     }
 
@@ -54,7 +54,7 @@ class SessionController(
      */
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun delete(@PathVariable id: UUID) {
+    fun deleteSession(@PathVariable id: UUID) {
         if (checkOwner(id)) {
             sessionService.logout(id)
         }

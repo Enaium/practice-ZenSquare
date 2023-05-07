@@ -43,7 +43,7 @@ class ReplyController(
      */
     @PutMapping("/categories/forum/thread/reply")
     @ResponseStatus(HttpStatus.OK)
-    fun save(@RequestBody replyInput: ReplyInput) {
+    fun saveReply(@RequestBody replyInput: ReplyInput) {
         replyService.reply(replyInput)
     }
 }

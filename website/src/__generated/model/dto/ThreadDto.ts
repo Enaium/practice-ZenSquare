@@ -6,7 +6,6 @@ export type ThreadDto = {
         readonly title: string, 
         readonly memberId?: string, 
         readonly forumId?: string, 
-        readonly replyTime: string, 
-        readonly threadTypeId: string
+        readonly replyTime: string
     }
 }

@@ -5,7 +5,7 @@ export class SessionController {
     
     constructor(private executor: Executor) {}
     
-    async delete(options: SessionControllerOptions['delete']): Promise<
+    async deleteSession(options: SessionControllerOptions['deleteSession']): Promise<
         Unit
     > {
         let _uri = '/sessions/';
@@ -13,7 +13,7 @@ export class SessionController {
         return (await this.executor({uri: _uri, method: 'DELETE'})) as Unit
     }
     
-    async save(options: SessionControllerOptions['save']): Promise<
+    async saveSession(options: SessionControllerOptions['saveSession']): Promise<
         LoginResponse
     > {
         let _uri = '/sessions/';
@@ -22,6 +22,6 @@ export class SessionController {
 }
 
 export type SessionControllerOptions = {
-    'delete': {readonly id: string},
-    'save': {readonly body: MemberInput}
+    'deleteSession': {readonly id: string},
+    'saveSession': {readonly body: MemberInput}
 }

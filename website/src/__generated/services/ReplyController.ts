@@ -5,7 +5,7 @@ export class ReplyController {
     
     constructor(private executor: Executor) {}
     
-    async save(options: ReplyControllerOptions['save']): Promise<
+    async saveReply(options: ReplyControllerOptions['saveReply']): Promise<
         Unit
     > {
         let _uri = '/categories/forum/thread/reply';
@@ -14,5 +14,5 @@ export class ReplyController {
 }
 
 export type ReplyControllerOptions = {
-    'save': {readonly body: ReplyInput}
+    'saveReply': {readonly body: ReplyInput}
 }
