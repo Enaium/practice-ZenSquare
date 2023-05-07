@@ -24,6 +24,7 @@ import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.ThreadRepository
 import org.babyfish.jimmer.client.FetchBy
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -37,7 +38,7 @@ import java.util.*
 class ForumController(
     val threadRepository: ThreadRepository
 ) {
-    @RequestMapping("{id}/threads")
+    @GetMapping("{id}/threads")
     fun threads(@PathVariable id: UUID): List<@FetchBy("DEFAULT_THREAD") Thread> {
         return threadRepository.findAllByForumId(id, DEFAULT_THREAD)
     }

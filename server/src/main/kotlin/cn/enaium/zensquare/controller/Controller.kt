@@ -37,6 +37,12 @@ import org.springframework.web.bind.annotation.RestController
 class Controller(
     val categoryRepository: CategoryRepository
 ) {
+
+    /**
+     * Get all categories
+     *
+     * @return
+     */
     @SaIgnore
     @GetMapping("categories")
     fun categories(): List<@FetchBy("DEFAULT_CATEGORY") Category> {

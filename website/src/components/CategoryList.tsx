@@ -26,7 +26,7 @@ import ForumList from "@/components/ForumList.tsx"
 const CategoryList = defineComponent({
   setup() {
     const { data } = useQuery({
-      queryKey: ["forums"],
+      queryKey: ["categoryList"],
       queryFn: () => api.controller.categories(),
     })
 
