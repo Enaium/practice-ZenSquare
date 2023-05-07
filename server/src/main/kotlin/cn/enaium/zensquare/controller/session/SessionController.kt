@@ -52,7 +52,7 @@ class SessionController(
      *
      * @param id Member
      */
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}/")
     @ResponseStatus(HttpStatus.OK)
     fun deleteSession(@PathVariable id: UUID) {
         if (checkOwner(id)) {

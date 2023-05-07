@@ -47,7 +47,7 @@ class CategoryController(
      * @param id category id
      * @return Category
      */
-    @GetMapping("{id}")
+    @GetMapping("{id}/")
     fun findCategory(@PathVariable id: UUID): Category? {
         return categoryRepository.findNullable(id)
     }

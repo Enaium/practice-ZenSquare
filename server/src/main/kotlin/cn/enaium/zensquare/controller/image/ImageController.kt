@@ -44,7 +44,7 @@ class ImageController(
      * @param id image id
      */
     @SaIgnore
-    @GetMapping("{id}")
+    @GetMapping("{id}/")
     fun findImage(@PathVariable id: UUID, httpServletResponse: HttpServletResponse) {
         httpServletResponse.contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE
         httpServletResponse.outputStream.write(imageService.find(id))
