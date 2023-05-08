@@ -34,6 +34,7 @@ export class CategoryController {
     > {
         let _uri = '/categories/';
         _uri += encodeURIComponent(options.id);
+        _uri += '/';
         return (await this.executor({uri: _uri, method: 'GET'})) as CategoryDto['DEFAULT'] | undefined
     }
 }

@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller.category.forum.thread.reply
 
+import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.bll.service.ReplyService
 import cn.enaium.zensquare.model.entity.Reply
 import cn.enaium.zensquare.model.entity.by
@@ -50,6 +51,7 @@ class ReplyController(
      * @param size size
      * @return Page<Reply>
      */
+    @SaIgnore
     @GetMapping("/categories/forum/thread/{threadId}/replies/")
     fun findReplies(
         @PathVariable threadId: UUID,

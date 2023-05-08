@@ -48,6 +48,7 @@ class ThreadController(
      * @param id
      * @return
      */
+    @SaIgnore
     @GetMapping("/categories/forums/threads/{id}/")
     fun findThread(@PathVariable id: UUID): @FetchBy("FULL_THREAD") Thread? {
         return threadRepository.findNullable(id, FULL_THREAD)

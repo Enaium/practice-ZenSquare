@@ -28,7 +28,6 @@ import cn.enaium.zensquare.repository.MemberRepository
 import cn.enaium.zensquare.util.createSession
 import cn.enaium.zensquare.util.deleteSession
 import cn.enaium.zensquare.util.i18n
-import org.babyfish.jimmer.sql.ast.mutation.SaveMode
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service

@@ -10,6 +10,7 @@ export class ImageController {
     > {
         let _uri = '/images/';
         _uri += encodeURIComponent(options.id);
+        _uri += '/';
         return (await this.executor({uri: _uri, method: 'GET'})) as Unit
     }
     

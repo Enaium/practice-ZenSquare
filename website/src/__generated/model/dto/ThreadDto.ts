@@ -13,6 +13,15 @@ export type ThreadDto = {
                 readonly nickname?: string, 
                 readonly avatar?: string
             }
+        }, 
+        readonly lastReplyTime?: string, 
+        readonly lastReplyMember?: {
+            readonly id: string, 
+            readonly profile?: {
+                readonly id: string, 
+                readonly nickname?: string, 
+                readonly avatar?: string
+            }
         }
     }, 
     'ThreadController/FULL_THREAD': {
@@ -50,6 +59,15 @@ export type ThreadDto = {
                 readonly modifiedTime: string, 
                 readonly name: string, 
                 readonly description: string
+            }
+        }, 
+        readonly lastReplyTime?: string, 
+        readonly lastReplyMember?: {
+            readonly id: string, 
+            readonly profile?: {
+                readonly id: string, 
+                readonly nickname?: string, 
+                readonly avatar?: string
             }
         }
     }

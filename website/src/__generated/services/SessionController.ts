@@ -10,6 +10,7 @@ export class SessionController {
     > {
         let _uri = '/sessions/';
         _uri += encodeURIComponent(options.id);
+        _uri += '/';
         return (await this.executor({uri: _uri, method: 'DELETE'})) as Unit
     }
     

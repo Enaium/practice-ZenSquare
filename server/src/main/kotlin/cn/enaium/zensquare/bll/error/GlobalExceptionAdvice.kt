@@ -19,6 +19,9 @@
 
 package cn.enaium.zensquare.bll.error
 
+import cn.dev33.satoken.exception.NotLoginException
+import cn.enaium.zensquare.util.i18n
+import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -30,13 +33,16 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
  * @author Enaium
  */
 @ControllerAdvice
-class GlobalExceptionAdvice {
+class GlobalExceptionAdvice(val messageSource: MessageSource) {
     @ExceptionHandler(Exception::class)
     @ResponseBody
     fun service(e: Exception): ResponseEntity<String> {
         return when (e) {
             is ServiceException -> ResponseEntity.status(e.httpStatus).body(e.message)
             is MethodArgumentTypeMismatchException -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
+            is NotLoginException -> ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(messageSource.i18n("error.unauthorized"))
+
             else -> {
                 e.printStackTrace()
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("")

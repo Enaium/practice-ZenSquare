@@ -46,6 +46,7 @@ class ForumController(val forumRepository: ForumRepository) {
      *
      * @param id forum id
      */
+    @SaIgnore
     @GetMapping("/categories/forums/{id}/")
     fun findForum(@PathVariable id: UUID): @FetchBy("DEFAULT_FORUM") Forum? =
         forumRepository.findNullable(id, DEFAULT_FORUM)
