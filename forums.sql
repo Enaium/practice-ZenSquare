@@ -142,6 +142,22 @@ CREATE TABLE forums.member (
 ALTER TABLE forums.member OWNER TO postgres;
 
 --
+-- Name: member_like; Type: TABLE; Schema: forums; Owner: postgres
+--
+
+CREATE TABLE forums.member_like (
+    disabled boolean DEFAULT false NOT NULL,
+    created_time timestamp without time zone NOT NULL,
+    modified_time timestamp without time zone NOT NULL,
+    id uuid NOT NULL,
+    member_id uuid NOT NULL,
+    target uuid NOT NULL
+);
+
+
+ALTER TABLE forums.member_like OWNER TO postgres;
+
+--
 -- Name: member_profile; Type: TABLE; Schema: forums; Owner: postgres
 --
 
@@ -344,11 +360,19 @@ f	2023-05-04 19:47:14.181918	2023-05-04 19:47:14.180898	0cee6d54-c445-4fff-9c04-
 
 
 --
+-- Data for Name: member_like; Type: TABLE DATA; Schema: forums; Owner: postgres
+--
+
+COPY forums.member_like (disabled, created_time, modified_time, id, member_id, target) FROM stdin;
+\.
+
+
+--
 -- Data for Name: member_profile; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
 COPY forums.member_profile (deleted, created_time, modified_time, id, member_id, nickname, birthday, location, website, description, github, bilibili, email, role_id, avatar) FROM stdin;
-f	2023-05-05 15:43:31.003228	2023-05-05 15:43:31.002716	09686101-fc02-4e64-ac2e-b120ca98a3dd	5b36da4a-80ab-494d-b7b0-8c548b8adebe	Enaium	\N	\N	\N	\N	\N	\N	\N	8ef8b336-d2e3-4808-86a3-a8344d4c355b	\N
+f	2023-05-05 15:43:31.003228	2023-05-05 15:43:31.002716	09686101-fc02-4e64-ac2e-b120ca98a3dd	5b36da4a-80ab-494d-b7b0-8c548b8adebe	Enaium	\N	\N	\N	\N	\N	\N	\N	3b4d9552-879b-450e-afaf-6e17c1a74875	\N
 \.
 
 
@@ -357,14 +381,14 @@ f	2023-05-05 15:43:31.003228	2023-05-05 15:43:31.002716	09686101-fc02-4e64-ac2e-
 --
 
 COPY forums.permission (deleted, created_time, modified_time, id, name, description) FROM stdin;
-f	2023-05-04 05:53:25.754451	2023-05-04 05:53:25.754451	3d8333d9-0ae1-4503-ab38-aac4568cd0bf	recycle-post	Recycle a post
 f	2023-05-04 05:53:33.585438	2023-05-04 05:53:33.585438	94b1b81e-a4ca-4441-a021-cf86cdb42c83	recycle-reply	Recycle a reply
 f	2023-05-04 06:03:03.710807	2023-05-04 06:03:03.710807	0fcbc615-2f8e-4053-9db3-a4ff8c0d49a0	put-category	Create a new category or edit a category
 f	2023-05-04 05:50:44.331411	2023-05-04 05:50:44.331411	d85486b4-b9ed-4204-b9bc-42d73be198fb	put-reply	Publish a new reply or edit a reply
-f	2023-05-04 06:09:01.250691	2023-05-04 06:09:01.250691	6e425eb0-a863-4c76-9c94-ad8294f54081	recycle-thread	Recycle a thread
 f	2023-05-04 06:09:10.526066	2023-05-04 06:09:10.526066	169f4365-99b6-4587-aac4-44bb43e3030b	recycle-category	Recycle a category
 f	2023-05-04 06:02:29.385676	2023-05-04 06:02:29.385676	91d04c2b-6d23-4852-b8ac-45e0e6fcfead	put-forum	Create a new forum or edit a forum
 f	2023-05-04 05:42:53.382359	2023-05-04 05:42:53.382359	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4	put-thread	Publish a new thread or edit a thread
+f	2023-05-04 06:09:01.250691	2023-05-04 06:09:01.250691	6e425eb0-a863-4c76-9c94-ad8294f54081	recycle-forum	Recycle a forum
+f	2023-05-04 05:53:25.754451	2023-05-04 05:53:25.754451	3d8333d9-0ae1-4503-ab38-aac4568cd0bf	recycle-thread	Recycle a thread
 \.
 
 
@@ -375,6 +399,22 @@ f	2023-05-04 05:42:53.382359	2023-05-04 05:42:53.382359	34706b4b-4f5c-4875-bcaa-
 COPY forums.reply (deleted, created_time, modified_time, id, content, member_id, thread_id, parent_id) FROM stdin;
 f	2023-05-07 16:39:31.804297	2023-05-07 16:39:31.804297	af5a1841-7ed5-4d6c-83f4-6e99478559f9	Congratulations for new forum!\n\nI wish luck to ZenSquare.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
 f	2023-05-07 17:14:51.697343	2023-05-07 17:14:51.696827	26a271e7-f487-403e-a123-c8811a72a0c9	👍	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
+f	2023-05-08 14:47:49.991115	2023-05-08 14:47:49.990082	a5dc8021-7d8d-48c5-b0e3-737001e9287b	1	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:47:52.224806	2023-05-08 14:47:52.224806	b981a8c0-0d02-4494-b736-a9f0e926ea8f	2	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:47:53.786742	2023-05-08 14:47:53.786742	8505d583-817f-4a48-8a83-eca3f1e54179	3	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:47:56.276291	2023-05-08 14:47:56.276291	797e1d54-38ad-41c1-9118-957829209c7b	4	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:47:57.910616	2023-05-08 14:47:57.910616	0231e5cc-c620-42b0-94b2-7dad247475ca	5	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:47:59.905599	2023-05-08 14:47:59.905599	2980b120-a177-410b-a29a-ee251dbb150a	6	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:01.309407	2023-05-08 14:48:01.309407	ae5aa60c-5887-4d2c-b4dd-05b3861656ff	7	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:03.36059	2023-05-08 14:48:03.36059	470a8992-efe3-4a2e-85ba-bb97af53eac2	8	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:05.703788	2023-05-08 14:48:05.703788	2e2d60b8-de05-434e-a10a-67f9c8b2102f	9	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:08.175276	2023-05-08 14:48:08.175276	4e6221e1-6256-4f37-bb59-b3165cfa370a	10	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:11.100403	2023-05-08 14:48:11.100403	9b20f062-98d8-4133-875f-77c83e51d7c2	11	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:12.665443	2023-05-08 14:48:12.665443	e2fe980e-8365-43f8-a982-cf9a473935be	12	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:14.131259	2023-05-08 14:48:14.131259	b8cec871-0dd4-45bb-a953-c3f9f8bb44be	13	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:48:16.009338	2023-05-08 14:48:16.009338	38ab859a-c38f-49ba-a12a-3b12fd44f508	14	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 14:49:19.022158	2023-05-08 14:49:19.022158	aaa7856c-20e7-4149-9fc2-c647a6344f07	15	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
+f	2023-05-08 15:01:30.267165	2023-05-08 15:01:30.267165	655f8aae-8c69-4b4f-9775-912e14df5160	16	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
 \.
 
 
@@ -399,11 +439,11 @@ COPY forums.report_type (deleted, created_time, modified_time, id, name, descrip
 --
 
 COPY forums.role (deleted, created_time, modified_time, id, name, description) FROM stdin;
-f	2023-05-04 05:00:51.939287	2023-05-04 05:00:51.939287	3b4d9552-879b-450e-afaf-6e17c1a74875	admin	Manage all content
-f	2023-05-04 05:15:47.612685	2023-05-04 05:15:47.612685	59ed7c97-e236-42d3-9b4c-25674c89c7d1	post-manager	Manage all post and its junior
-f	2023-05-04 05:14:20.690088	2023-05-04 05:14:20.690088	6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	thread-manager	Manage all thread and its junior
 f	2023-05-04 05:04:48.925108	2023-05-04 05:04:48.925108	fe1f2744-9d6c-47d4-aef1-0898ba822bc6	category-manager	Manage all category and its junior
 f	2023-05-04 05:39:17.825175	2023-05-04 05:39:17.825175	8ef8b336-d2e3-4808-86a3-a8344d4c355b	general	General role
+f	2023-05-04 05:00:51.939287	2023-05-04 05:00:51.939287	3b4d9552-879b-450e-afaf-6e17c1a74875	administrator	Manage all content
+f	2023-05-04 05:14:20.690088	2023-05-04 05:14:20.690088	6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	forum-manager	Manage all forum and its junior
+f	2023-05-04 05:15:47.612685	2023-05-04 05:15:47.612685	59ed7c97-e236-42d3-9b4c-25674c89c7d1	thread-manager	Manage all thread and its junior
 \.
 
 
@@ -418,6 +458,28 @@ COPY forums.role_permission_mapping (role_id, permission_id) FROM stdin;
 59ed7c97-e236-42d3-9b4c-25674c89c7d1	d85486b4-b9ed-4204-b9bc-42d73be198fb
 59ed7c97-e236-42d3-9b4c-25674c89c7d1	3d8333d9-0ae1-4503-ab38-aac4568cd0bf
 59ed7c97-e236-42d3-9b4c-25674c89c7d1	94b1b81e-a4ca-4441-a021-cf86cdb42c83
+6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
+6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	d85486b4-b9ed-4204-b9bc-42d73be198fb
+6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	3d8333d9-0ae1-4503-ab38-aac4568cd0bf
+6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	94b1b81e-a4ca-4441-a021-cf86cdb42c83
+6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	91d04c2b-6d23-4852-b8ac-45e0e6fcfead
+6b644f5a-7fd2-4fbb-9cc1-c5bd5e8bae19	6e425eb0-a863-4c76-9c94-ad8294f54081
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	d85486b4-b9ed-4204-b9bc-42d73be198fb
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	3d8333d9-0ae1-4503-ab38-aac4568cd0bf
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	94b1b81e-a4ca-4441-a021-cf86cdb42c83
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	91d04c2b-6d23-4852-b8ac-45e0e6fcfead
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	6e425eb0-a863-4c76-9c94-ad8294f54081
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	0fcbc615-2f8e-4053-9db3-a4ff8c0d49a0
+fe1f2744-9d6c-47d4-aef1-0898ba822bc6	169f4365-99b6-4587-aac4-44bb43e3030b
+3b4d9552-879b-450e-afaf-6e17c1a74875	34706b4b-4f5c-4875-bcaa-e8f4b80f87b4
+3b4d9552-879b-450e-afaf-6e17c1a74875	d85486b4-b9ed-4204-b9bc-42d73be198fb
+3b4d9552-879b-450e-afaf-6e17c1a74875	3d8333d9-0ae1-4503-ab38-aac4568cd0bf
+3b4d9552-879b-450e-afaf-6e17c1a74875	94b1b81e-a4ca-4441-a021-cf86cdb42c83
+3b4d9552-879b-450e-afaf-6e17c1a74875	91d04c2b-6d23-4852-b8ac-45e0e6fcfead
+3b4d9552-879b-450e-afaf-6e17c1a74875	6e425eb0-a863-4c76-9c94-ad8294f54081
+3b4d9552-879b-450e-afaf-6e17c1a74875	0fcbc615-2f8e-4053-9db3-a4ff8c0d49a0
+3b4d9552-879b-450e-afaf-6e17c1a74875	169f4365-99b6-4587-aac4-44bb43e3030b
 \.
 
 
@@ -427,6 +489,7 @@ COPY forums.role_permission_mapping (role_id, permission_id) FROM stdin;
 
 COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id) FROM stdin;
 f	2023-05-07 11:30:13.115439	2023-05-07 11:30:13.115439	b692ea79-12a8-4e10-aad1-9a35d76bc561	Welcome to ZenSquare	Welcome to ZenSquare! This is the community forum space for our open source community - here we ask questions, give answers and talk about everything related to our projects.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6
+f	2023-05-08 10:57:12.724329	2023-05-08 10:57:12.723818	2748fe13-42e4-42fb-aee2-ed795834ab94	Test	Test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a
 \.
 
 
@@ -460,6 +523,14 @@ ALTER TABLE ONLY forums.category
 
 ALTER TABLE ONLY forums.image
     ADD CONSTRAINT image_pk PRIMARY KEY (id);
+
+
+--
+-- Name: member_like member_like_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
+--
+
+ALTER TABLE ONLY forums.member_like
+    ADD CONSTRAINT member_like_pk PRIMARY KEY (id);
 
 
 --
@@ -596,6 +667,14 @@ ALTER TABLE ONLY forums.follow_mapping
 
 ALTER TABLE ONLY forums.follow_mapping
     ADD CONSTRAINT member_follow_member_id_fk2 FOREIGN KEY (following_id) REFERENCES forums.member(id);
+
+
+--
+-- Name: member_like member_like_member_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+--
+
+ALTER TABLE ONLY forums.member_like
+    ADD CONSTRAINT member_like_member_id_fk FOREIGN KEY (member_id) REFERENCES forums.member(id);
 
 
 --
