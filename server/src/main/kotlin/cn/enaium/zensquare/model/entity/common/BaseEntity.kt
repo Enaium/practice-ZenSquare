@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.model.entity.common
 
+import org.babyfish.jimmer.sql.LogicalDeleted
 import org.babyfish.jimmer.sql.MappedSuperclass
 import java.time.LocalDateTime
 
@@ -27,6 +28,9 @@ import java.time.LocalDateTime
  */
 @MappedSuperclass
 interface BaseEntity {
+//    @LogicalDeleted("true", restoredValue = "false")
+//    val deleted: Boolean
+
     val createdTime: LocalDateTime
 
     val modifiedTime: LocalDateTime
