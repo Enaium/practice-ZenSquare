@@ -23,7 +23,6 @@ import { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance.ts"
 import { useQuery } from "@tanstack/vue-query"
 import { NButton, NGrid, NGridItem, NPopconfirm, NSpin, NTag, useMessage } from "naive-ui"
-import { MemberProfileDto } from "@/__generated/model/dto"
 import Avatar from "@/components/Avatar"
 
 const VisitorMenu = defineComponent({
@@ -39,23 +38,21 @@ const VisitorMenu = defineComponent({
       queryFn: () => api.memberProfileController.findProfile(options),
     })
 
-    const profile = reactive(data.value ?? ({} as MemberProfileDto["MemberProfileController/DEFAULT_MEMBER_PROFILE"]))
-
     return () => (
       <>
-        {isLoading.value ? (
+        {isLoading.value || !data.value ? (
           <NSpin />
         ) : (
           <>
             <div class={"flex gap-5"}>
-              <Avatar id={profile.avatar} size={128} round bordered />
+              <Avatar id={data.value.avatar} size={128} round bordered />
               <div class={"flex flex-col w-32"}>
                 <NButton text class={"text-left"}>
-                  <h3>{profile.nickname}</h3>
+                  <h3>{data.value.nickname}</h3>
                 </NButton>
                 <div class={"flex justify-between"}>
                   <div>{window.$i18n("view.visitorMenu.role")}:</div>
-                  <NTag type={"primary"}>{profile.role.name}</NTag>
+                  <NTag type={"primary"}>{data.value.role.name}</NTag>
                 </div>
                 <div class={"flex justify-between"}>
                   <div>{window.$i18n("view.visitorMenu.thread")}:</div>

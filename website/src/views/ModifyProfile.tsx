@@ -24,7 +24,7 @@ import { api } from "@/common/ApiInstance.ts"
 import { useSessionStore } from "@/store"
 import { RequestOf } from "@/__generated"
 import { MemberProfileDto } from "@/__generated/model/dto"
-import Avatar from "@/components/Avatar.tsx"
+import Avatar from "@/components/Avatar"
 
 const ModifyProfile = defineComponent({
   props: {

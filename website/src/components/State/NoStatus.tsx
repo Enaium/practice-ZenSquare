@@ -19,9 +19,9 @@
 
 import { NButton, NModal, NPopover } from "naive-ui"
 import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
-import Login from "@/views/Login.tsx"
+import Login from "@/views/Login"
 import { ref } from "vue"
-import Register from "@/views/Register.tsx"
+import Register from "@/views/Register"
 
 let showLogin = ref(false)
 let showRegister = ref(false)

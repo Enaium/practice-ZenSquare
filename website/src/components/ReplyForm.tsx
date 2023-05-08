@@ -17,14 +17,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionalComponent, reactive, ref } from "vue"
+import { FunctionalComponent, ref } from "vue"
 import { ReplyInput } from "@/__generated/model/static"
 import { FormInst, NButton, NForm, NFormItem, useMessage } from "naive-ui"
-import Content from "@/components/Content.tsx"
+import Content from "@/components/Content"
 import { ArrowReply16Regular } from "@vicons/fluent"
 import { api } from "@/common/ApiInstance.ts"
 
-const form = reactive<ReplyInput>({})
+const form = ref<ReplyInput>({})
 const formRef = ref<FormInst | null>(null)
 
 const ReplyForm: FunctionalComponent<{ thread: string }> = ({ thread }) => {
@@ -33,9 +33,10 @@ const ReplyForm: FunctionalComponent<{ thread: string }> = ({ thread }) => {
     formRef.value?.validate((errors) => {
       if (!errors) {
         api.replyController
-          .saveReply({ body: { ...form, threadId: thread } })
+          .saveReply({ body: { ...form.value, threadId: thread } })
           .then(() => {
             message.success(window.$i18n("common.success"))
+            form.value = {}
           })
           .catch((error) => {
             message.error(error)
@@ -46,13 +47,13 @@ const ReplyForm: FunctionalComponent<{ thread: string }> = ({ thread }) => {
 
   return (
     <>
-      <NForm model={form} ref={formRef}>
+      <NForm model={form.value} ref={formRef}>
         <NFormItem
           path={"content"}
           label={window.$i18n("component.replyForm.reply.label")}
           rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
         >
-          <Content v-model={form.content} />
+          <Content v-model={form.value.content} />
         </NFormItem>
         <div class={"flex flex-row-reverse"}>
           <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>

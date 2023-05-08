@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller.category.forum.thread
 
+import cn.dev33.satoken.annotation.SaCheckPermission
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Thread
 import cn.enaium.zensquare.model.entity.by
@@ -94,6 +95,7 @@ class ThreadController(
      *
      * @param threadInput thread input
      */
+    @SaCheckPermission("put-thread")
     @PutMapping("/categories/forums/threads/")
     @ResponseStatus(HttpStatus.OK)
     fun saveThread(@RequestBody threadInput: ThreadInput) {

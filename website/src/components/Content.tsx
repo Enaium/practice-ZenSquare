@@ -40,7 +40,7 @@ const Content: FunctionalComponent<EditorProps> = ({ ...props }) => {
     })
       .then((response) => response.json())
       .then((data: Array<string>) => {
-        callback(data.map((id) => `${BASE_URL}/images/${id}`))
+        callback(data.map((id) => `${BASE_URL}/images/${id}/`))
       })
       .catch((error) => {
         console.error(error)

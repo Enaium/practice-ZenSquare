@@ -26,7 +26,10 @@ import cn.dev33.satoken.interceptor.SaInterceptor
 import cn.dev33.satoken.router.SaRouter
 import cn.dev33.satoken.stp.StpInterface
 import cn.dev33.satoken.stp.StpUtil
+import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.MemberProfileRepository
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.*
@@ -47,13 +50,25 @@ class SaTokenInterceptor(
             }
     }), StpInterface {
     override fun getPermissionList(loginId: Any, loginType: String): List<String> {
-        memberProfileRepository.findByMemberId(UUID.fromString(loginId.toString()))
+        memberProfileRepository.findByMemberId(
+            UUID.fromString(loginId.toString()), newFetcher(MemberProfile::class).by {
+                role {
+                    permissions {
+                        name()
+                    }
+                }
+            })
             ?.let { memberProfile -> return memberProfile.role.permissions.map { it.name } }
             ?: let { return emptyList() }
     }
 
     override fun getRoleList(loginId: Any, loginType: String): List<String> {
-        memberProfileRepository.findByMemberId(UUID.fromString(loginId.toString()))?.let { return listOf(it.role.name) }
+        memberProfileRepository.findByMemberId(
+            UUID.fromString(loginId.toString()), newFetcher(MemberProfile::class).by {
+                role {
+                    name()
+                }
+            })?.let { return listOf(it.role.name) }
             ?: let { return emptyList() }
     }
 }

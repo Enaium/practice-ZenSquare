@@ -20,6 +20,7 @@
 package cn.enaium.zensquare.bll.error
 
 import cn.dev33.satoken.exception.NotLoginException
+import cn.dev33.satoken.exception.NotPermissionException
 import cn.enaium.zensquare.util.i18n
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
@@ -42,6 +43,9 @@ class GlobalExceptionAdvice(val messageSource: MessageSource) {
             is MethodArgumentTypeMismatchException -> ResponseEntity.status(HttpStatus.BAD_REQUEST).build()
             is NotLoginException -> ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(messageSource.i18n("error.unauthorized"))
+
+            is NotPermissionException -> ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(messageSource.i18n("error.forbidden"))
 
             else -> {
                 e.printStackTrace()

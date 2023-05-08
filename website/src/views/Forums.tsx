@@ -18,7 +18,7 @@
  */
 
 import { useRoute, useRouter } from "vue-router"
-import ThreadList from "@/components/ThreadList.tsx"
+import ThreadList from "@/components/ThreadList"
 import { NBreadcrumb, NBreadcrumbItem, NCard, NSpin } from "naive-ui"
 import { defineComponent } from "vue"
 import { useQuery } from "@tanstack/vue-query"
@@ -36,13 +36,13 @@ const Forums = defineComponent({
 
     return () => (
       <>
-        {isLoading.value ? (
+        {isLoading.value || !data.value ? (
           <NSpin />
         ) : (
           <NBreadcrumb>
             <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>Forums</NBreadcrumbItem>
             <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>{data.value?.category.name}</NBreadcrumbItem>
-            <NBreadcrumbItem>{data.value?.name}</NBreadcrumbItem>
+            <NBreadcrumbItem>{data.value.name}</NBreadcrumbItem>
           </NBreadcrumb>
         )}
         <NCard>

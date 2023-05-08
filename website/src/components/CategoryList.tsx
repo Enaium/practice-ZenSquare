@@ -17,34 +17,43 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent } from "vue"
+import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
 import { NCard, NCollapse, NCollapseItem, NSpin } from "naive-ui"
 import ForumList from "@/components/ForumList"
+import Pagination from "@/components/Pagination"
+import { RequestOf } from "@/__generated/RequestOf"
 
 const CategoryList = defineComponent({
   setup() {
+    const options = reactive<RequestOf<typeof api.categoryController.findCategories>>({})
+
     const { data, isLoading } = useQuery({
-      queryKey: ["findCategories"],
-      queryFn: () => api.categoryController.findCategories(),
+      queryKey: ["findCategories", options],
+      queryFn: () => api.categoryController.findCategories({}),
     })
 
     return () => (
       <>
         <NCard>
-          {isLoading.value ? (
+          {isLoading.value || !data.value ? (
             <NSpin />
           ) : (
-            <NCollapse>
-              {data.value?.content.map((category, index) => {
-                return (
-                  <NCollapseItem title={category.name} name={index} key={index}>
-                    <ForumList category={category.id} />
-                  </NCollapseItem>
-                )
-              })}
-            </NCollapse>
+            <>
+              <NCollapse>
+                {data.value?.content.map((category, index) => {
+                  return (
+                    <NCollapseItem title={category.name} name={index} key={index}>
+                      <ForumList category={category.id} />
+                    </NCollapseItem>
+                  )
+                })}
+              </NCollapse>
+              {data.value.totalElements > data.value.size && (
+                <Pagination page={data.value} v-model:change={options.page} />
+              )}
+            </>
           )}
         </NCard>
       </>

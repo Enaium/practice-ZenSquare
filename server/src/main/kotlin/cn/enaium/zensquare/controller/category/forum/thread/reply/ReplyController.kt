@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller.category.forum.thread.reply
 
+import cn.dev33.satoken.annotation.SaCheckPermission
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.bll.service.ReplyService
 import cn.enaium.zensquare.model.entity.Reply
@@ -66,6 +67,7 @@ class ReplyController(
      *
      * @param replyInput
      */
+    @SaCheckPermission("put-reply")
     @PutMapping("/categories/forum/thread/replies/")
     @ResponseStatus(HttpStatus.OK)
     fun saveReply(@RequestBody replyInput: ReplyInput) {

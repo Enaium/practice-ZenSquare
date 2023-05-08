@@ -23,8 +23,9 @@ import { api } from "@/common/ApiInstance.ts"
 import { RequestOf } from "@/__generated"
 import { NIcon, NList, NListItem, NSpin } from "naive-ui"
 import { Chat24Regular } from "@vicons/fluent"
-import Image from "@/views/Image.tsx"
+import Image from "@/views/Image"
 import { RouterLink } from "vue-router"
+import Pagination from "@/components/Pagination.tsx"
 
 const ForumList = defineComponent({
   props: {
@@ -39,50 +40,53 @@ const ForumList = defineComponent({
     })
 
     return () =>
-      isLoading.value ? (
+      isLoading.value || !data.value ? (
         <NSpin />
       ) : (
-        <NList bordered>
-          {data.value?.content.map((forum, index) => (
-            <NListItem key={index}>
-              <div class={"flex justify-between items-center"}>
-                {/*left*/}
-                <div class={"flex gap-5"}>
-                  {/*icon*/}
-                  <div class={"text-4xl flex justify-center items-center"}>
-                    <Image
-                      id={forum.icon}
-                      fallback={
-                        <NIcon>
-                          <Chat24Regular />
-                        </NIcon>
-                      }
-                    />
+        <>
+          <NList bordered>
+            {data.value?.content.map((forum, index) => (
+              <NListItem key={index}>
+                <div class={"flex justify-between items-center"}>
+                  {/*left*/}
+                  <div class={"flex gap-5"}>
+                    {/*icon*/}
+                    <div class={"text-4xl flex justify-center items-center"}>
+                      <Image
+                        id={forum.icon}
+                        fallback={
+                          <NIcon>
+                            <Chat24Regular />
+                          </NIcon>
+                        }
+                      />
+                    </div>
+                    {/*content*/}
+                    <div class={"flex flex-col"}>
+                      <RouterLink class={"font-bold"} to={{ name: "forums", params: { forum: forum.id } }}>
+                        {forum.name}
+                      </RouterLink>
+                      <div>{forum.description}</div>
+                    </div>
                   </div>
-                  {/*content*/}
-                  <div class={"flex flex-col"}>
-                    <RouterLink class={"font-bold"} to={{ name: "forums", params: { forum: forum.id } }}>
-                      {forum.name}
-                    </RouterLink>
-                    <div>{forum.description}</div>
+                  {/*right*/}
+                  <div class={"flex gap-5"}>
+                    <div class={"flex flex-col items-center"}>
+                      <div>thread</div>
+                      <div>{forum.thread}</div>
+                    </div>
+                    <div class={"bg-gray-200 w-px"} />
+                    <div class={"flex flex-col items-center"}>
+                      <div>message</div>
+                      <div>0</div>
+                    </div>
                   </div>
                 </div>
-                {/*right*/}
-                <div class={"flex gap-5"}>
-                  <div class={"flex flex-col items-center"}>
-                    <div>thread</div>
-                    <div>{forum.thread}</div>
-                  </div>
-                  <div class={"bg-gray-200 w-px"} />
-                  <div class={"flex flex-col items-center"}>
-                    <div>message</div>
-                    <div>0</div>
-                  </div>
-                </div>
-              </div>
-            </NListItem>
-          ))}
-        </NList>
+              </NListItem>
+            ))}
+          </NList>
+          {data.value.totalElements > data.value.size && <Pagination page={data.value} v-model:change={options.page} />}
+        </>
       )
   },
 })

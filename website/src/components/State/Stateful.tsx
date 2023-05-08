@@ -54,7 +54,7 @@ const Stateful = defineComponent({
               default: () => <VisitorMenu />,
             }}
           />
-        ) : isLoading ? (
+        ) : isLoading.value ? (
           <NSpin />
         ) : (
           <NAlert type={"warning"}>

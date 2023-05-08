@@ -26,6 +26,7 @@ import Avatar from "@/components/Avatar"
 import dayjs from "dayjs"
 import { RouterLink } from "vue-router"
 import { Clock16Regular } from "@vicons/fluent"
+import Pagination from "@/components/Pagination.tsx"
 
 const ThreadList = defineComponent({
   props: {
@@ -37,88 +38,92 @@ const ThreadList = defineComponent({
       queryKey: ["findThreads", options],
       queryFn: () => api.threadController.findThreads(options),
     })
+
     return () =>
-      isLoading.value ? (
+      isLoading.value || !data.value ? (
         <NSpin />
       ) : (
-        <NList bordered>
-          {data.value?.content.map((thread, index) => (
-            <NListItem key={index}>
-              <div class={"flex justify-between"}>
-                {/*left*/}
-                <div class={"flex"}>
-                  <Avatar id={thread.member.profile?.avatar} size={48} bordered round />
-                  <div class={"flex flex-col justify-between"}>
-                    <RouterLink
-                      to={{
-                        name: "threads",
-                        params: { thread: thread.id },
-                      }}
-                    >
-                      {thread.title}
-                    </RouterLink>
-                    <div class={"flex"}>
-                      <span>{thread.member.profile?.nickname}</span>
-                      <NIcon size={24}>
-                        <Clock16Regular />
-                      </NIcon>
-                      <NTooltip
-                        v-slots={{
-                          trigger: () => (
-                            <NTime time={new Date()} to={dayjs(thread.modifiedTime).toDate()} type={"relative"} />
-                          ),
-                          default: () => <div>{dayjs(thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-                {/*right*/}
-                <div class={"flex gap-10"}>
-                  {/*thread info*/}
-                  <div class={"h-full w-24 flex flex-col justify-between"}>
-                    <div class={"flex justify-between"}>
-                      <span>Replies:</span>
-                      <span>0</span>
-                    </div>
-                    <div class={"flex justify-between"}>
-                      <span>Views:</span>
-                      <span>0</span>
-                    </div>
-                  </div>
-                  {/*last reply*/}
+        <>
+          <NList bordered>
+            {data.value.content.map((thread, index) => (
+              <NListItem key={index}>
+                <div class={"flex justify-between"}>
+                  {/*left*/}
                   <div class={"flex"}>
-                    <div class={"h-full flex flex-col justify-between items-end"}>
-                      <NTooltip
-                        v-slots={{
-                          trigger: () => (
-                            <NTime
-                              time={new Date()}
-                              to={dayjs(thread.lastReplyTime ?? thread.modifiedTime).toDate()}
-                              type={"relative"}
-                            />
-                          ),
-                          default: () => (
-                            <div>
-                              {dayjs(thread.lastReplyTime ?? thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}
-                            </div>
-                          ),
+                    <Avatar id={thread.member.profile?.avatar} size={48} bordered round />
+                    <div class={"flex flex-col justify-between"}>
+                      <RouterLink
+                        to={{
+                          name: "threads",
+                          params: { thread: thread.id },
                         }}
-                      />
-                      <div>{thread.lastReplyMember?.profile?.nickname ?? thread.member.profile?.nickname}</div>
+                      >
+                        {thread.title}
+                      </RouterLink>
+                      <div class={"flex"}>
+                        <span>{thread.member.profile?.nickname}</span>
+                        <NIcon size={24}>
+                          <Clock16Regular />
+                        </NIcon>
+                        <NTooltip
+                          v-slots={{
+                            trigger: () => (
+                              <NTime time={new Date()} to={dayjs(thread.modifiedTime).toDate()} type={"relative"} />
+                            ),
+                            default: () => <div>{dayjs(thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+                          }}
+                        />
+                      </div>
                     </div>
-                    <Avatar
-                      id={thread.lastReplyMember?.profile?.avatar ?? thread.member.profile?.avatar}
-                      size={48}
-                      bordered
-                      round
-                    />
+                  </div>
+                  {/*right*/}
+                  <div class={"flex gap-10"}>
+                    {/*thread info*/}
+                    <div class={"h-full w-24 flex flex-col justify-between"}>
+                      <div class={"flex justify-between"}>
+                        <span>Replies:</span>
+                        <span>0</span>
+                      </div>
+                      <div class={"flex justify-between"}>
+                        <span>Views:</span>
+                        <span>0</span>
+                      </div>
+                    </div>
+                    {/*last reply*/}
+                    <div class={"flex"}>
+                      <div class={"h-full flex flex-col justify-between items-end"}>
+                        <NTooltip
+                          v-slots={{
+                            trigger: () => (
+                              <NTime
+                                time={new Date()}
+                                to={dayjs(thread.lastReplyTime ?? thread.modifiedTime).toDate()}
+                                type={"relative"}
+                              />
+                            ),
+                            default: () => (
+                              <div>
+                                {dayjs(thread.lastReplyTime ?? thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}
+                              </div>
+                            ),
+                          }}
+                        />
+                        <div>{thread.lastReplyMember?.profile?.nickname ?? thread.member.profile?.nickname}</div>
+                      </div>
+                      <Avatar
+                        id={thread.lastReplyMember?.profile?.avatar ?? thread.member.profile?.avatar}
+                        size={48}
+                        bordered
+                        round
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </NListItem>
-          ))}
-        </NList>
+              </NListItem>
+            ))}
+          </NList>
+          {data.value.totalElements > data.value.size && <Pagination page={data.value} v-model:change={options.page} />}
+        </>
       )
   },
 })

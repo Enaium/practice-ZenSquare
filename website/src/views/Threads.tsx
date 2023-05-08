@@ -27,8 +27,8 @@ import Avatar from "@/components/Avatar"
 import Content from "@/components/Content"
 import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NSpin, NTag, NTime, NTooltip } from "naive-ui"
 import { Clock16Regular, People16Regular } from "@vicons/fluent"
-import ReplyForm from "@/components/ReplyForm.tsx"
-import ReplyList from "@/components/ReplyList.tsx"
+import ReplyForm from "@/components/ReplyForm"
+import ReplyList from "@/components/ReplyList"
 
 const Threads = defineComponent({
   setup() {
@@ -38,12 +38,12 @@ const Threads = defineComponent({
     const options = reactive<RequestOf<typeof api.threadController.findThread>>({ id: route.params.thread as string })
 
     const { data, isLoading } = useQuery({
-      queryKey: ["threads", route.params.forum],
+      queryKey: ["threads", options],
       queryFn: () => api.threadController.findThread(options),
     })
 
     return () =>
-      isLoading.value ? (
+      isLoading.value || !data.value ? (
         <NSpin />
       ) : (
         <>
@@ -51,7 +51,7 @@ const Threads = defineComponent({
           <NBreadcrumb>
             <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>Forums</NBreadcrumbItem>
             <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>
-              {data.value?.forum.category.name}
+              {data.value.forum.category.name}
             </NBreadcrumbItem>
             <NBreadcrumbItem
               onClick={() =>
@@ -63,18 +63,18 @@ const Threads = defineComponent({
                 })
               }
             >
-              {data.value?.forum.name}
+              {data.value.forum.name}
             </NBreadcrumbItem>
             <NBreadcrumbItem>{data.value?.title}</NBreadcrumbItem>
           </NBreadcrumb>
           {/*info*/}
-          <h3>{data.value?.title}</h3>
+          <h3>{data.value.title}</h3>
           <div class={"flex gap-2"}>
             <div class={"flex"}>
               <NIcon size={24}>
                 <People16Regular />
               </NIcon>
-              <div>{data.value?.member.profile?.nickname}</div>
+              <div>{data.value.member.profile?.nickname}</div>
             </div>
             <div class={"flex"}>
               <NIcon size={24}>
@@ -94,21 +94,21 @@ const Threads = defineComponent({
           <div class={"flex border-solid border border-gray-100"}>
             {/*member*/}
             <div class={"flex flex-col items-center m-5"}>
-              <Avatar id={data.value?.member.profile?.avatar} size={128} bordered round />
-              <div>{data.value?.member.profile?.nickname}</div>
-              <NTag type={"primary"}>{data.value?.member.profile?.role.name}</NTag>
+              <Avatar id={data.value.member.profile?.avatar} size={128} bordered round />
+              <div>{data.value.member.profile?.nickname}</div>
+              <NTag type={"primary"}>{data.value.member.profile?.role.name}</NTag>
             </div>
             <div class={"border-solid border-l border-gray-100"} />
             {/*content*/}
-            <Content v-model={data.value!.content} previewOnly />
+            <Content v-model={data.value.content} previewOnly />
           </div>
           <div class={"mt-5"} />
           {/*reply list*/}
-          <ReplyList thread={data.value!.id} />
+          <ReplyList thread={data.value.id} />
           {/*reply*/}
           <div class={"mt-5"}>
             <NCard>
-              <ReplyForm thread={data.value!.id} />
+              <ReplyForm thread={data.value.id} />
             </NCard>
           </div>
         </>
