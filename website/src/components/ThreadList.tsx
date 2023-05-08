@@ -74,14 +74,45 @@ const ThreadList = defineComponent({
                   </div>
                 </div>
                 {/*right*/}
-                <div class={"w-24 flex flex-col justify-between"}>
-                  <div class={"flex justify-between"}>
-                    <span>Replies:</span>
-                    <span>0</span>
+                <div class={"flex gap-10"}>
+                  {/*thread info*/}
+                  <div class={"h-full w-24 flex flex-col justify-between"}>
+                    <div class={"flex justify-between"}>
+                      <span>Replies:</span>
+                      <span>0</span>
+                    </div>
+                    <div class={"flex justify-between"}>
+                      <span>Views:</span>
+                      <span>0</span>
+                    </div>
                   </div>
-                  <div class={"flex justify-between"}>
-                    <span>Views:</span>
-                    <span>0</span>
+                  {/*last reply*/}
+                  <div class={"flex"}>
+                    <div class={"h-full flex flex-col justify-between items-end"}>
+                      <NTooltip
+                        v-slots={{
+                          trigger: () => (
+                            <NTime
+                              time={new Date()}
+                              to={dayjs(thread.lastReplyTime ?? thread.modifiedTime).toDate()}
+                              type={"relative"}
+                            />
+                          ),
+                          default: () => (
+                            <div>
+                              {dayjs(thread.lastReplyTime ?? thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}
+                            </div>
+                          ),
+                        }}
+                      />
+                      <div>{thread.lastReplyMember?.profile?.nickname ?? thread.member.profile?.nickname}</div>
+                    </div>
+                    <Avatar
+                      id={thread.lastReplyMember?.profile?.avatar ?? thread.member.profile?.avatar}
+                      size={48}
+                      bordered
+                      round
+                    />
                   </div>
                 </div>
               </div>
