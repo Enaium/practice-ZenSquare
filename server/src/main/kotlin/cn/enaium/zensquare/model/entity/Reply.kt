@@ -58,9 +58,15 @@ interface Reply : BaseEntity {
     @OneToMany(mappedBy = "reply")
     val likes: List<MemberLike>
 
+    /**
+     * like count
+     */
     @Transient(ReplyLikeCountResolver::class)
     val like: Long
 
+    /**
+     * dislike count
+     */
     @Transient(ReplyDislikeCountResolver::class)
     val dislike: Long
 }

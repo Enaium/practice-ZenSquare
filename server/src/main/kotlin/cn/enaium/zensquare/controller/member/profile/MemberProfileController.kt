@@ -25,7 +25,7 @@ import cn.enaium.zensquare.model.entity.MemberProfile
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
-import cn.enaium.zensquare.util.checkOwner
+import cn.enaium.zensquare.util.checkId
 import org.babyfish.jimmer.client.FetchBy
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
@@ -82,7 +82,7 @@ class MemberProfileController(
     fun save(@RequestBody memberProfileInput: MemberProfileInput) {
         //Check member profile owner
         memberProfileInput.id ?: memberProfileInput.memberId?.let {
-            if (!(checkOwner(it) || StpUtil.hasRole("admin"))) {
+            if (!(checkId(it) || StpUtil.hasRole("admin"))) {
                 throw ServiceException(HttpStatus.FORBIDDEN)
             }
         }

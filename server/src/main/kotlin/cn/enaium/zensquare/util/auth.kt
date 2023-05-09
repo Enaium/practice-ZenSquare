@@ -29,7 +29,13 @@ fun createSession(id: UUID): String = StpUtil.createLoginSession(id)
 fun deleteSession(id: UUID) = StpUtil.logout(id)
 fun getSession(): UUID = UUID.fromString(StpUtil.getLoginId().toString())
 
-fun checkOwner(id: UUID): Boolean = try {
+/**
+ * check current id is equal to id
+ *
+ * @param id
+ * @return
+ */
+fun checkId(id: UUID): Boolean = try {
     UUID.fromString(StpUtil.getLoginId().toString()) == id
 } catch (_: Exception) {
     false

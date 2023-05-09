@@ -23,7 +23,7 @@ import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.bll.service.SessionService
 import cn.enaium.zensquare.model.entity.input.MemberInput
 import cn.enaium.zensquare.model.response.LoginResponse
-import cn.enaium.zensquare.util.checkOwner
+import cn.enaium.zensquare.util.checkId
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -55,7 +55,7 @@ class SessionController(
     @DeleteMapping("{id}/")
     @ResponseStatus(HttpStatus.OK)
     fun deleteSession(@PathVariable id: UUID) {
-        if (checkOwner(id)) {
+        if (checkId(id)) {
             sessionService.logout(id)
         }
     }

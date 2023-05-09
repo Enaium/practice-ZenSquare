@@ -24,6 +24,7 @@ import cn.enaium.zensquare.bll.service.MemberLikeService
 import cn.enaium.zensquare.model.entity.MemberLike
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.MemberLikeRepository
+import cn.enaium.zensquare.util.checkId
 import cn.enaium.zensquare.util.i18n
 import org.babyfish.jimmer.kt.new
 import org.springframework.context.MessageSource
@@ -43,33 +44,52 @@ class MemberLikeServiceImpl(
         return memberLikeRepository.findByMemberIdAndTarget(memberId, target)
     }
 
+    /**
+     * Like or dislike a thread or reply
+     *
+     * @param memberId member id
+     * @param target thread id or reply id
+     * @param dislike dislike
+     */
     override fun like(memberId: UUID, target: UUID, dislike: Boolean) {
-        memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {
-            throw ServiceException(
-                HttpStatus.BAD_REQUEST,
-                if (it.dislike)
-                    messageSource.i18n("controller.member.like.hasDisliked")
-                else
-                    messageSource.i18n("controller.member.like.hasLiked")
-            )
-        } ?: let {
-            memberLikeRepository.insert(new(MemberLike::class).by {
-                this.memberId = memberId
-                this.target = target
-                this.dislike = dislike
-            })
+        if (!checkId(memberId)) {
+            throw ServiceException(HttpStatus.FORBIDDEN, messageSource.i18n("error.forbidden"))
         }
-    }
 
-    override fun unlike(memberId: UUID, target: UUID) {
-        memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {
-            memberLikeRepository.delete(new(MemberLike::class).by {
-                this.memberId = memberId
-                this.target = target
-            })
-        } ?: throw ServiceException(
-            HttpStatus.BAD_REQUEST,
-            messageSource.i18n("controller.member.like.doesntLikeOrDislike")
-        )
+        if (dislike) {// If dislike is true, dislike
+            memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {// Find the like
+                if (it.dislike) {// If it is already disliked, un-dislike
+                    memberLikeRepository.deleteById(it.id)
+                } else {// If it is not disliked, update the dislike to true
+                    memberLikeRepository.update(new(MemberLike::class).by {
+                        this.id = it.id
+                        this.dislike = true
+                    })
+                }
+            } ?: let {// If it is not liked, insert a new like with dislike true
+                memberLikeRepository.insert(new(MemberLike::class).by {
+                    this.memberId = memberId
+                    this.target = target
+                    this.dislike = true
+                })
+            }
+        } else {// If dislike is false, like
+            memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {
+                if (!it.dislike) {// If it is already liked, un-like
+                    memberLikeRepository.deleteById(it.id)
+                } else {// If it is not liked, update the dislike to false
+                    memberLikeRepository.update(new(MemberLike::class).by {
+                        this.id = it.id
+                        this.dislike = false
+                    })
+                }
+            } ?: let {// If it is not liked, insert a new like with dislike false
+                memberLikeRepository.insert(new(MemberLike::class).by {
+                    this.memberId = memberId
+                    this.target = target
+                    this.dislike = false
+                })
+            }
+        }
     }
 }

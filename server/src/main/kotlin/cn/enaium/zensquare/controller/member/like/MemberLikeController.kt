@@ -54,19 +54,11 @@ class MemberLikeController(val memberLikeService: MemberLikeService) {
      */
     @PutMapping("/members/{memberId}/likes/{target}/")
     @ResponseStatus(HttpStatus.OK)
-    fun like(@PathVariable memberId: UUID, @PathVariable target: UUID, @RequestParam dislike: Boolean) {
+    fun like(
+        @PathVariable memberId: UUID,
+        @PathVariable target: UUID,
+        @RequestParam dislike: Boolean
+    ) {
         memberLikeService.like(memberId, target, dislike)
-    }
-
-    /**
-     * unlike
-     *
-     * @param memberId member id
-     * @param target target id
-     */
-    @DeleteMapping("/members/{memberId}/likes/{target}/")
-    @ResponseStatus(HttpStatus.OK)
-    fun unlike(@PathVariable memberId: UUID, @PathVariable target: UUID) {
-        memberLikeService.unlike(memberId, target)
     }
 }

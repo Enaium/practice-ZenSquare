@@ -29,6 +29,4 @@ interface MemberLikeService {
     fun findLike(memberId: UUID, target: UUID): MemberLike?
 
     fun like(memberId: UUID, target: UUID, dislike: Boolean)
-
-    fun unlike(memberId: UUID, target: UUID)
 }

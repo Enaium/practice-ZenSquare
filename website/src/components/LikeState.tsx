@@ -17,6 +17,79 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const LikeState = () => <div>123</div>
+import { defineComponent } from "vue"
+import { NButton, NIcon, useMessage } from "naive-ui"
+import { Heart20Filled, HeartBroken20Filled } from "@vicons/fluent"
+import { useSessionStore } from "@/store"
+import { api } from "@/common/ApiInstance.ts"
+
+const LikeState = defineComponent({
+  props: {
+    target: String,
+    like: Number,
+    dislike: Number,
+  },
+  setup(props) {
+    const session = useSessionStore()
+    const message = useMessage()
+
+    const like = () => {
+      // if (session.id) {
+      //   api.memberLikeController
+      //     .like({
+      //       memberId: session.id,
+      //       target: props.target!,
+      //       dislike: false,
+      //     })
+      //     .then(() => {
+      //       context.emit("update:like", props.like! + 1)
+      //     })
+      //     .catch((error) => {
+      //       message.error(error)
+      //     })
+      // }
+    }
+
+    const dislike = () => {
+      if (session.id) {
+        // api.memberLikeController
+        //   .like({
+        //     memberId: session.id,
+        //     target: props.target!,
+        //     dislike: true,
+        //   })
+        //   .then(() => {
+        //     context.emit("update:dislike", props.dislike! + 1)
+        //   })
+        //   .catch((error) => {
+        //     message.error(error)
+        //   })
+      }
+    }
+
+    return () => (
+      <>
+        <div class={"flex gap-2"}>
+          <div class={"flex items-center"}>
+            <NButton text type={"primary"} onClick={like}>
+              <NIcon size={32}>
+                <Heart20Filled />
+              </NIcon>
+            </NButton>
+            <div>{props.like}</div>
+          </div>
+          <div class={"flex items-center"}>
+            <NButton text type={"primary"} onClick={dislike}>
+              <NIcon size={32}>
+                <HeartBroken20Filled />
+              </NIcon>
+            </NButton>
+            <div>{props.dislike}</div>
+          </div>
+        </div>
+      </>
+    )
+  },
+})
 
 export default LikeState

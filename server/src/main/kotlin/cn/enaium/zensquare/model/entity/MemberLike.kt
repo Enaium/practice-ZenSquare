@@ -38,11 +38,11 @@ interface MemberLike : BaseEntity {
     val target: UUID
 
     @ManyToOne
-    @JoinTable(name = "member_like", joinColumnName = "target", inverseJoinColumnName = "target")
+    @JoinColumn(name = "target")
     val thread: Thread?
 
     @ManyToOne
-    @JoinTable(name = "member_like", joinColumnName = "target", inverseJoinColumnName = "target")
+    @JoinColumn(name = "target")
     val reply: Reply?
 
     val dislike: Boolean

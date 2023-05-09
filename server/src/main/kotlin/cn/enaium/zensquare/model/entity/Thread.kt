@@ -69,9 +69,15 @@ interface Thread : BaseEntity {
     @OneToMany(mappedBy = "thread")
     val likes: List<MemberLike>
 
+    /**
+     * like count
+     */
     @Transient(ThreadLikeCountResolver::class)
     val like: Long
 
+    /**
+     * dislike count
+     */
     @Transient(ThreadDislikeCountResolver::class)
     val dislike: Long
 }
