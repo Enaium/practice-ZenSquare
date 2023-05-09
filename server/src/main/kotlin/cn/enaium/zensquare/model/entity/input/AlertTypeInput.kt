@@ -23,6 +23,7 @@ import cn.enaium.zensquare.model.entity.AlertType
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
+import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 import java.util.*
@@ -37,7 +38,7 @@ data class AlertTypeInput(
         return CONVERTER.toAlertType(this)
     }
 
-    @Mapper
+    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toAlertType(input: AlertTypeInput): AlertType

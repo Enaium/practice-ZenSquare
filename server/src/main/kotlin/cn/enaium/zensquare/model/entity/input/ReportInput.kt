@@ -23,6 +23,7 @@ import cn.enaium.zensquare.model.entity.Report
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
+import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 import java.util.*
@@ -38,7 +39,7 @@ data class ReportInput(
         return CONVERTER.toReport(this)
     }
 
-    @Mapper
+    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toReport(input: ReportInput): Report

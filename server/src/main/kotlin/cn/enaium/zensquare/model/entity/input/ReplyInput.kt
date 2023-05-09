@@ -23,6 +23,7 @@ import cn.enaium.zensquare.model.entity.Reply
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
+import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 import java.util.*
@@ -39,7 +40,7 @@ data class ReplyInput(
         return CONVERTER.toReply(this)
     }
 
-    @Mapper
+    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toReply(input: ReplyInput): Reply

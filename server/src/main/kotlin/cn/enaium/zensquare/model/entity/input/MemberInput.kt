@@ -23,6 +23,7 @@ import cn.enaium.zensquare.model.entity.Member
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
+import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 import java.util.*
@@ -38,7 +39,7 @@ data class MemberInput(
         return CONVERTER.toMember(this)
     }
 
-    @Mapper
+    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toMember(input: MemberInput): Member
