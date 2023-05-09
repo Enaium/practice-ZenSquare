@@ -29,7 +29,6 @@ export type ReplyDto = {
                 }
             }
         }, 
-        readonly like: number, 
-        readonly dislike: number
+        readonly like: number
     }
 }

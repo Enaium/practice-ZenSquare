@@ -70,7 +70,6 @@ export type ThreadDto = {
                 readonly avatar?: string
             }
         }, 
-        readonly like: number, 
-        readonly dislike: number
+        readonly like: number
     }
 }

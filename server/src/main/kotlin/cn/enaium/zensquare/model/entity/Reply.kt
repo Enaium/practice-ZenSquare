@@ -19,7 +19,6 @@
 
 package cn.enaium.zensquare.model.entity
 
-import cn.enaium.zensquare.bll.resolver.ReplyDislikeCountResolver
 import cn.enaium.zensquare.bll.resolver.ReplyLikeCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
@@ -63,10 +62,4 @@ interface Reply : BaseEntity {
      */
     @Transient(ReplyLikeCountResolver::class)
     val like: Long
-
-    /**
-     * dislike count
-     */
-    @Transient(ReplyDislikeCountResolver::class)
-    val dislike: Long
 }

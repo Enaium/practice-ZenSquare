@@ -19,15 +19,15 @@
 
 import { defineComponent } from "vue"
 import { NButton, NIcon, useMessage } from "naive-ui"
-import { Heart20Filled, HeartBroken20Filled } from "@vicons/fluent"
+import { Heart20Regular, HeartBroken20Regular } from "@vicons/fluent"
 import { useSessionStore } from "@/store"
 import { api } from "@/common/ApiInstance.ts"
+import { Vote24Filled } from "@vicons/fluent"
 
 const LikeState = defineComponent({
   props: {
     target: String,
     like: Number,
-    dislike: Number,
   },
   setup(props) {
     const session = useSessionStore()
@@ -69,23 +69,21 @@ const LikeState = defineComponent({
 
     return () => (
       <>
-        <div class={"flex gap-2"}>
-          <div class={"flex items-center"}>
-            <NButton text type={"primary"} onClick={like}>
-              <NIcon size={32}>
-                <Heart20Filled />
-              </NIcon>
-            </NButton>
-            <div>{props.like}</div>
-          </div>
-          <div class={"flex items-center"}>
-            <NButton text type={"primary"} onClick={dislike}>
-              <NIcon size={32}>
-                <HeartBroken20Filled />
-              </NIcon>
-            </NButton>
-            <div>{props.dislike}</div>
-          </div>
+        <div class={"flex items-center gap-2"}>
+          <NIcon size={32} color={"green"}>
+            <Vote24Filled />
+          </NIcon>
+          <div class={"text-2xl"}>{props.like}</div>
+          <NButton text onClick={like}>
+            <NIcon size={32}>
+              <Heart20Regular />
+            </NIcon>
+          </NButton>
+          <NButton text onClick={dislike}>
+            <NIcon size={32}>
+              <HeartBroken20Regular />
+            </NIcon>
+          </NButton>
         </div>
       </>
     )

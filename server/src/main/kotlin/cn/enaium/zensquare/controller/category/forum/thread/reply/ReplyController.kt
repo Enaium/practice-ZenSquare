@@ -88,7 +88,6 @@ class ReplyController(
                 }
             }
             like()
-            dislike()
         }
     }
 }

@@ -45,10 +45,14 @@ class ThreadLikeCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Lo
      * @return count
      */
     override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Thread::class) {
-        where(table.id valueIn ids, table.asTableEx().likes.dislike eq false)
+        where(table.id valueIn ids)
         groupBy(table.id)
-        select(table.id, count(table.asTableEx().likes.id, true))
-    }.execute().associateBy({ it._1 }) { it._2 }
+        select(
+            table.id,
+            count(table.asTableEx().likes.dislike eq false, true),
+            count(table.asTableEx().likes.dislike eq true, true)
+        )
+    }.execute().associateBy({ it._1 }) { it._2 - it._3 }
 
     override fun getDefaultValue(): Long = 0
 }

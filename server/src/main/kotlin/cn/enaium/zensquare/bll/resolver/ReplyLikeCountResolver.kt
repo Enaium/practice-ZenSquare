@@ -19,7 +19,10 @@
 
 package cn.enaium.zensquare.bll.resolver
 
-import cn.enaium.zensquare.model.entity.*
+import cn.enaium.zensquare.model.entity.Reply
+import cn.enaium.zensquare.model.entity.dislike
+import cn.enaium.zensquare.model.entity.id
+import cn.enaium.zensquare.model.entity.likes
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
 import org.babyfish.jimmer.sql.kt.ast.expression.count
@@ -44,8 +47,12 @@ class ReplyLikeCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Lon
     override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Reply::class) {
         where(table.id valueIn ids, table.asTableEx().likes.dislike eq false)
         groupBy(table.id)
-        select(table.id, count(table.asTableEx().likes.id, true))
-    }.execute().associateBy({ it._1 }) { it._2 }
+        select(
+            table.id,
+            count(table.asTableEx().likes.dislike eq false, true),
+            count(table.asTableEx().likes.dislike eq true, true)
+        )
+    }.execute().associateBy({ it._1 }) { it._2 - it._3 }
 
     override fun getDefaultValue(): Long = 0
 }

@@ -148,7 +148,6 @@ class ThreadController(
                 }
             }
             like()
-            dislike()
         }
     }
 }

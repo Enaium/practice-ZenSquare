@@ -104,7 +104,7 @@ const Threads = defineComponent({
             <div class={"flex flex-col justify-between p-2"}>
               <Content v-model={data.value.content} previewOnly />
               <div class={"flex"}>
-                <LikeState target={data.value.id} like={data.value.like} dislike={data.value.dislike} />
+                <LikeState target={data.value.id} like={data.value.like} />
               </div>
             </div>
           </div>

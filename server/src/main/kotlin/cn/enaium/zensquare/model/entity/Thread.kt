@@ -19,7 +19,6 @@
 
 package cn.enaium.zensquare.model.entity
 
-import cn.enaium.zensquare.bll.resolver.ThreadDislikeCountResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLastReplyMemberResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLastReplyTimeResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLikeCountResolver
@@ -74,10 +73,4 @@ interface Thread : BaseEntity {
      */
     @Transient(ThreadLikeCountResolver::class)
     val like: Long
-
-    /**
-     * dislike count
-     */
-    @Transient(ThreadDislikeCountResolver::class)
-    val dislike: Long
 }

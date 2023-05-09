@@ -36,17 +36,6 @@ export class MemberLikeController {
         }
         return (await this.executor({uri: _uri, method: 'PUT'})) as Unit
     }
-    
-    async unlike(options: MemberLikeControllerOptions['unlike']): Promise<
-        Unit
-    > {
-        let _uri = '/members/';
-        _uri += encodeURIComponent(options.memberId);
-        _uri += '/likes/';
-        _uri += encodeURIComponent(options.target);
-        _uri += '/';
-        return (await this.executor({uri: _uri, method: 'DELETE'})) as Unit
-    }
 }
 
 export type MemberLikeControllerOptions = {
@@ -55,6 +44,5 @@ export type MemberLikeControllerOptions = {
         readonly memberId: string, 
         readonly target: string, 
         readonly dislike: boolean
-    },
-    'unlike': {readonly memberId: string, readonly target: string}
+    }
 }
