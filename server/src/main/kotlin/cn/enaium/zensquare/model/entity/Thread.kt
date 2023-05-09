@@ -19,8 +19,10 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.ThreadDislikeCountResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLastReplyMemberResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLastReplyTimeResolver
+import cn.enaium.zensquare.bll.resolver.ThreadLikeCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
@@ -52,9 +54,24 @@ interface Thread : BaseEntity {
     @OneToMany(mappedBy = "thread")
     val replies: List<Reply>
 
+    /**
+     * latest reply time
+     */
     @Transient(ThreadLastReplyTimeResolver::class)
     val lastReplyTime: LocalDateTime?
 
+    /**
+     * latest reply member
+     */
     @Transient(ThreadLastReplyMemberResolver::class)
     val lastReplyMember: Member?
+
+    @OneToMany(mappedBy = "thread")
+    val likes: List<MemberLike>
+
+    @Transient(ThreadLikeCountResolver::class)
+    val like: Long
+
+    @Transient(ThreadDislikeCountResolver::class)
+    val dislike: Long
 }

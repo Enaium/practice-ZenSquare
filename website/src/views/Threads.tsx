@@ -25,8 +25,8 @@ import { RequestOf } from "@/__generated"
 import dayjs from "dayjs"
 import Avatar from "@/components/Avatar"
 import Content from "@/components/Content"
-import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NSpin, NTag, NTime, NTooltip } from "naive-ui"
-import { Clock16Regular, People16Regular } from "@vicons/fluent"
+import { NBreadcrumb, NBreadcrumbItem, NButton, NCard, NIcon, NSpin, NTag, NTime, NTooltip } from "naive-ui"
+import { Clock16Regular, Heart20Filled, HeartBroken20Filled, People16Regular } from "@vicons/fluent"
 import ReplyForm from "@/components/ReplyForm"
 import ReplyList from "@/components/ReplyList"
 
@@ -100,7 +100,29 @@ const Threads = defineComponent({
             </div>
             <div class={"border-solid border-l border-gray-100"} />
             {/*content*/}
-            <Content v-model={data.value.content} previewOnly />
+            <div class={"flex flex-col justify-between p-2"}>
+              <Content v-model={data.value.content} previewOnly />
+              <div class={"flex"}>
+                <div class={"flex gap-2"}>
+                  <div class={"flex items-center"}>
+                    <NButton text type={"primary"}>
+                      <NIcon size={32}>
+                        <Heart20Filled />
+                      </NIcon>
+                    </NButton>
+                    <div>{data.value.like}</div>
+                  </div>
+                  <div class={"flex items-center"}>
+                    <NButton text type={"primary"}>
+                      <NIcon size={32}>
+                        <HeartBroken20Filled />
+                      </NIcon>
+                    </NButton>
+                    <div>{data.value.dislike}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class={"mt-5"} />
           {/*reply list*/}

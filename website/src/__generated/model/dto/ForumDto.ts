@@ -11,6 +11,7 @@ export type ForumDto = {
             readonly id: string, 
             readonly name: string
         }, 
-        readonly thread: number
+        readonly thread: number, 
+        readonly message: number
     }
 }

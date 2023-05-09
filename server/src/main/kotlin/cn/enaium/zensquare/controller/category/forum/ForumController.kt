@@ -76,6 +76,7 @@ class ForumController(val forumRepository: ForumRepository) {
                 name()
             }
             thread()
+            message()
         }
     }
 }

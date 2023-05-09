@@ -19,10 +19,8 @@
 
 package cn.enaium.zensquare.controller.member.like
 
+import cn.enaium.zensquare.bll.service.MemberLikeService
 import cn.enaium.zensquare.model.entity.MemberLike
-import cn.enaium.zensquare.model.entity.by
-import cn.enaium.zensquare.repository.MemberLikeRepository
-import org.babyfish.jimmer.kt.new
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -33,20 +31,31 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-class MemberLikeController(val memberLikeRepository: MemberLikeRepository) {
+class MemberLikeController(val memberLikeService: MemberLikeService) {
+
+    /**
+     * find like by member id and target id
+     *
+     * @param memberId member id
+     * @param target thread id or reply id
+     * @return like
+     */
+    @GetMapping("/members/{memberId}/likes/{target}/")
+    fun findLike(@PathVariable memberId: UUID, @PathVariable target: UUID): MemberLike? {
+        return memberLikeService.findLike(memberId, target)
+    }
+
     /**
      * like
      *
      * @param memberId member id
-     * @param target  target id
+     * @param target target id
+     * @param dislike dislike
      */
     @PutMapping("/members/{memberId}/likes/{target}/")
     @ResponseStatus(HttpStatus.OK)
-    fun like(@PathVariable memberId: UUID, @PathVariable target: UUID) {
-        memberLikeRepository.insert(new(MemberLike::class).by {
-            this.memberId = memberId
-            this.target = target
-        })
+    fun like(@PathVariable memberId: UUID, @PathVariable target: UUID, @RequestParam dislike: Boolean) {
+        memberLikeService.like(memberId, target, dislike)
     }
 
     /**
@@ -58,9 +67,6 @@ class MemberLikeController(val memberLikeRepository: MemberLikeRepository) {
     @DeleteMapping("/members/{memberId}/likes/{target}/")
     @ResponseStatus(HttpStatus.OK)
     fun unlike(@PathVariable memberId: UUID, @PathVariable target: UUID) {
-        memberLikeRepository.delete(new(MemberLike::class).by {
-            this.memberId = memberId
-            this.target = target
-        })
+        memberLikeService.unlike(memberId, target)
     }
 }

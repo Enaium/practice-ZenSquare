@@ -28,6 +28,8 @@ export type ReplyDto = {
                     readonly name: string
                 }
             }
-        }
+        }, 
+        readonly like: number, 
+        readonly dislike: number
     }
 }

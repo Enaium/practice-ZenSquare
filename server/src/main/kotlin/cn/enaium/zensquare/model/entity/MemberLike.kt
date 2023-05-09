@@ -20,11 +20,9 @@
 package cn.enaium.zensquare.model.entity
 
 import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.Entity
-import org.babyfish.jimmer.sql.GeneratedValue
-import org.babyfish.jimmer.sql.Id
+import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
-import java.util.UUID
+import java.util.*
 
 /**
  * @author Enaium
@@ -38,4 +36,14 @@ interface MemberLike : BaseEntity {
     val memberId: UUID
 
     val target: UUID
+
+    @ManyToOne
+    @JoinTable(name = "member_like", joinColumnName = "target", inverseJoinColumnName = "target")
+    val thread: Thread?
+
+    @ManyToOne
+    @JoinTable(name = "member_like", joinColumnName = "target", inverseJoinColumnName = "target")
+    val reply: Reply?
+
+    val dislike: Boolean
 }

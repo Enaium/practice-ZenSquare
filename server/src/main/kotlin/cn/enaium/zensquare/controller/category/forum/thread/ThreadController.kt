@@ -147,6 +147,8 @@ class ThreadController(
                     avatar()
                 }
             }
+            like()
+            dislike()
         }
     }
 }

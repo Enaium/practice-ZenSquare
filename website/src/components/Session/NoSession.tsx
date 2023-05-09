@@ -26,7 +26,7 @@ import Register from "@/views/Register"
 let showLogin = ref(false)
 let showRegister = ref(false)
 
-const NoStatus = () => {
+const NoSession = () => {
   return (
     <>
       <div class={"flex gap-2"}>
@@ -60,4 +60,4 @@ const NoStatus = () => {
   )
 }
 
-export default NoStatus
+export default NoSession

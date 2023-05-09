@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.ForumMessageCountResolver
 import cn.enaium.zensquare.bll.resolver.ForumThreadCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
@@ -49,4 +50,10 @@ interface Forum : BaseEntity {
      */
     @Transient(ForumThreadCountResolver::class)
     val thread: Long
+
+    /**
+     * thread and reply count
+     */
+    @Transient(ForumMessageCountResolver::class)
+    val message: Long
 }

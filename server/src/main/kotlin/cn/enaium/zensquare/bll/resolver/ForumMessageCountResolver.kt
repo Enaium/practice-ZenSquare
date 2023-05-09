@@ -19,30 +19,29 @@
 
 package cn.enaium.zensquare.bll.resolver
 
-import cn.enaium.zensquare.model.entity.*
+import cn.enaium.zensquare.model.entity.Forum
+import cn.enaium.zensquare.model.entity.id
+import cn.enaium.zensquare.model.entity.replies
+import cn.enaium.zensquare.model.entity.threads
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
-import org.babyfish.jimmer.sql.kt.ast.expression.max
+import org.babyfish.jimmer.sql.kt.ast.expression.count
 import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
 import org.springframework.stereotype.Component
 import java.util.*
 
 /**
- * find last reply member
+ * count thread and reply
  *
  * @author Enaium
  */
 @Component
-class ThreadLastReplyMemberResolver(val sql: KSqlClient) : KTransientResolver<UUID, UUID> {
-    /**
-     * find last reply member
-     *
-     * @param ids thread id
-     * @return last reply member id
-     */
-    override fun resolve(ids: Collection<UUID>): Map<UUID, UUID> = sql.createQuery(Thread::class) {
+class ForumMessageCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
+    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Forum::class) {
         where(table.id valueIn ids)
-        groupBy(table.id, table.asTableEx().replies.member.id)
-        select(table.id, max(table.asTableEx().replies.modifiedTime), table.asTableEx().replies.member.id)
-    }.execute().associateBy({ it._1 }) { it._3 }
+        groupBy(table.id)
+        select(table, count(table.asTableEx().threads.id, true), count(table.asTableEx().threads.replies.id, true))
+    }.execute().associateBy({ it._1.id }) { it._2 + it._3 }
+
+    override fun getDefaultValue(): Long = 0
 }

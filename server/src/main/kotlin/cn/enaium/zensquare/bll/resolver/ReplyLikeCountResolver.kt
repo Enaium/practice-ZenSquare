@@ -22,27 +22,30 @@ package cn.enaium.zensquare.bll.resolver
 import cn.enaium.zensquare.model.entity.*
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
-import org.babyfish.jimmer.sql.kt.ast.expression.max
+import org.babyfish.jimmer.sql.kt.ast.expression.count
+import org.babyfish.jimmer.sql.kt.ast.expression.eq
 import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
 import org.springframework.stereotype.Component
 import java.util.*
 
 /**
- * find last reply member
+ * count like
  *
  * @author Enaium
  */
 @Component
-class ThreadLastReplyMemberResolver(val sql: KSqlClient) : KTransientResolver<UUID, UUID> {
+class ReplyLikeCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
     /**
-     * find last reply member
+     * count like
      *
-     * @param ids thread id
-     * @return last reply member id
+     * @param ids ids
+     * @return count
      */
-    override fun resolve(ids: Collection<UUID>): Map<UUID, UUID> = sql.createQuery(Thread::class) {
-        where(table.id valueIn ids)
-        groupBy(table.id, table.asTableEx().replies.member.id)
-        select(table.id, max(table.asTableEx().replies.modifiedTime), table.asTableEx().replies.member.id)
-    }.execute().associateBy({ it._1 }) { it._3 }
+    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Reply::class) {
+        where(table.id valueIn ids, table.asTableEx().likes.dislike eq false)
+        groupBy(table.id)
+        select(table.id, count(table.asTableEx().likes.id, true))
+    }.execute().associateBy({ it._1 }) { it._2 }
+
+    override fun getDefaultValue(): Long = 0
 }

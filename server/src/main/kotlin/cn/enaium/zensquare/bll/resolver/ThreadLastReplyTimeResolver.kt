@@ -38,6 +38,12 @@ import java.util.*
  */
 @Component
 class ThreadLastReplyTimeResolver(val sql: KSqlClient) : KTransientResolver<UUID, LocalDateTime?> {
+    /**
+     * find last reply time
+     *
+     * @param ids thread id
+     * @return last reply time
+     */
     override fun resolve(ids: Collection<UUID>): Map<UUID, LocalDateTime?> = sql.createQuery(Thread::class) {
         where(table.id valueIn ids)
         groupBy(table.id)

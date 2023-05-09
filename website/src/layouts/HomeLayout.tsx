@@ -20,7 +20,7 @@
 import Menu from "@/components/Menu"
 import { NDivider, NLayout, NLayoutHeader } from "naive-ui"
 import { RouterView } from "vue-router"
-import Index from "@/components/State"
+import Session from "@/components/Session"
 
 const HomeLayout = () => {
   return (
@@ -29,7 +29,7 @@ const HomeLayout = () => {
         <NLayoutHeader class={"h-16"} bordered>
           <div class={"mx-48 flex justify-between items-center h-full"}>
             <Menu />
-            <Index />
+            <Session />
           </div>
         </NLayoutHeader>
         <NLayout style={{ top: "64px" }} position={"absolute"} hasSider>

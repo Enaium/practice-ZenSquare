@@ -17,17 +17,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.repository
+package cn.enaium.zensquare.bll.service
 
 import cn.enaium.zensquare.model.entity.MemberLike
-import org.babyfish.jimmer.spring.repository.KRepository
-import org.springframework.stereotype.Repository
 import java.util.*
 
 /**
  * @author Enaium
  */
-@Repository
-interface MemberLikeRepository : KRepository<MemberLike, UUID> {
-    fun findByMemberIdAndTarget(memberId: UUID, target: UUID): MemberLike?
+interface MemberLikeService {
+    fun findLike(memberId: UUID, target: UUID): MemberLike?
+
+    fun like(memberId: UUID, target: UUID, dislike: Boolean)
+
+    fun unlike(memberId: UUID, target: UUID)
 }

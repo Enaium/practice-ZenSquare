@@ -17,13 +17,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useSessionStore } from "@/store"
-import NoStatus from "@/components/State/NoStatus"
-import Stateful from "@/components/State/Stateful"
+const LikeState = () => <div>123</div>
 
-const State = () => {
-  const session = useSessionStore()
-  return <>{session.id ? <Stateful /> : <NoStatus />}</>
-}
-
-export default State
+export default LikeState

@@ -17,17 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.repository
+import { useSessionStore } from "@/store"
+import NoSession from "@/components/Session/NoSession.tsx"
+import Sessional from "@/components/Session/Sessional.tsx"
 
-import cn.enaium.zensquare.model.entity.MemberLike
-import org.babyfish.jimmer.spring.repository.KRepository
-import org.springframework.stereotype.Repository
-import java.util.*
-
-/**
- * @author Enaium
- */
-@Repository
-interface MemberLikeRepository : KRepository<MemberLike, UUID> {
-    fun findByMemberIdAndTarget(memberId: UUID, target: UUID): MemberLike?
+const State = () => {
+  const session = useSessionStore()
+  return <>{session.id ? <Sessional /> : <NoSession />}</>
 }
+
+export default State

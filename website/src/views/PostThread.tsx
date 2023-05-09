@@ -17,12 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { computed, defineComponent } from "vue"
+import { computed, defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance"
 import { RouterLink, useRoute } from "vue-router"
 import { NCard, NList, NListItem, NSpin } from "naive-ui"
 import ThreadForm from "@/components/ThreadForm"
+import { RequestOf } from "@/__generated"
 
 const PostThread = defineComponent({
   props: {
@@ -33,9 +34,10 @@ const PostThread = defineComponent({
   },
   setup: function (props) {
     const route = useRoute()
+    const options = reactive<RequestOf<typeof api.categoryController.findCategories>>({})
     const { data, isLoading } = useQuery({
       queryKey: ["categoryList"],
-      queryFn: () => api.categoryController.findCategories(),
+      queryFn: () => api.categoryController.findCategories(options),
     })
 
     const forum = computed(() => props.forum ?? route.params.forum ?? null)

@@ -29,7 +29,7 @@ import Avatar from "@/components/Avatar"
 
 let showModifyProfile = ref(false)
 
-const Stateful = defineComponent({
+const Sessional = defineComponent({
   setup() {
     const session = useSessionStore()
 
@@ -77,4 +77,4 @@ const Stateful = defineComponent({
   },
 })
 
-export default Stateful
+export default Sessional

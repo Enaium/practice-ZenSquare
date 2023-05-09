@@ -78,7 +78,7 @@ const ForumList = defineComponent({
                     <div class={"bg-gray-200 w-px"} />
                     <div class={"flex flex-col items-center"}>
                       <div>message</div>
-                      <div>0</div>
+                      <div>{forum.message}</div>
                     </div>
                   </div>
                 </div>

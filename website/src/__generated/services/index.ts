@@ -10,6 +10,8 @@ export { ImageController } from './ImageController';
 export type { ImageControllerOptions } from './ImageController';
 export { MemberController } from './MemberController';
 export type { MemberControllerOptions } from './MemberController';
+export { MemberLikeController } from './MemberLikeController';
+export type { MemberLikeControllerOptions } from './MemberLikeController';
 export { MemberProfileController } from './MemberProfileController';
 export type { MemberProfileControllerOptions } from './MemberProfileController';
 export { SessionController } from './SessionController';

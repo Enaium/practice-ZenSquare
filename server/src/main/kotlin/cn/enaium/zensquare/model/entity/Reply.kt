@@ -19,6 +19,8 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.ReplyDislikeCountResolver
+import cn.enaium.zensquare.bll.resolver.ReplyLikeCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
@@ -52,4 +54,13 @@ interface Reply : BaseEntity {
      */
     @OneToMany(mappedBy = "parent", orderedProps = [OrderedProp("crateTime")])
     val children: List<Reply>
+
+    @OneToMany(mappedBy = "reply")
+    val likes: List<MemberLike>
+
+    @Transient(ReplyLikeCountResolver::class)
+    val like: Long
+
+    @Transient(ReplyDislikeCountResolver::class)
+    val dislike: Long
 }
