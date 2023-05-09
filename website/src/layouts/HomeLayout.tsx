@@ -39,7 +39,8 @@ const HomeLayout = () => {
             </div>
             <NDivider />
             <div class={"mx-48"}>
-              <div class={"flex justify-center m-5"}>
+              <div class={"flex flex-col justify-center items-center m-5"}>
+                <p>ZenSquare is an opensource forums</p>
                 <p>Copyright &copy; 2023 Enaium</p>
               </div>
             </div>
