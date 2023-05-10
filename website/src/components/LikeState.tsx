@@ -34,36 +34,30 @@ const LikeState = defineComponent({
     const message = useMessage()
 
     const like = () => {
-      // if (session.id) {
-      //   api.memberLikeController
-      //     .like({
-      //       memberId: session.id,
-      //       target: props.target!,
-      //       dislike: false,
-      //     })
-      //     .then(() => {
-      //       context.emit("update:like", props.like! + 1)
-      //     })
-      //     .catch((error) => {
-      //       message.error(error)
-      //     })
-      // }
+      if (session.id) {
+        api.memberLikeController
+          .like({
+            memberId: session.id,
+            target: props.target!,
+            dislike: false,
+          })
+          .catch((error) => {
+            message.error(error)
+          })
+      }
     }
 
     const dislike = () => {
       if (session.id) {
-        // api.memberLikeController
-        //   .like({
-        //     memberId: session.id,
-        //     target: props.target!,
-        //     dislike: true,
-        //   })
-        //   .then(() => {
-        //     context.emit("update:dislike", props.dislike! + 1)
-        //   })
-        //   .catch((error) => {
-        //     message.error(error)
-        //   })
+        api.memberLikeController
+          .like({
+            memberId: session.id,
+            target: props.target!,
+            dislike: true,
+          })
+          .catch((error) => {
+            message.error(error)
+          })
       }
     }
 

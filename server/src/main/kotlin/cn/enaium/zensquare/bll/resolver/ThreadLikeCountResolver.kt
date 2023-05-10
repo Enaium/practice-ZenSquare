@@ -25,6 +25,7 @@ import cn.enaium.zensquare.model.entity.id
 import cn.enaium.zensquare.model.entity.likes
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
+import org.babyfish.jimmer.sql.kt.ast.expression.case
 import org.babyfish.jimmer.sql.kt.ast.expression.count
 import org.babyfish.jimmer.sql.kt.ast.expression.eq
 import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
@@ -49,8 +50,8 @@ class ThreadLikeCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Lo
         groupBy(table.id)
         select(
             table.id,
-            count(table.asTableEx().likes.dislike eq false, true),
-            count(table.asTableEx().likes.dislike eq true, true)
+            count(case().match(table.asTableEx().likes.dislike eq false, true).otherwise(false), true),
+            count(case().match(table.asTableEx().likes.dislike eq true, true).otherwise(false), true)
         )
     }.execute().associateBy({ it._1 }) { it._2 - it._3 }
 

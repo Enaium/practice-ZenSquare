@@ -45,7 +45,7 @@ class ReplyLikeCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Lon
      * @return count
      */
     override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Reply::class) {
-        where(table.id valueIn ids, table.asTableEx().likes.dislike eq false)
+        where(table.id valueIn ids)
         groupBy(table.id)
         select(
             table.id,
