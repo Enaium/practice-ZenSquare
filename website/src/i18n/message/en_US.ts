@@ -93,6 +93,9 @@ export default {
         message: "Please input reply",
       },
     },
+    replyList: {
+      viewChild: "View {count} child replies",
+    },
   },
   common: {
     submit: "Submit",

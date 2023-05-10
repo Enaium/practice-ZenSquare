@@ -1,16 +1,4 @@
 export type ReplyDto = {
-    'DEFAULT': {
-        readonly createdTime: string, 
-        readonly modifiedTime: string, 
-        readonly id: string, 
-        readonly content: string, 
-        readonly memberId: string, 
-        readonly member: {readonly id: string}, 
-        readonly threadId: string, 
-        readonly thread: {readonly id: string}, 
-        readonly parent?: {readonly id: string}, 
-        readonly parentId?: string
-    }, 
     'ReplyController/FULL_REPLY': {
         readonly id: string, 
         readonly createdTime: string, 

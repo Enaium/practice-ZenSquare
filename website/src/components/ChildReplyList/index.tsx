@@ -22,28 +22,40 @@ import { useQuery } from "@tanstack/vue-query"
 import { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance.ts"
 import { NList, NListItem, NSpin } from "naive-ui"
+import Pagination from "@/components/Pagination.tsx"
+import Item from "@/components/ChildReplyList/Item"
 
-const ChildReply = defineComponent({
+const ChildReplyList = defineComponent({
   props: {
-    parent: String,
+    parent: {
+      type: String,
+      required: true,
+    },
   },
   setup(props) {
-    const options = reactive<RequestOf<typeof api.childReplyController.findChildrenReplies>>({ replyId: props.parent! })
+    const options = reactive<RequestOf<typeof api.replyController.findChildrenReplies>>({ replyId: props.parent! })
 
     const { data, isLoading } = useQuery({
       queryKey: ["childReply", options],
-      queryFn: () => api.childReplyController.findChildrenReplies(options),
+      queryFn: () => api.replyController.findChildrenReplies(options),
     })
 
     return () =>
       isLoading.value || !data.value ? (
         <NSpin />
       ) : (
-        <NList bordered>
-          {data.value.content.map((child) => (
-            <NListItem>{child.content}</NListItem>
-          ))}
-        </NList>
+        <>
+          <NList bordered>
+            {data.value.content.map((child) => (
+              <NListItem>
+                <Item reply={child} />
+              </NListItem>
+            ))}
+          </NList>
+          {data.value.totalElements > data.value.size && <Pagination page={data.value} v-model:change={options.page} />}
+        </>
       )
   },
 })
+
+export default ChildReplyList

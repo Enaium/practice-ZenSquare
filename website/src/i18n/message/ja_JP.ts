@@ -110,6 +110,9 @@ export default {
         message: "返信を入力してください",
       },
     },
+    replyList: {
+      viewChild: "子を見る {count} 件",
+    },
   },
   common: {
     submit: "提出する",

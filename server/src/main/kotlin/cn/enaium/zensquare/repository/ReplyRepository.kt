@@ -28,13 +28,32 @@ import org.springframework.stereotype.Repository
 import java.util.*
 
 /**
+ * reply repository
+ *
  * @author Enaium
  */
 @Repository
 interface ReplyRepository : KRepository<Reply, UUID> {
+
+    /**
+     * Get replies by thread id and parent id is null (Get all replies)
+     *
+     * @param pageable
+     * @param threadId
+     * @param fetcher
+     * @return
+     */
     fun findAllByThreadIdAndParentIdIsNull(
-        pageable: Pageable, threadId: UUID, defaultReply: Fetcher<Reply>? = null
+        pageable: Pageable, threadId: UUID, fetcher: Fetcher<Reply>? = null
     ): Page<Reply>
 
-    fun findAllByParentId(pageable: Pageable, parentId: UUID): Page<Reply>
+    /**
+     * Get replies by parent id (Get all sub replies)
+     *
+     * @param pageable
+     * @param parentId
+     * @param fetcher
+     * @return
+     */
+    fun findAllByParentId(pageable: Pageable, parentId: UUID, fetcher: Fetcher<Reply>? = null): Page<Reply>
 }

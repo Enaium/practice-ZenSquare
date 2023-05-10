@@ -93,6 +93,9 @@ export default {
         message: "Veuillez saisir le contenu",
       },
     },
+    replyList: {
+      viewChild: "Voir les enfants ({count})",
+    },
   },
   common: {
     submit: "Soumettre",

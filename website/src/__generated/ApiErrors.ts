@@ -9,8 +9,6 @@ export type ApiErrors = {
     },
     "replyController": {
     },
-    "childReplyController": {
-    },
     "imageController": {
     },
     "memberController": {

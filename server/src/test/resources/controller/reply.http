@@ -1,0 +1,4 @@
+### ReplyMember
+
+### GET findChildrenReplies
+GET {{host}}/categories/forum/thread/replies/5894d0cb-1a09-4b0a-972d-0ee2dd68940f/children/

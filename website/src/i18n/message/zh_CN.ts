@@ -94,7 +94,7 @@ export default {
       },
     },
     replyList: {
-      viewChild: "查看{child}个回复",
+      viewChild: "查看 {child} 个回复",
     },
   },
   common: {

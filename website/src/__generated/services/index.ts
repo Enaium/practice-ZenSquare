@@ -6,8 +6,6 @@ export { ThreadController } from './ThreadController';
 export type { ThreadControllerOptions } from './ThreadController';
 export { ReplyController } from './ReplyController';
 export type { ReplyControllerOptions } from './ReplyController';
-export { ChildReplyController } from './ChildReplyController';
-export type { ChildReplyControllerOptions } from './ChildReplyController';
 export { ImageController } from './ImageController';
 export type { ImageControllerOptions } from './ImageController';
 export { MemberController } from './MemberController';

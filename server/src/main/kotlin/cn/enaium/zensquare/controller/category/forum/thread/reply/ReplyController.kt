@@ -63,6 +63,24 @@ class ReplyController(
     }
 
     /**
+     * Get children replies by reply id
+     *
+     * @param page page
+     * @param size size
+     * @param replyId reply id
+     * @return Page<Reply>
+     */
+    @SaIgnore
+    @GetMapping("/categories/forum/thread/replies/{replyId}/children/")
+    fun findChildrenReplies(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10,
+        @PathVariable replyId: UUID
+    ): Page<@FetchBy("FULL_REPLY") Reply> {
+        return replyRepository.findAllByParentId(PageRequest.of(page, size), replyId, FULL_REPLY)
+    }
+
+    /**
      * Reply to a thread or reply
      *
      * @param replyInput
