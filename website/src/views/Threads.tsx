@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, reactive } from "vue"
+import { defineComponent, reactive, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance"
@@ -25,11 +25,13 @@ import { RequestOf } from "@/__generated"
 import dayjs from "dayjs"
 import Avatar from "@/components/Avatar"
 import Content from "@/components/Content"
-import { NBreadcrumb, NBreadcrumbItem, NCard, NIcon, NSpin, NTag, NTime, NTooltip } from "naive-ui"
+import { NBreadcrumb, NBreadcrumbItem, NButton, NIcon, NModal, NSpin, NTag, NTime, NTooltip } from "naive-ui"
 import { Clock16Regular, People16Regular } from "@vicons/fluent"
-import ReplyForm from "@/components/ReplyForm"
 import ReplyList from "@/components/ReplyList"
-import LikeState from "@/components/LikeState.tsx"
+import LikeState from "@/components/LikeState"
+import ReplyForm from "@/components/ReplyForm"
+
+const showReply = ref(false)
 
 const Threads = defineComponent({
   setup() {
@@ -103,8 +105,11 @@ const Threads = defineComponent({
             {/*content*/}
             <div class={"flex flex-col justify-between p-2"}>
               <Content v-model={data.value.content} previewOnly />
-              <div class={"flex"}>
+              <div class={"flex justify-between"}>
                 <LikeState target={data.value.id} like={data.value.like} />
+                <NButton type={"primary"} onClick={() => (showReply.value = true)} text>
+                  {window.$i18n("component.replyForm.reply.label")}
+                </NButton>
               </div>
             </div>
           </div>
@@ -112,11 +117,9 @@ const Threads = defineComponent({
           {/*reply list*/}
           <ReplyList thread={data.value.id} />
           {/*reply*/}
-          <div class={"mt-5"}>
-            <NCard>
-              <ReplyForm thread={data.value.id} />
-            </NCard>
-          </div>
+          <NModal v-model:show={showReply.value} preset={"card"}>
+            <ReplyForm thread={data.value.id} />
+          </NModal>
         </>
       )
   },

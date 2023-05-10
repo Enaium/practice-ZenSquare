@@ -64,17 +64,17 @@ const LikeState = defineComponent({
     return () => (
       <>
         <div class={"flex items-center gap-2"}>
-          <NIcon size={32} color={"green"}>
+          <NIcon size={24} color={"green"}>
             <Vote24Filled />
           </NIcon>
           <div class={"text-2xl"}>{props.like}</div>
           <NButton text onClick={like}>
-            <NIcon size={32}>
+            <NIcon size={24}>
               <Heart20Regular />
             </NIcon>
           </NButton>
           <NButton text onClick={dislike}>
-            <NIcon size={32}>
+            <NIcon size={24}>
               <HeartBroken20Regular />
             </NIcon>
           </NButton>

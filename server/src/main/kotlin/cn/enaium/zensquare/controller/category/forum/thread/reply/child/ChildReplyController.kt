@@ -17,47 +17,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.session
+package cn.enaium.zensquare.controller.category.forum.thread.reply.child
 
-import cn.dev33.satoken.annotation.SaIgnore
-import cn.enaium.zensquare.bll.service.SessionService
-import cn.enaium.zensquare.model.entity.input.MemberInput
-import cn.enaium.zensquare.model.response.LoginResponse
-import cn.enaium.zensquare.util.checkId
-import org.springframework.http.HttpStatus
+import cn.enaium.zensquare.model.entity.Reply
+import cn.enaium.zensquare.repository.ReplyRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
- * session controller
+ * child reply controller
  *
  * @author Enaium
  */
-@SaIgnore
+@RequestMapping
 @RestController
-@RequestMapping("/sessions/")
-class
-SessionController(
-    val sessionService: SessionService
-) {
+class ChildReplyController(val replyRepository: ReplyRepository) {
     /**
-     * Login
-     */
-    @PutMapping
-    fun saveSession(@RequestBody memberInput: MemberInput): LoginResponse {
-        return sessionService.login(memberInput)
-    }
-
-    /**
-     * Logout
+     * Find all child replies
      *
-     * @param id Member
+     * @param page page
+     * @param size size
+     * @param replyId reply id
+     * @return Page<Reply>
      */
-    @DeleteMapping("{id}/")
-    @ResponseStatus(HttpStatus.OK)
-    fun deleteSession(@PathVariable id: UUID) {
-        if (checkId(id)) {
-            sessionService.logout(id)
-        }
+    @GetMapping("/categories/forum/thread/replies/{replyId}/children/")
+    fun findChildrenReplies(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10,
+        @PathVariable replyId: UUID
+    ): Page<Reply> {
+        return replyRepository.findAllByParentId(PageRequest.of(page, size), replyId)
     }
 }

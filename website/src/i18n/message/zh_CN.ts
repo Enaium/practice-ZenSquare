@@ -93,6 +93,9 @@ export default {
         message: "请输入回复",
       },
     },
+    replyList: {
+      viewChild: "查看{child}个回复",
+    },
   },
   common: {
     submit: "提交",

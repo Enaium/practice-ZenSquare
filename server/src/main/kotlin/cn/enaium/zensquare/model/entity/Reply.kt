@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.ReplyChildCountResolver
 import cn.enaium.zensquare.bll.resolver.ReplyLikeCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
@@ -47,6 +48,11 @@ interface Reply : BaseEntity {
 
     @ManyToOne
     val parent: Reply?
+
+    val parentId: UUID?
+
+    @Transient(ReplyChildCountResolver::class)
+    val child: Long
 
     /**
      * self join

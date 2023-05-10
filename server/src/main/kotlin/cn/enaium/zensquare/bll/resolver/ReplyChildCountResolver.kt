@@ -17,24 +17,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.repository
+package cn.enaium.zensquare.bll.resolver
 
 import cn.enaium.zensquare.model.entity.Reply
-import org.babyfish.jimmer.spring.repository.KRepository
-import org.babyfish.jimmer.sql.fetcher.Fetcher
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.stereotype.Repository
+import cn.enaium.zensquare.model.entity.children
+import cn.enaium.zensquare.model.entity.id
+import org.babyfish.jimmer.sql.kt.KSqlClient
+import org.babyfish.jimmer.sql.kt.KTransientResolver
+import org.babyfish.jimmer.sql.kt.ast.expression.count
+import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
+import org.springframework.stereotype.Component
 import java.util.*
 
 /**
  * @author Enaium
  */
-@Repository
-interface ReplyRepository : KRepository<Reply, UUID> {
-    fun findAllByThreadIdAndParentIdIsNull(
-        pageable: Pageable, threadId: UUID, defaultReply: Fetcher<Reply>? = null
-    ): Page<Reply>
+@Component
+class ReplyChildCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
+    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Reply::class) {
+        where(table.id valueIn ids)
+        groupBy(table.id)
+        select(table.id, count(table.asTableEx().children.id))
+    }.execute().associateBy({ it._1 }) { it._2 }
 
-    fun findAllByParentId(pageable: Pageable, parentId: UUID): Page<Reply>
+    override fun getDefaultValue(): Long = 0
 }

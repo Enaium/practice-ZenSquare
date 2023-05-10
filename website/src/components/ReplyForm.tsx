@@ -27,16 +27,16 @@ import { api } from "@/common/ApiInstance.ts"
 const form = ref<ReplyInput>({})
 const formRef = ref<FormInst | null>(null)
 
-const ReplyForm: FunctionalComponent<{ thread: string }> = ({ thread }) => {
+const ReplyForm: FunctionalComponent<{ thread: string; parent?: string }> = ({ thread, parent }) => {
   const message = useMessage()
   const submit = () => {
     formRef.value?.validate((errors) => {
       if (!errors) {
         api.replyController
-          .saveReply({ body: { ...form.value, threadId: thread } })
+          .saveReply({ body: { ...form.value, threadId: thread, parentId: parent } })
           .then(() => {
             message.success(window.$i18n("common.success"))
-            form.value = {}
+            // form.value = {}
           })
           .catch((error) => {
             message.error(error)

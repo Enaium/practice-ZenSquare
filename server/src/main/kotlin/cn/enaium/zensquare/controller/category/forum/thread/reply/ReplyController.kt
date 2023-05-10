@@ -59,7 +59,7 @@ class ReplyController(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
     ): Page<@FetchBy("FULL_REPLY") Reply> {
-        return replyRepository.findAllByThreadId(PageRequest.of(page, size), threadId, FULL_REPLY)
+        return replyRepository.findAllByThreadIdAndParentIdIsNull(PageRequest.of(page, size), threadId, FULL_REPLY)
     }
 
     /**
@@ -79,7 +79,6 @@ class ReplyController(
             allScalarFields()
             member {
                 profile {
-                    allScalarFields()
                     nickname()
                     avatar()
                     role {
@@ -87,6 +86,7 @@ class ReplyController(
                     }
                 }
             }
+            child()
             like()
         }
     }
