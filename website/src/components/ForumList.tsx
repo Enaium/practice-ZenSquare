@@ -29,7 +29,10 @@ import Pagination from "@/components/Pagination.tsx"
 
 const ForumList = defineComponent({
   props: {
-    category: String,
+    category: {
+      type: String,
+      required: true,
+    },
   },
   setup: function (props) {
     const options = reactive<RequestOf<typeof api.forumController.findForums>>({ categoryId: props.category! })

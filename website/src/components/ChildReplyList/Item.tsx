@@ -21,9 +21,10 @@ import { defineComponent, PropType, ref } from "vue"
 import { ReplyDto } from "@/__generated/model/dto"
 import Content from "@/components/Content"
 import LikeState from "@/components/LikeState"
-import { NButton, NModal } from "naive-ui"
+import { NButton, NModal, NTime, NTooltip } from "naive-ui"
 import ReplyForm from "@/components/ReplyForm"
 import ChildReplyList from "@/components/ChildReplyList/index"
+import dayjs from "dayjs"
 
 const Item = defineComponent({
   props: {
@@ -39,6 +40,16 @@ const Item = defineComponent({
     return () => (
       <>
         <div class={"flex flex-col justify-between p-2 w-full"}>
+          <div>
+            <NTooltip
+              v-slots={{
+                trigger: () => (
+                  <NTime time={new Date()} to={dayjs(props.reply.modifiedTime).toDate()} type={"relative"} />
+                ),
+                default: () => <div>{dayjs(props.reply.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+              }}
+            />
+          </div>
           <Content v-model={props.reply.content} previewOnly />
           <div class={"flex justify-between"}>
             <LikeState target={props.reply.id} like={props.reply.like} />

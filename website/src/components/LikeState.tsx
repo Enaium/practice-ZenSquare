@@ -19,15 +19,20 @@
 
 import { defineComponent } from "vue"
 import { NButton, NIcon, useMessage } from "naive-ui"
-import { Heart20Regular, HeartBroken20Regular } from "@vicons/fluent"
+import { Heart20Regular, HeartBroken20Regular, Vote24Filled } from "@vicons/fluent"
 import { useSessionStore } from "@/store"
 import { api } from "@/common/ApiInstance.ts"
-import { Vote24Filled } from "@vicons/fluent"
 
 const LikeState = defineComponent({
   props: {
-    target: String,
-    like: Number,
+    target: {
+      type: String,
+      required: true,
+    },
+    like: {
+      type: Number,
+      required: true,
+    },
   },
   setup(props) {
     const session = useSessionStore()

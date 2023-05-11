@@ -30,7 +30,10 @@ import Pagination from "@/components/Pagination.tsx"
 
 const ThreadList = defineComponent({
   props: {
-    forum: String,
+    forum: {
+      type: String,
+      required: true,
+    },
   },
   setup(props) {
     const options = reactive<RequestOf<typeof api.threadController.findThreads>>({ forumId: props.forum! })

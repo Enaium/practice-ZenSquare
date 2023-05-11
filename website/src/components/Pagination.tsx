@@ -23,8 +23,11 @@ import { Page } from "@/__generated/model/static"
 
 const Pagination = defineComponent({
   props: {
-    page: Object as PropType<Page<any>>,
-    changePage: Number,
+    page: {
+      type: Object as PropType<Page<any>>,
+      required: true,
+    },
+    changePage: Number
   },
   emits: ["update:change"],
   setup(props, context) {

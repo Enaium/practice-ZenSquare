@@ -27,7 +27,10 @@ import Item from "@/components/ReplyList/Item"
 
 const ReplyList = defineComponent({
   props: {
-    thread: String,
+    thread: {
+      type: String,
+      required: true,
+    },
   },
   setup(props) {
     const options = reactive<RequestOf<typeof api.replyController.findReplies>>({ threadId: props.thread! })
