@@ -6,7 +6,7 @@ export class CategoryController {
     
     constructor(private executor: Executor) {}
     
-    async findCategories(options: CategoryControllerOptions['findCategories'] | undefined): Promise<
+    async findCategories(options: CategoryControllerOptions['findCategories']): Promise<
         Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
     > {
         let _uri = '/categories/';
