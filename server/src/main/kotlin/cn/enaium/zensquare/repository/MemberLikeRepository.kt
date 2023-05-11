@@ -21,6 +21,7 @@ package cn.enaium.zensquare.repository
 
 import cn.enaium.zensquare.model.entity.MemberLike
 import org.babyfish.jimmer.spring.repository.KRepository
+import org.babyfish.jimmer.sql.fetcher.Fetcher
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -29,5 +30,5 @@ import java.util.*
  */
 @Repository
 interface MemberLikeRepository : KRepository<MemberLike, UUID> {
-    fun findByMemberIdAndTarget(memberId: UUID, target: UUID): MemberLike?
+    fun findByMemberIdAndTarget(memberId: UUID, target: UUID, fetcher: Fetcher<MemberLike>? = null): MemberLike?
 }

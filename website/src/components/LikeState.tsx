@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent } from "vue"
+import { defineComponent, ref } from "vue"
 import { NButton, NIcon, useMessage } from "naive-ui"
 import { Heart20Regular, HeartBroken20Regular, Vote24Filled } from "@vicons/fluent"
 import { useSessionStore } from "@/store"
@@ -35,34 +35,26 @@ const LikeState = defineComponent({
     },
   },
   setup(props) {
+    const likeCount = ref(props.like)
     const session = useSessionStore()
     const message = useMessage()
 
-    const like = () => {
+    const like = (dislike: boolean) => {
       if (session.id) {
         api.memberLikeController
           .like({
             memberId: session.id,
             target: props.target!,
-            dislike: false,
+            dislike: dislike,
+          })
+          .then((data) => {
+            likeCount.value = data
           })
           .catch((error) => {
             message.error(error)
           })
-      }
-    }
-
-    const dislike = () => {
-      if (session.id) {
-        api.memberLikeController
-          .like({
-            memberId: session.id,
-            target: props.target!,
-            dislike: true,
-          })
-          .catch((error) => {
-            message.error(error)
-          })
+      } else {
+        message.error(window.$i18n("component.likeState.notLogin"))
       }
     }
 
@@ -72,13 +64,13 @@ const LikeState = defineComponent({
           <NIcon size={24} color={"green"}>
             <Vote24Filled />
           </NIcon>
-          <div class={"text-2xl"}>{props.like}</div>
-          <NButton text onClick={like}>
+          <div class={"text-2xl"}>{likeCount.value}</div>
+          <NButton text onClick={() => like(false)}>
             <NIcon size={24}>
               <Heart20Regular />
             </NIcon>
           </NButton>
-          <NButton text onClick={dislike}>
+          <NButton text onClick={() => like(true)}>
             <NIcon size={24}>
               <HeartBroken20Regular />
             </NIcon>

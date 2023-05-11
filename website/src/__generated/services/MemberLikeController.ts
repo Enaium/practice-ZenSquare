@@ -1,6 +1,5 @@
 import type { Executor } from '../';
 import type { MemberLikeDto } from '../model/dto';
-import type { Unit } from '../model/static';
 
 export class MemberLikeController {
     
@@ -17,9 +16,7 @@ export class MemberLikeController {
         return (await this.executor({uri: _uri, method: 'GET'})) as MemberLikeDto['DEFAULT'] | undefined
     }
     
-    async like(options: MemberLikeControllerOptions['like']): Promise<
-        Unit
-    > {
+    async like(options: MemberLikeControllerOptions['like']): Promise<number> {
         let _uri = '/members/';
         _uri += encodeURIComponent(options.memberId);
         _uri += '/likes/';
@@ -34,7 +31,7 @@ export class MemberLikeController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'PUT'})) as Unit
+        return (await this.executor({uri: _uri, method: 'PUT'})) as number
     }
 }
 

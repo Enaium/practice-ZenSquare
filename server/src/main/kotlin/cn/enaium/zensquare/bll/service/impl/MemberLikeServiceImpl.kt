@@ -27,6 +27,7 @@ import cn.enaium.zensquare.repository.MemberLikeRepository
 import cn.enaium.zensquare.util.checkId
 import cn.enaium.zensquare.util.i18n
 import org.babyfish.jimmer.kt.new
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -51,7 +52,7 @@ class MemberLikeServiceImpl(
      * @param target thread id or reply id
      * @param dislike dislike
      */
-    override fun like(memberId: UUID, target: UUID, dislike: Boolean) {
+    override fun like(memberId: UUID, target: UUID, dislike: Boolean): Long {
         if (!checkId(memberId)) {
             throw ServiceException(HttpStatus.FORBIDDEN, messageSource.i18n("error.forbidden"))
         }
@@ -91,5 +92,18 @@ class MemberLikeServiceImpl(
                 })
             }
         }
+
+        // Return the like count
+        memberLikeRepository.findByMemberIdAndTarget(memberId, target, newFetcher(MemberLike::class).by {
+            thread {
+                like()
+            }
+            reply {
+                like()
+            }
+        })?.let {// Find the like
+            return it.thread?.like ?: it.reply?.like
+            ?: 0// If it is a thread, return the thread like count, else return the reply like count, else return 0
+        } ?: return 0// If it is not liked or disliked, return 0
     }
 }
