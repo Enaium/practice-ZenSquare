@@ -6,20 +6,20 @@ export class CategoryController {
     
     constructor(private executor: Executor) {}
     
-    async findCategories(options: CategoryControllerOptions['findCategories']): Promise<
+    async findCategories(options: CategoryControllerOptions['findCategories'] | undefined): Promise<
         Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
     > {
         let _uri = '/categories/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
-        _value = options.page;
+        _value = options?.page;
         if (_value !== undefined && _value !== null) {
             _uri += _separator
             _uri += 'page='
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        _value = options.size;
+        _value = options?.size;
         if (_value !== undefined && _value !== null) {
             _uri += _separator
             _uri += 'size='
