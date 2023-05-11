@@ -20,7 +20,7 @@
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
-import { NCard, NCollapse, NCollapseItem, NSpin } from "naive-ui"
+import { NCard, NCollapse, NCollapseItem, NSpin, NTooltip } from "naive-ui"
 import ForumList from "@/components/ForumList"
 import Pagination from "@/components/Pagination"
 import { RequestOf } from "@/__generated/RequestOf"
@@ -42,11 +42,24 @@ const CategoryList = defineComponent({
           ) : (
             <>
               <NCollapse>
-                {data.value?.content.map((category, index) => {
+                {data.value?.content.map((category) => {
                   return (
-                    <NCollapseItem title={category.name} name={index} key={index}>
-                      <ForumList category={category.id} />
-                    </NCollapseItem>
+                    <NCollapseItem
+                      v-slots={{
+                        header: () => (
+                          <NTooltip
+                            maxWidth={400}
+                            v-slots={{
+                              trigger: () => <div>{category.name}</div>,
+                              default: () => <div>{category.description}</div>,
+                            }}
+                          />
+                        ),
+                        default: () => <ForumList category={category.id} />,
+                      }}
+                      name={category.id}
+                      key={category.id}
+                    />
                   )
                 })}
               </NCollapse>
