@@ -50,8 +50,8 @@ class ThreadLikeCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Lo
         groupBy(table.id)
         select(
             table.id,
-            count(case().match(table.asTableEx().likes.dislike eq false, true).otherwise(false), true),
-            count(case().match(table.asTableEx().likes.dislike eq true, true).otherwise(false), true)
+            count(case().match(table.asTableEx().likes.dislike eq false, true).otherwise()),
+            count(case().match(table.asTableEx().likes.dislike eq true, true).otherwise())
         )
     }.execute().associateBy({ it._1 }) { it._2 - it._3 }
 
