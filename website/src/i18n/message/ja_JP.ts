@@ -116,6 +116,12 @@ export default {
     likeState: {
       notLogin: "ログインしていません",
     },
+    button: {
+      report: "報告",
+      edit: "編集",
+      reply: "返信",
+      delete: "削除",
+    },
   },
   common: {
     submit: "提出する",

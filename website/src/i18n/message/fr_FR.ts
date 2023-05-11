@@ -99,6 +99,12 @@ export default {
     likeState: {
       notLogin: "Vous n'êtes pas connecté",
     },
+    button: {
+      report: "Rapport",
+      edit: "Modifier",
+      reply: "Répondre",
+      delete: "Supprimer",
+    },
   },
   common: {
     submit: "Soumettre",

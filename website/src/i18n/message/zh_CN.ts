@@ -99,6 +99,12 @@ export default {
     likeState: {
       notLogin: "请登录后点赞",
     },
+    button: {
+      report: "举报",
+      edit: "编辑",
+      reply: "回复",
+      delete: "删除",
+    },
   },
   common: {
     submit: "提交",

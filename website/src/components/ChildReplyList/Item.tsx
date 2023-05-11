@@ -20,11 +20,11 @@
 import { defineComponent, PropType, ref } from "vue"
 import { ReplyDto } from "@/__generated/model/dto"
 import Content from "@/components/Content"
-import LikeState from "@/components/LikeState"
-import { NButton, NModal, NTime, NTooltip } from "naive-ui"
+import { NModal, NTime, NTooltip } from "naive-ui"
 import ReplyForm from "@/components/ReplyForm"
 import ChildReplyList from "@/components/ChildReplyList/index"
 import dayjs from "dayjs"
+import ReplyBottom from "@/components/ReplyBottom.tsx"
 
 const Item = defineComponent({
   props: {
@@ -51,17 +51,12 @@ const Item = defineComponent({
             />
           </div>
           <Content v-model={props.reply.content} previewOnly />
-          <div class={"flex justify-between"}>
-            <LikeState target={props.reply.id} like={props.reply.like} />
-            {props.reply.child > 0 && (
-              <NButton type={"primary"} text onClick={() => (showChild.value = props.reply.id)}>
-                {window.$i18n("component.replyList.viewChild", { child: props.reply.child })}
-              </NButton>
-            )}
-            <NButton type={"primary"} text onClick={() => (showForm.value = props.reply.id)}>
-              {window.$i18n("component.replyForm.reply.label")}
-            </NButton>
-          </div>
+          {/*bottom*/}
+          <ReplyBottom
+            reply={props.reply}
+            onClickShowChild={() => (showChild.value = props.reply.id)}
+            onClickShowReply={() => (showForm.value = props.reply.id)}
+          />
         </div>
         <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>
           <ReplyForm thread={props.reply.threadId} parent={showForm.value!} />

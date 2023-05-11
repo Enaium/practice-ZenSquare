@@ -120,6 +120,7 @@ class ThreadController(
                     avatar()
                 }
             }
+            reply()
         }
 
         val FULL_THREAD = newFetcher(Thread::class).by {

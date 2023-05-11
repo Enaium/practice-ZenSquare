@@ -36,7 +36,7 @@ const ReplyForm: FunctionalComponent<{ thread: string; parent?: string }> = ({ t
           .saveReply({ body: { ...form.value, threadId: thread, parentId: parent } })
           .then(() => {
             message.success(window.$i18n("common.success"))
-            // form.value = {}
+            form.value = {}
           })
           .catch((error) => {
             message.error(error)

@@ -22,7 +22,8 @@ export type ThreadDto = {
                 readonly nickname?: string, 
                 readonly avatar?: string
             }
-        }
+        }, 
+        readonly reply: number
     }, 
     'ThreadController/FULL_THREAD': {
         readonly id: string, 

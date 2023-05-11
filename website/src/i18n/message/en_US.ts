@@ -99,6 +99,12 @@ export default {
     likeState: {
       notLogin: "Please login first to like",
     },
+    button: {
+      report: "Report",
+      edit: "Edit",
+      reply: "Reply",
+      delete: "Delete",
+    },
   },
   common: {
     submit: "Submit",

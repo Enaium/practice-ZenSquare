@@ -25,11 +25,11 @@ import { RequestOf } from "@/__generated"
 import dayjs from "dayjs"
 import Avatar from "@/components/Avatar"
 import Content from "@/components/Content"
-import { NBreadcrumb, NBreadcrumbItem, NButton, NIcon, NModal, NSpin, NTag, NTime, NTooltip } from "naive-ui"
+import { NBreadcrumb, NBreadcrumbItem, NIcon, NModal, NSpin, NTag, NTime, NTooltip } from "naive-ui"
 import { Clock16Regular, People16Regular } from "@vicons/fluent"
 import ReplyList from "@/components/ReplyList"
-import LikeState from "@/components/LikeState"
 import ReplyForm from "@/components/ReplyForm"
+import ThreadBottom from "@/components/ThreadBottom.tsx"
 
 const showReply = ref(false)
 
@@ -105,12 +105,7 @@ const Threads = defineComponent({
             {/*content*/}
             <div class={"flex flex-col w-full justify-between p-2"}>
               <Content v-model={data.value.content} previewOnly />
-              <div class={"flex justify-between"}>
-                <LikeState target={data.value.id} like={data.value.like} />
-                <NButton type={"primary"} onClick={() => (showReply.value = true)} text>
-                  {window.$i18n("component.replyForm.reply.label")}
-                </NButton>
-              </div>
+              <ThreadBottom thread={data.value} onClickShowReply={() => (showReply.value = true)} />
             </div>
           </div>
           <div class={"mt-5"} />

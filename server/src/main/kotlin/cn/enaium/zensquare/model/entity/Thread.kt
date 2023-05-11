@@ -22,6 +22,7 @@ package cn.enaium.zensquare.model.entity
 import cn.enaium.zensquare.bll.resolver.ThreadLastReplyMemberResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLastReplyTimeResolver
 import cn.enaium.zensquare.bll.resolver.ThreadLikeCountResolver
+import cn.enaium.zensquare.bll.resolver.ThreadReplyCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
@@ -52,6 +53,9 @@ interface Thread : BaseEntity {
 
     @OneToMany(mappedBy = "thread")
     val replies: List<Reply>
+
+    @Transient(ThreadReplyCountResolver::class)
+    val reply: Long
 
     /**
      * latest reply time

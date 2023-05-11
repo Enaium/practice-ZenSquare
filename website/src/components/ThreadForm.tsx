@@ -17,13 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionalComponent, reactive, ref } from "vue"
+import { FunctionalComponent, ref } from "vue"
 import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
 import Content from "@/components/Content"
 import { api } from "@/common/ApiInstance"
 import { ThreadInput } from "@/__generated/model/static"
 
-const form = reactive<ThreadInput>({})
+const form = ref<ThreadInput>({})
 const formRef = ref<FormInst | null>(null)
 
 const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
@@ -32,7 +32,7 @@ const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
     formRef.value?.validate((errors) => {
       if (!errors) {
         api.threadController
-          .saveThread({ body: { ...form, forumId: forum } })
+          .saveThread({ body: { ...form.value, forumId: forum } })
           .then(() => {
             message.success(window.$i18n("common.success"))
           })
@@ -50,14 +50,14 @@ const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
           label={window.$i18n("component.threadForm.title.label")}
           rule={[{ required: true, message: window.$i18n("component.threadForm.title.message") }]}
         >
-          <NInput v-model:value={form.title} />
+          <NInput v-model:value={form.value.title} />
         </NFormItem>
         <NFormItem
           path={"content"}
           label={window.$i18n("component.threadForm.content.label")}
           rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
         >
-          <Content v-model={form.content} />
+          <Content v-model={form.value.content} />
         </NFormItem>
         <NButton onClick={submit} type={"primary"}>
           {window.$i18n("common.submit")}

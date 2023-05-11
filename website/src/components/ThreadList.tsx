@@ -85,7 +85,7 @@ const ThreadList = defineComponent({
                     <div class={"h-full w-24 flex flex-col justify-between"}>
                       <div class={"flex justify-between"}>
                         <span>Replies:</span>
-                        <span>0</span>
+                        <span>{thread.reply}</span>
                       </div>
                       <div class={"flex justify-between"}>
                         <span>Views:</span>
