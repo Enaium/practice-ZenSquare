@@ -22,44 +22,39 @@ import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance.ts"
 import { RequestOf } from "@/__generated"
 import { NList, NListItem, NSpin } from "naive-ui"
-import Item from "@/components/ThreadList/Item.tsx"
 import Pagination from "@/components/Pagination.tsx"
+import Item from "@/components/ThreadList/Item.tsx"
 
-const WhatsNew = defineComponent({
-  setup() {
-    const options = reactive<RequestOf<typeof api.threadController.findLatest>>({})
-
+const ThreadList = defineComponent({
+  props: {
+    forum: {
+      type: String,
+      required: true,
+    },
+  },
+  setup(props) {
+    const options = reactive<RequestOf<typeof api.threadController.findThreads>>({ forumId: props.forum! })
     const { data, isLoading } = useQuery({
-      queryKey: ["whatsNew", options],
-      queryFn: () => api.threadController.findLatest(options),
+      queryKey: ["findThreads", options],
+      queryFn: () => api.threadController.findThreads(options),
     })
 
-    return () => (
-      <>
-        <div class={"mt-5"}>
-          <div>{window.$i18n("component.menu.whatsNew")}</div>
-        </div>
-        <div class={"mt-5"}>
-          {isLoading.value || !data.value ? (
-            <NSpin />
-          ) : (
-            <>
-              <NList bordered>
-                {data.value.content.map((thread) => (
-                  <NListItem>
-                    <Item thread={thread} />
-                  </NListItem>
-                ))}
-              </NList>
-              {data.value.totalElements > data.value.size && (
-                <Pagination page={data.value} v-model:change={options.page} />
-              )}
-            </>
-          )}
-        </div>
-      </>
-    )
+    return () =>
+      isLoading.value || !data.value ? (
+        <NSpin />
+      ) : (
+        <>
+          <NList bordered>
+            {data.value.content.map((thread) => (
+              <NListItem key={thread.id}>
+                <Item thread={thread} />
+              </NListItem>
+            ))}
+          </NList>
+          {data.value.totalElements > data.value.size && <Pagination page={data.value} v-model:change={options.page} />}
+        </>
+      )
   },
 })
 
-export default WhatsNew
+export default ThreadList

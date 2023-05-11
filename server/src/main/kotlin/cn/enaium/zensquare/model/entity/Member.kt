@@ -19,6 +19,8 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.MemberReplyCountResolver
+import cn.enaium.zensquare.bll.resolver.MemberThreadCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
 import org.babyfish.jimmer.sql.*
 import org.babyfish.jimmer.sql.GenerationType.USER
@@ -50,4 +52,16 @@ interface Member : BaseEntity {
 
     @ManyToMany(mappedBy = "followers")
     val followings: List<Member>
+
+    @OneToMany(mappedBy = "member")
+    val threads: List<Thread>
+
+    @Transient(MemberThreadCountResolver::class)
+    val thread: Long
+
+    @OneToMany(mappedBy = "member")
+    val replies: List<Reply>
+
+    @Transient(MemberReplyCountResolver::class)
+    val reply: Long
 }

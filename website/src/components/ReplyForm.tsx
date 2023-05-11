@@ -17,52 +17,73 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionalComponent, ref } from "vue"
-import { ReplyInput } from "@/__generated/model/static"
+import { defineComponent, ref } from "vue"
+
 import { FormInst, NButton, NForm, NFormItem, useMessage } from "naive-ui"
-import Content from "@/components/Content"
+import { ReplyInput } from "@/__generated/model/static"
 import { ArrowReply16Regular } from "@vicons/fluent"
+import Content from "@/components/Content.tsx"
 import { api } from "@/common/ApiInstance.ts"
 
-const form = ref<ReplyInput>({})
-const formRef = ref<FormInst | null>(null)
+const ReplyForm = defineComponent({
+  props: {
+    thread: {
+      type: String,
+    },
+    parent: {
+      type: String,
+    },
+    id: {
+      type: String,
+    },
+  },
+  setup: function (props) {
+    const form = ref<ReplyInput>({})
+    const formRef = ref<FormInst | null>(null)
 
-const ReplyForm: FunctionalComponent<{ thread: string; parent?: string }> = ({ thread, parent }) => {
-  const message = useMessage()
-  const submit = () => {
-    formRef.value?.validate((errors) => {
-      if (!errors) {
-        api.replyController
-          .saveReply({ body: { ...form.value, threadId: thread, parentId: parent } })
-          .then(() => {
-            message.success(window.$i18n("common.success"))
-            form.value = {}
-          })
-          .catch((error) => {
-            message.error(error)
-          })
-      }
-    })
-  }
+    const message = useMessage()
+    const submit = () => {
+      formRef.value?.validate((errors) => {
+        if (!errors) {
+          api.replyController
+            .saveReply({
+              body: {
+                ...form.value,
+                id: props.id,
+                threadId: props.thread,
+                parentId: props.parent,
+              },
+            })
+            .then(() => {
+              message.success(window.$i18n("common.success"))
+              form.value = {}
+            })
+            .catch((error) => {
+              message.error(error)
+            })
+        }
+      })
+    }
 
-  return (
-    <>
-      <NForm model={form.value} ref={formRef}>
-        <NFormItem
-          path={"content"}
-          label={window.$i18n("component.replyForm.reply.label")}
-          rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
-        >
-          <Content v-model={form.value.content} />
-        </NFormItem>
-        <div class={"flex flex-row-reverse"}>
-          <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>
-            {window.$i18n("common.submit")}
-          </NButton>
-        </div>
-      </NForm>
-    </>
-  )
-}
+    return () => (
+      <>
+        <NForm model={form.value} ref={formRef}>
+          <NFormItem
+            path={"content"}
+            label={window.$i18n("component.replyForm.reply.label")}
+            rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
+          >
+            <Content v-model={form.value.content} />
+          </NFormItem>
+          <div class={"flex flex-row-reverse"}>
+            <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>
+              {window.$i18n("common.submit")}
+            </NButton>
+          </div>
+        </NForm>
+      </>
+    )
+  },
+})
 
 export default ReplyForm

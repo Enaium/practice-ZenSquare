@@ -17,19 +17,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Members = () => {
-  return (
-    <>
-        <div class={"mt-5"}>
-            <div>{window.$i18n("component.menu.members")}</div>
-        </div>
-        <div class={"flex justify-between mt-5"}>
-            <div>Most thread</div>
-            <div>Most reply</div>
-            <div>Most message</div>
-        </div>
-    </>
-  )
-}
+package cn.enaium.zensquare.controller.member.rank
 
-export default Members
+import cn.enaium.zensquare.repository.MemberRankRepository
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
+
+/**
+ * @author Enaium
+ */
+@RestController
+class RankController(
+    val memberRankRepository: MemberRankRepository
+) {
+    @GetMapping("/members/rank/thread/")
+    fun findThreadRank() {
+
+    }
+}

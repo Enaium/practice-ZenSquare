@@ -62,7 +62,7 @@ const Item = defineComponent({
             <ReplyBottom
               reply={props.reply}
               onClickShowChild={() => (showChild.value = props.reply.id)}
-              onClickShowReply={() => (showForm.value = props.reply.id)}
+              onClickReply={() => (showForm.value = props.reply.id)}
             />
           </div>
         </div>

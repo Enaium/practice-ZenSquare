@@ -17,54 +17,61 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionalComponent, ref } from "vue"
+import { defineComponent, ref } from "vue"
 import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
 import Content from "@/components/Content"
 import { api } from "@/common/ApiInstance"
 import { ThreadInput } from "@/__generated/model/static"
 
-const form = ref<ThreadInput>({})
-const formRef = ref<FormInst | null>(null)
+const ThreadForm = defineComponent({
+  props: {
+    forum: {
+      type: String,
+    },
+  },
+  setup(props) {
+    const form = ref<ThreadInput>({})
+    const formRef = ref<FormInst | null>(null)
 
-const ThreadForm: FunctionalComponent<{ forum: string }> = ({ forum }) => {
-  const message = useMessage()
-  const submit = () => {
-    formRef.value?.validate((errors) => {
-      if (!errors) {
-        api.threadController
-          .saveThread({ body: { ...form.value, forumId: forum } })
-          .then(() => {
-            message.success(window.$i18n("common.success"))
-          })
-          .catch((error) => {
-            message.error(error)
-          })
-      }
-    })
-  }
-  return (
-    <>
-      <NForm model={form} ref={formRef}>
-        <NFormItem
-          path={"title"}
-          label={window.$i18n("component.threadForm.title.label")}
-          rule={[{ required: true, message: window.$i18n("component.threadForm.title.message") }]}
-        >
-          <NInput v-model:value={form.value.title} />
-        </NFormItem>
-        <NFormItem
-          path={"content"}
-          label={window.$i18n("component.threadForm.content.label")}
-          rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
-        >
-          <Content v-model={form.value.content} />
-        </NFormItem>
-        <NButton onClick={submit} type={"primary"}>
-          {window.$i18n("common.submit")}
-        </NButton>
-      </NForm>
-    </>
-  )
-}
+    const message = useMessage()
+    const submit = () => {
+      formRef.value?.validate((errors) => {
+        if (!errors) {
+          api.threadController
+            .saveThread({ body: { ...form.value, forumId: props.forum } })
+            .then(() => {
+              message.success(window.$i18n("common.success"))
+            })
+            .catch((error) => {
+              message.error(error)
+            })
+        }
+      })
+    }
+    return () => (
+      <>
+        <NForm model={form.value} ref={formRef}>
+          <NFormItem
+            path={"title"}
+            label={window.$i18n("component.threadForm.title.label")}
+            rule={[{ required: true, message: window.$i18n("component.threadForm.title.message") }]}
+          >
+            <NInput v-model:value={form.value.title} />
+          </NFormItem>
+          <NFormItem
+            path={"content"}
+            label={window.$i18n("component.threadForm.content.label")}
+            rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
+          >
+            <Content v-model={form.value.content} />
+          </NFormItem>
+          <NButton onClick={submit} type={"primary"}>
+            {window.$i18n("common.submit")}
+          </NButton>
+        </NForm>
+      </>
+    )
+  },
+})
 
 export default ThreadForm

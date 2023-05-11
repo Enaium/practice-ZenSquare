@@ -19,7 +19,7 @@
 
 package cn.enaium.zensquare.bll.resolver
 
-import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.model.entity.Member
 import cn.enaium.zensquare.model.entity.id
 import cn.enaium.zensquare.model.entity.replies
 import org.babyfish.jimmer.sql.kt.KSqlClient
@@ -30,13 +30,13 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 /**
- * thread reply count resolver
+ * count member replies
  *
  * @author Enaium
  */
 @Component
-class ThreadReplyCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
-    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Thread::class) {
+class MemberReplyCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
+    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Member::class) {
         where(table.id valueIn ids)
         groupBy(table.id)
         select(table.id, count(table.asTableEx().replies.id))

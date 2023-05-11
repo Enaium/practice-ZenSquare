@@ -55,7 +55,7 @@ const Item = defineComponent({
           <ReplyBottom
             reply={props.reply}
             onClickShowChild={() => (showChild.value = props.reply.id)}
-            onClickShowReply={() => (showForm.value = props.reply.id)}
+            onClickReply={() => (showForm.value = props.reply.id)}
           />
         </div>
         <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>

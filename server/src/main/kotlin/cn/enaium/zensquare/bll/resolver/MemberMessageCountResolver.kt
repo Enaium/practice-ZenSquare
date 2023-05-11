@@ -19,9 +19,9 @@
 
 package cn.enaium.zensquare.bll.resolver
 
-import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.model.entity.Member
 import cn.enaium.zensquare.model.entity.id
-import cn.enaium.zensquare.model.entity.replies
+import cn.enaium.zensquare.model.entity.threads
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
 import org.babyfish.jimmer.sql.kt.ast.expression.count
@@ -30,17 +30,17 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 /**
- * thread reply count resolver
+ * count thread and reply
  *
  * @author Enaium
  */
 @Component
-class ThreadReplyCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
-    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Thread::class) {
+class MemberMessageCountResolver(val sql: KSqlClient) : KTransientResolver<UUID, Long> {
+    override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Member::class) {
         where(table.id valueIn ids)
         groupBy(table.id)
-        select(table.id, count(table.asTableEx().replies.id))
-    }.execute().associateBy({ it._1 }) { it._2 }
+        select(table.id, count(table.asTableEx().threads.id, true), count(table.asTableEx().threads.id, true))
+    }.execute().associateBy({ it._1 }) { it._2 + it._3 }
 
     override fun getDefaultValue(): Long = 0
 }

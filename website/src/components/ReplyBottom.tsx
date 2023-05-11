@@ -19,10 +19,11 @@
 
 import { defineComponent, PropType, ref } from "vue"
 import { ReplyDto } from "@/__generated/model/dto"
-import { NButton, NIcon, NPopconfirm, NPopover } from "naive-ui"
+import { NButton, NIcon, NModal, NPopconfirm, NPopover } from "naive-ui"
 import { useSessionStore } from "@/store"
 import LikeState from "@/components/LikeState"
 import { MoreHorizontal32Filled } from "@vicons/fluent"
+import ReplyForm from "@/components/ReplyForm.tsx"
 
 const ReplyBottom = defineComponent({
   props: {
@@ -34,7 +35,7 @@ const ReplyBottom = defineComponent({
       type: Function as PropType<() => void>,
       required: true,
     },
-    onClickShowReply: {
+    onClickReply: {
       type: Function as PropType<() => void>,
       required: true,
     },
@@ -42,64 +43,70 @@ const ReplyBottom = defineComponent({
   setup(props) {
     const session = useSessionStore()
     const showPop = ref(false)
+    const showEdit = ref(false)
 
     return () => (
-      <div class={"flex justify-between"}>
-        {/*left*/}
-        <LikeState target={props.reply.id} like={props.reply.like} />
-        {/*middle*/}
-        {props.reply.child > 0 && (
-          <NButton type={"primary"} text onClick={props.onClickShowChild}>
-            {window.$i18n("component.replyList.viewChild", { child: props.reply.child })}
-          </NButton>
-        )}
-        {/*right*/}
-        <NPopover
-          trigger={"click"}
-          onClickoutside={() => (showPop.value = false)}
-          v-slots={{
-            trigger: () => (
-              <NButton text type={"primary"}>
-                <NIcon size={32}>
-                  <MoreHorizontal32Filled />
-                </NIcon>
-              </NButton>
-            ),
-            default: () => (
-              <div class={"flex gap-5 items-center"}>
-                {/*If the session id is not equal to the reply member id, then show the report button.*/}
-                {session.id != props.reply.memberId && (
-                  <NButton text type={"primary"}>
-                    {window.$i18n("component.button.report")}
-                  </NButton>
-                )}
-                {/*If the session id is equal to the reply member id, then show the edit button.*/}
-                {session.id == props.reply.memberId && (
-                  <NButton text type={"primary"}>
-                    {window.$i18n("component.button.edit")}
-                  </NButton>
-                )}
-                {/*If the session id is equal to the reply member id, then show the delete button.*/}
-                {session.id == props.reply.memberId && (
-                  <NPopconfirm
-                    v-slots={{
-                      trigger: () => (
-                        <NButton text type={"primary"}>
-                          {window.$i18n("component.button.delete")}
-                        </NButton>
-                      ),
-                    }}
-                    onPositiveClick={() => {}}
-                  />
-                )}
-                <NButton type={"primary"} text onClick={props.onClickShowReply}>
-                  {window.$i18n("component.button.reply")}
+      <>
+        <div class={"flex justify-between"}>
+          {/*left*/}
+          <LikeState target={props.reply.id} like={props.reply.like} />
+          {/*middle*/}
+          {props.reply.child > 0 && (
+            <NButton type={"primary"} text onClick={props.onClickShowChild}>
+              {window.$i18n("component.replyList.viewChild", { child: props.reply.child })}
+            </NButton>
+          )}
+          {/*right*/}
+          <NPopover
+            trigger={"click"}
+            onClickoutside={() => (showPop.value = false)}
+            v-slots={{
+              trigger: () => (
+                <NButton text type={"primary"}>
+                  <NIcon size={32}>
+                    <MoreHorizontal32Filled />
+                  </NIcon>
                 </NButton>
-              </div>
-            ),
-          }}
-        />
-      </div>
+              ),
+              default: () => (
+                <div class={"flex gap-5 items-center"}>
+                  {/*If the session id is not equal to the reply member id, then show the report button.*/}
+                  {session.id != props.reply.memberId && (
+                    <NButton text type={"primary"}>
+                      {window.$i18n("component.button.report")}
+                    </NButton>
+                  )}
+                  {/*If the session id is equal to the reply member id, then show the edit button.*/}
+                  {session.id == props.reply.memberId && (
+                    <NButton text type={"primary"} onClick={() => (showEdit.value = true)}>
+                      {window.$i18n("component.button.edit")}
+                    </NButton>
+                  )}
+                  {/*If the session id is equal to the reply member id, then show the delete button.*/}
+                  {session.id == props.reply.memberId && (
+                    <NPopconfirm
+                      v-slots={{
+                        trigger: () => (
+                          <NButton text type={"primary"}>
+                            {window.$i18n("component.button.delete")}
+                          </NButton>
+                        ),
+                      }}
+                      onPositiveClick={() => {}}
+                    />
+                  )}
+                  <NButton type={"primary"} text onClick={props.onClickReply}>
+                    {window.$i18n("component.button.reply")}
+                  </NButton>
+                </div>
+              ),
+            }}
+          />
+        </div>
+        <NModal show={showEdit.value} preset={"card"} onClose={() => (showEdit.value = false)}>
+          <ReplyForm id={props.reply.id} />
+        </NModal>
+      </>
     )
   },
 })

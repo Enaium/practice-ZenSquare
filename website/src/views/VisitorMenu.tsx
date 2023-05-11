@@ -46,7 +46,7 @@ const VisitorMenu = defineComponent({
           <>
             <div class={"flex gap-5"}>
               <Avatar id={data.value.avatar} size={128} round bordered />
-              <div class={"flex flex-col w-32"}>
+              <div class={"flex flex-col w-36"}>
                 <NButton text class={"text-left"}>
                   <h3>{data.value.nickname}</h3>
                 </NButton>

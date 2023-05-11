@@ -56,6 +56,22 @@ class ThreadController(
     }
 
     /**
+     * Get latest threads
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    @SaIgnore
+    @GetMapping("/categories/forums/threads/latest/")
+    fun findLatest(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10
+    ): Page<@FetchBy("DEFAULT_THREAD") Thread> {
+        return threadRepository.findTop30OrderByModifiedTimeDesc(PageRequest.of(page, size), DEFAULT_THREAD)
+    }
+
+    /**
      * Get threads by forum id
      *
      * @param forumId forum id

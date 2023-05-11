@@ -105,7 +105,7 @@ const Threads = defineComponent({
             {/*content*/}
             <div class={"flex flex-col w-full justify-between p-2"}>
               <Content v-model={data.value.content} previewOnly />
-              <ThreadBottom thread={data.value} onClickShowReply={() => (showReply.value = true)} />
+              <ThreadBottom thread={data.value} onClickReply={() => (showReply.value = true)} />
             </div>
           </div>
           <div class={"mt-5"} />

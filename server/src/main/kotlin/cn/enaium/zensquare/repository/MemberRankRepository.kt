@@ -17,19 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Members = () => {
-  return (
-    <>
-        <div class={"mt-5"}>
-            <div>{window.$i18n("component.menu.members")}</div>
-        </div>
-        <div class={"flex justify-between mt-5"}>
-            <div>Most thread</div>
-            <div>Most reply</div>
-            <div>Most message</div>
-        </div>
-    </>
-  )
-}
+package cn.enaium.zensquare.repository
 
-export default Members
+import cn.enaium.zensquare.model.entity.Member
+import org.babyfish.jimmer.spring.repository.KRepository
+import org.springframework.stereotype.Repository
+import java.util.*
+
+/**
+ * @author Enaium
+ */
+@Repository
+interface MemberRankRepository : KRepository<Member, UUID> {
+    
+}

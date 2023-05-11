@@ -30,7 +30,7 @@ const ThreadBottom = defineComponent({
       type: Object as PropType<ThreadDto["ThreadController/FULL_THREAD"]>,
       required: true,
     },
-    onClickShowReply: {
+    onClickReply: {
       type: Function as PropType<() => void>,
       required: true,
     },
@@ -81,7 +81,7 @@ const ThreadBottom = defineComponent({
                             onPositiveClick={() => {}}
                         />
                     )}
-                    <NButton type={"primary"} text onClick={props.onClickShowReply}>
+                    <NButton type={"primary"} text onClick={props.onClickReply}>
                       {window.$i18n("component.button.reply")}
                     </NButton>
                   </div>
