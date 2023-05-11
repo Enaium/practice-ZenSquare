@@ -96,6 +96,9 @@ export default {
     replyList: {
       viewChild: "Voir les enfants ({count})",
     },
+    likeState: {
+      notLogin: "Vous n'êtes pas connecté",
+    },
   },
   common: {
     submit: "Soumettre",

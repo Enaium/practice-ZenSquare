@@ -96,6 +96,9 @@ export default {
     replyList: {
       viewChild: "View {count} child replies",
     },
+    likeState: {
+      notLogin: "Please login first to like",
+    },
   },
   common: {
     submit: "Submit",

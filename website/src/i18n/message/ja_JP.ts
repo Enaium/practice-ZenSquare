@@ -113,6 +113,9 @@ export default {
     replyList: {
       viewChild: "子を見る {count} 件",
     },
+    likeState: {
+      notLogin: "ログインしていません",
+    },
   },
   common: {
     submit: "提出する",

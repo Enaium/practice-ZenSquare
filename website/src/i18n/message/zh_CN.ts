@@ -96,6 +96,9 @@ export default {
     replyList: {
       viewChild: "查看 {child} 个回复",
     },
+    likeState: {
+      notLogin: "请登录后点赞",
+    },
   },
   common: {
     submit: "提交",
