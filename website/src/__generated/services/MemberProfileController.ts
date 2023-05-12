@@ -113,6 +113,15 @@ export class MemberProfileController {
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberProfileDto['DEFAULT']>
     }
     
+    async findFullProfile(options: MemberProfileControllerOptions['findFullProfile']): Promise<
+        MemberProfileDto['MemberProfileController/FULL_MEMBER_PROFILE'] | undefined
+    > {
+        let _uri = '/members/';
+        _uri += encodeURIComponent(options.memberId);
+        _uri += '/profiles/full';
+        return (await this.executor({uri: _uri, method: 'GET'})) as MemberProfileDto['MemberProfileController/FULL_MEMBER_PROFILE'] | undefined
+    }
+    
     async findProfile(options: MemberProfileControllerOptions['findProfile']): Promise<
         MemberProfileDto['MemberProfileController/DEFAULT_MEMBER_PROFILE'] | undefined
     > {
@@ -136,6 +145,7 @@ export type MemberProfileControllerOptions = {
         readonly size?: number, 
         readonly memberProfileInput: MemberProfileInput
     },
+    'findFullProfile': {readonly memberId: string},
     'findProfile': {readonly memberId: string},
     'save': {readonly body: MemberProfileInput}
 }

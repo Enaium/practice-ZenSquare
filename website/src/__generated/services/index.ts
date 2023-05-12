@@ -14,5 +14,7 @@ export { MemberLikeController } from './MemberLikeController';
 export type { MemberLikeControllerOptions } from './MemberLikeController';
 export { MemberProfileController } from './MemberProfileController';
 export type { MemberProfileControllerOptions } from './MemberProfileController';
+export { RankController } from './RankController';
+export type { RankControllerOptions } from './RankController';
 export { SessionController } from './SessionController';
 export type { SessionControllerOptions } from './SessionController';

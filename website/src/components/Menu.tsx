@@ -23,9 +23,9 @@ import { RouterLink, useRoute } from "vue-router"
 const menuOptions: MenuOption[] = [
   {
     label: () => {
-      return <RouterLink to={{ name: "home" }}>{window.$i18n("component.menu.forums")}</RouterLink>
+      return <RouterLink to={{ name: "forums" }}>{window.$i18n("component.menu.forums")}</RouterLink>
     },
-    key: "home",
+    key: "forums",
   },
   {
     label: () => {
@@ -43,7 +43,7 @@ const menuOptions: MenuOption[] = [
 
 const Menu = () => {
   const route = useRoute()
-  return <NMenu options={menuOptions} mode={"horizontal"} value={route.name!.toString()} />
+  return <NMenu options={menuOptions} mode={"horizontal"} value={route.path.split("/")[1]} />
 }
 
 export default Menu

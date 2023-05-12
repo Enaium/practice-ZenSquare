@@ -17,19 +17,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Members = () => {
-  return (
-    <>
+import { defineComponent } from "vue"
+import { NCard } from "naive-ui"
+
+const Members = defineComponent({
+  setup() {
+    return () => (
+      <>
         <div class={"mt-5"}>
-            <div>{window.$i18n("component.menu.members")}</div>
+          <div>{window.$i18n("component.menu.members")}</div>
         </div>
         <div class={"flex justify-between mt-5"}>
-            <div>Most thread</div>
-            <div>Most reply</div>
-            <div>Most message</div>
+          <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most thread</div> }} />
+          <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most reply</div> }} />
+          <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most message</div> }} />
         </div>
-    </>
-  )
-}
+      </>
+    )
+  },
+})
 
 export default Members

@@ -66,7 +66,7 @@ const ForumList = defineComponent({
                     </div>
                     {/*content*/}
                     <div class={"flex flex-col"}>
-                      <RouterLink class={"font-bold"} to={{ name: "forums", params: { forum: forum.id } }}>
+                      <RouterLink class={"font-bold"} to={{ name: "forum", params: { forum: forum.id } }}>
                         {forum.name}
                       </RouterLink>
                       <div>{forum.description}</div>

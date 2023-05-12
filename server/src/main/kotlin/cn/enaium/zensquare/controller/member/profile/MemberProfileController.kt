@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.controller.member.profile
 
+import cn.dev33.satoken.annotation.SaIgnore
 import cn.dev33.satoken.stp.StpUtil
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.model.entity.MemberProfile
@@ -50,9 +51,22 @@ class MemberProfileController(
      * @param memberId Member id
      * @return MemberProfile
      */
+    @SaIgnore
     @GetMapping("/members/{memberId}/profiles/")
     fun findProfile(@PathVariable memberId: UUID): @FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile? {
         return memberProfileRepository.findByMemberId(memberId, DEFAULT_MEMBER_PROFILE)
+    }
+
+    /**
+     * Get member profile by member id with full
+     *
+     * @param memberId Member id
+     * @return MemberProfile
+     */
+    @SaIgnore
+    @GetMapping("/members/{memberId}/profiles/full")
+    fun findFullProfile(@PathVariable memberId: UUID): @FetchBy("FULL_MEMBER_PROFILE") MemberProfile? {
+        return memberProfileRepository.findByMemberId(memberId, FULL_MEMBER_PROFILE)
     }
 
     /**
@@ -102,9 +116,32 @@ class MemberProfileController(
          * Default member profile fetcher
          */
         val DEFAULT_MEMBER_PROFILE = newFetcher(MemberProfile::class).by {
-            allScalarFields()
+            nickname()
+            avatar()
+            createdTime()
+            modifiedTime()
+            member {
+                createdTime()
+            }
             role {
                 name()
+            }
+        }
+
+        /**
+         * Full member profile fetcher
+         */
+        val FULL_MEMBER_PROFILE = newFetcher(MemberProfile::class).by {
+            allScalarFields()
+            member {
+                allScalarFields()
+                thread()
+                reply()
+                message()
+                password(false)
+            }
+            role {
+                allScalarFields()
             }
         }
     }

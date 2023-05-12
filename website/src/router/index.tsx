@@ -19,12 +19,13 @@
 
 import { createRouter, createWebHistory } from "vue-router"
 import HomeLayout from "@/layouts/HomeLayout"
-import Home from "@/views/Home"
+import Forums from "@/views/Forums.tsx"
 import WhatsNew from "@/views/WhatsNew"
 import Members from "@/views/Members"
-import Forums from "@/views/Forums"
+import Forum from "@/views/Forum"
 import PostThread from "@/views/PostThread"
-import Threads from "@/views/Threads"
+import Thread from "@/views/Thread"
+import Profile from "@/views/Profile"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,11 +33,29 @@ const router = createRouter({
     {
       path: "/",
       component: <HomeLayout />,
+      redirect: {
+        name: "forums",
+      },
       children: [
         {
-          path: "",
-          name: "home",
-          component: <Home />,
+          path: "forums",
+          name: "forums",
+          component: <Forums />,
+        },
+        {
+          path: "forums/:forum",
+          name: "forum",
+          component: <Forum />,
+        },
+        {
+          path: "forums/:forum/threads",
+          name: "post-thread",
+          component: <PostThread />,
+        },
+        {
+          path: "forums/threads/:thread",
+          name: "threads",
+          component: <Thread />,
         },
         {
           path: "whats-new",
@@ -49,19 +68,9 @@ const router = createRouter({
           component: <Members />,
         },
         {
-          path: "forums/:forum",
-          name: "forums",
-          component: <Forums />,
-        },
-        {
-          path: "forums/:forum/threads",
-          name: "post-thread",
-          component: <PostThread />,
-        },
-        {
-          path: "forums/threads/:thread",
-          name: "threads",
-          component: <Threads />,
+          path: "members/:id",
+          name: "profile",
+          component: () => <Profile />,
         },
       ],
     },

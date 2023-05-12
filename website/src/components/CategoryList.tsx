@@ -42,7 +42,7 @@ const CategoryList = defineComponent({
           ) : (
             <>
               <NCollapse>
-                {data.value?.content.map((category) => {
+                {data.value.content.map((category) => {
                   return (
                     <NCollapseItem
                       v-slots={{

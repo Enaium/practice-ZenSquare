@@ -21,6 +21,7 @@ package cn.enaium.zensquare.bll.resolver
 
 import cn.enaium.zensquare.model.entity.Member
 import cn.enaium.zensquare.model.entity.id
+import cn.enaium.zensquare.model.entity.replies
 import cn.enaium.zensquare.model.entity.threads
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.KTransientResolver
@@ -39,7 +40,7 @@ class MemberMessageCountResolver(val sql: KSqlClient) : KTransientResolver<UUID,
     override fun resolve(ids: Collection<UUID>): Map<UUID, Long> = sql.createQuery(Member::class) {
         where(table.id valueIn ids)
         groupBy(table.id)
-        select(table.id, count(table.asTableEx().threads.id, true), count(table.asTableEx().threads.id, true))
+        select(table.id, count(table.asTableEx().threads.id, true), count(table.asTableEx().replies.id, true))
     }.execute().associateBy({ it._1 }) { it._2 + it._3 }
 
     override fun getDefaultValue(): Long = 0

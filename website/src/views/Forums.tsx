@@ -17,40 +17,54 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useRoute, useRouter } from "vue-router"
-import ThreadList from "@/components/ThreadList"
-import { NBreadcrumb, NBreadcrumbItem, NCard, NSpin } from "naive-ui"
-import { defineComponent } from "vue"
-import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
+import { NButton, NButtonGroup, NModal } from "naive-ui"
+import CategoryList from "@/components/CategoryList"
+import { Flash16Regular, NotepadEdit16Regular } from "@vicons/fluent"
+import { ref } from "vue"
+import PostThread from "@/views/PostThread"
+import { useRouter } from "vue-router"
 
-const Forums = defineComponent({
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
+const showPostThread = ref(false)
 
-    const { data, isLoading } = useQuery({
-      queryKey: ["findForum"],
-      queryFn: () => api.forumController.findForum({ id: route.params.forum as string }),
-    })
+const Forums = () => {
+  const router = useRouter()
 
-    return () => (
-      <>
-        {isLoading.value || !data.value ? (
-          <NSpin />
-        ) : (
-          <NBreadcrumb>
-            <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>Forums</NBreadcrumbItem>
-            <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>{data.value?.category.name}</NBreadcrumbItem>
-            <NBreadcrumbItem>{data.value.name}</NBreadcrumbItem>
-          </NBreadcrumb>
-        )}
-        <NCard>
-          <ThreadList forum={route.params.forum as string} />
-        </NCard>
-      </>
-    )
-  },
-})
+  return (
+    <>
+      <div class={"flex justify-between mt-5"}>
+        <div>{window.$i18n("component.menu.forums")}</div>
+        <div>
+          <NButtonGroup>
+            <NButton
+              renderIcon={() => <Flash16Regular />}
+              type={"primary"}
+              onClick={() => router.push({ name: "whats-new" })}
+            >
+              {window.$i18n("view.forums.newPost")}
+            </NButton>
+            <NButton
+              renderIcon={() => <NotepadEdit16Regular />}
+              type={"warning"}
+              onClick={() => (showPostThread.value = true)}
+            >
+              {`${window.$i18n("view.forums.newThread")}...`}
+            </NButton>
+          </NButtonGroup>
+        </div>
+      </div>
+      <div class={"mt-5"} />
+      <CategoryList />
+      <NModal
+        v-model:show={showPostThread.value}
+        preset={"dialog"}
+        onClose={() => (showPostThread.value = false)}
+        v-slots={{
+          header: () => <div>{window.$i18n("view.forums.newThread")}</div>,
+          default: () => <PostThread />,
+        }}
+      />
+    </>
+  )
+}
 
 export default Forums

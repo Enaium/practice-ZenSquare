@@ -1,0 +1,4 @@
+### RankController
+### GET findThreadRank
+
+GET {{host}}/members/rank/thread/

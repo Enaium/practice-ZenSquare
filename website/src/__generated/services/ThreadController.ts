@@ -3,9 +3,9 @@ import type { ThreadDto } from '../model/dto';
 import type { Page, ThreadInput, Unit } from '../model/static';
 
 export class ThreadController {
-
+    
     constructor(private executor: Executor) {}
-
+    
     async findComplexThreads(options: ThreadControllerOptions['findComplexThreads']): Promise<
         Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     > {
@@ -63,21 +63,21 @@ export class ThreadController {
         }
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     }
-
+    
     async findLatest(options: ThreadControllerOptions['findLatest']): Promise<
         Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     > {
         let _uri = '/categories/forums/threads/latest/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
-        _value = options?.page;
+        _value = options.page;
         if (_value !== undefined && _value !== null) {
             _uri += _separator
             _uri += 'page='
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        _value = options?.size;
+        _value = options.size;
         if (_value !== undefined && _value !== null) {
             _uri += _separator
             _uri += 'size='
@@ -86,7 +86,7 @@ export class ThreadController {
         }
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     }
-
+    
     async findThread(options: ThreadControllerOptions['findThread']): Promise<
         ThreadDto['ThreadController/FULL_THREAD'] | undefined
     > {
@@ -95,7 +95,7 @@ export class ThreadController {
         _uri += '/';
         return (await this.executor({uri: _uri, method: 'GET'})) as ThreadDto['ThreadController/FULL_THREAD'] | undefined
     }
-
+    
     async findThreads(options: ThreadControllerOptions['findThreads']): Promise<
         Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     > {
@@ -120,7 +120,7 @@ export class ThreadController {
         }
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
     }
-
+    
     async saveThread(options: ThreadControllerOptions['saveThread']): Promise<
         Unit
     > {
@@ -131,15 +131,15 @@ export class ThreadController {
 
 export type ThreadControllerOptions = {
     'findComplexThreads': {
-        readonly page?: number,
-        readonly size?: number,
+        readonly page?: number, 
+        readonly size?: number, 
         readonly threadInput: ThreadInput
     },
     'findLatest': {readonly page?: number, readonly size?: number},
     'findThread': {readonly id: string},
     'findThreads': {
-        readonly forumId: string,
-        readonly page?: number,
+        readonly forumId: string, 
+        readonly page?: number, 
         readonly size?: number
     },
     'saveThread': {readonly body: ThreadInput}

@@ -68,8 +68,6 @@ export default {
       role: "役割",
       thread: "スレッド",
       reply: "返信",
-      threads: "スレッド",
-      replies: "返信",
       accountDetails: "アカウントの詳細",
       following: "フォロー",
       security: "パスワードとセキュリティ",

@@ -24,9 +24,12 @@ import { api } from "@/common/ApiInstance.ts"
 import { useQuery } from "@tanstack/vue-query"
 import { NButton, NGrid, NGridItem, NPopconfirm, NSpin, NTag, useMessage } from "naive-ui"
 import Avatar from "@/components/Avatar"
+import { useRouter } from "vue-router"
 
 const VisitorMenu = defineComponent({
   setup() {
+    const router = useRouter()
+
     const session = useSessionStore()
 
     const options = reactive<RequestOf<typeof api.memberProfileController.findProfile>>({ memberId: session.id! })
@@ -59,7 +62,7 @@ const VisitorMenu = defineComponent({
                   <div>0</div>
                 </div>
                 <div class={"flex justify-between"}>
-                  <div>{window.$i18n("view.visitorMenu.replies")}:</div>
+                  <div>{window.$i18n("view.visitorMenu.reply")}:</div>
                   <div>0</div>
                 </div>
               </div>
@@ -68,18 +71,9 @@ const VisitorMenu = defineComponent({
             <div>
               <NGrid xGap={10} yGap={10} cols={2}>
                 <NGridItem>
-                  <NButton text>{window.$i18n("view.visitorMenu.threads")}</NButton>
-                </NGridItem>
-                <NGridItem>
-                  <NButton text>{window.$i18n("view.visitorMenu.replies")}</NButton>
-                </NGridItem>
-              </NGrid>
-            </div>
-            <div class={"bg-gray-200 w-full h-px"} />
-            <div>
-              <NGrid xGap={10} yGap={10} cols={2}>
-                <NGridItem>
-                  <NButton text>{window.$i18n("view.visitorMenu.accountDetails")}</NButton>
+                  <NButton text onClick={() => router.push({ name: "profile", params: { id: session.id! } })}>
+                    {window.$i18n("view.visitorMenu.accountDetails")}
+                  </NButton>
                 </NGridItem>
                 <NGridItem>
                   <NButton text>{window.$i18n("view.visitorMenu.following")}</NButton>

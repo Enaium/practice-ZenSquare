@@ -51,8 +51,6 @@ export default {
       role: "角色",
       thread: "帖子",
       reply: "回复",
-      threads: "帖子",
-      replies: "回复",
       accountDetails: "账户详情",
       following: "关注",
       security: "密码和安全",

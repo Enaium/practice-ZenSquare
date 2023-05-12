@@ -33,7 +33,7 @@ import ThreadBottom from "@/components/ThreadBottom.tsx"
 
 const showReply = ref(false)
 
-const Threads = defineComponent({
+const Thread = defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -52,14 +52,14 @@ const Threads = defineComponent({
         <>
           {/*breadcrumb*/}
           <NBreadcrumb>
-            <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>Forums</NBreadcrumbItem>
-            <NBreadcrumbItem onClick={() => router.push({ name: "home" })}>
+            <NBreadcrumbItem onClick={() => router.push({ name: "forums" })}>Forums</NBreadcrumbItem>
+            <NBreadcrumbItem onClick={() => router.push({ name: "forums" })}>
               {data.value.forum.category.name}
             </NBreadcrumbItem>
             <NBreadcrumbItem
               onClick={() =>
                 router.push({
-                  name: "forums",
+                  name: "forum",
                   params: {
                     forum: data.value?.forum.id,
                   },
@@ -120,4 +120,4 @@ const Threads = defineComponent({
   },
 })
 
-export default Threads
+export default Thread

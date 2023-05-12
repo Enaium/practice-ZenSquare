@@ -19,8 +19,13 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.model.entity.Member
+import cn.enaium.zensquare.model.entity.*
 import org.babyfish.jimmer.spring.repository.KRepository
+import org.babyfish.jimmer.sql.kt.ast.expression.count
+import org.babyfish.jimmer.sql.kt.ast.expression.desc
+import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
 
@@ -29,5 +34,13 @@ import java.util.*
  */
 @Repository
 interface MemberRankRepository : KRepository<Member, UUID> {
-    
+    fun findTop100OrderByThread(pageable: Pageable): Page<Member> =
+        pager(pageable).execute(sql.createQuery(Member::class) {
+            where(table.id valueIn subQuery(Thread::class) {
+                groupBy(table.member.id)
+                orderBy(count(table.id).desc())
+                select(table.member.id).limit(100)
+            })
+            select(table)
+        })
 }

@@ -51,8 +51,6 @@ export default {
       role: "Role",
       thread: "Thread",
       reply: "Reply",
-      threads: "Threads",
-      replies: "replies",
       accountDetails: "Account details",
       following: "Following",
       security: "Password and Security",

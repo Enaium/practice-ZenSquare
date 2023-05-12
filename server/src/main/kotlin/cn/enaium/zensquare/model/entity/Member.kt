@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.model.entity
 
+import cn.enaium.zensquare.bll.resolver.MemberMessageCountResolver
 import cn.enaium.zensquare.bll.resolver.MemberReplyCountResolver
 import cn.enaium.zensquare.bll.resolver.MemberThreadCountResolver
 import cn.enaium.zensquare.model.entity.common.BaseEntity
@@ -64,4 +65,7 @@ interface Member : BaseEntity {
 
     @Transient(MemberReplyCountResolver::class)
     val reply: Long
+
+    @Transient(MemberMessageCountResolver::class)
+    val message: Long
 }
