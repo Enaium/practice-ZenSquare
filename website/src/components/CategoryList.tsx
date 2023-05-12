@@ -48,7 +48,7 @@ const CategoryList = defineComponent({
                       v-slots={{
                         header: () => (
                           <NTooltip
-                            maxWidth={400}
+                            style={{ maxWidth: "400px" }}
                             v-slots={{
                               trigger: () => <div>{category.name}</div>,
                               default: () => <div>{category.description}</div>,
