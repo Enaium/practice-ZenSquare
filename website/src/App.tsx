@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { NConfigProvider, NMessageProvider, zhCN } from "naive-ui"
+import { enUS, frFR, jaJP, NConfigProvider, NMessageProvider, zhCN } from "naive-ui"
 import { RouterView } from "vue-router"
 import { useI18n } from "vue-i18n"
 
@@ -26,7 +26,17 @@ const App = () => {
   window.$i18n = t
   return (
     <>
-      <NConfigProvider locale={zhCN}>
+      <NConfigProvider
+        locale={
+          navigator.language == "zh-CN"
+            ? zhCN
+            : navigator.language == "ja-JP"
+            ? jaJP
+            : navigator.language == "fr-FR"
+            ? frFR
+            : enUS
+        }
+      >
         <NMessageProvider>
           <RouterView />
         </NMessageProvider>

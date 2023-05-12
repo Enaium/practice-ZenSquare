@@ -24,11 +24,11 @@ import ja_JP from "@/i18n/message/ja_JP"
 import fr_FR from "@/i18n/message/fr_FR.ts"
 
 const messages = {
-  zh: zh_CN,
-  en: en_US,
-  ja: ja_JP,
-  fr: fr_FR,
+  "zh-CN": zh_CN,
+  "en-US": en_US,
+  "ja-JP": ja_JP,
+  "fr-FR": fr_FR,
 }
 
-const i18n = createI18n({ legacy: false, locale: "zh", messages })
+const i18n = createI18n({ legacy: false, locale: navigator.language.toString(), fallbackLocale: "en-US", messages })
 export default i18n
