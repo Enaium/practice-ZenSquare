@@ -4,7 +4,7 @@
 
 **This project is still under development and is not yet complete**
 
-This is an open source project based on the AGPLv3 protocol. This project is mainly to use SpringBoot+Vue to replicate a
+This is an open source project based on the AGPLv3 license. This project is mainly to use SpringBoot+Vue to replicate a
 forum system similar to [XenForo](https://xenforo.com/solutions/)
 
 ## Usage of stack
@@ -40,16 +40,16 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [ ] Post top
 - [ ] Post essence
 - [x] Member reply
-- [ ] Member delete post
+- [ ] Member delete thread
 - [ ] Member delete reply
-- [ ] Member modify post
+- [ ] Member modify thread
 - [ ] Member modify reply
-- [x] Member like post
-- [x] Member dislike post
+- [x] Member like thread
+- [x] Member dislike thread
 - [x] Member like reply
 - [x] Member dislike reply
-- [x] Member cancel like post
-- [x] Member cancel dislike post
+- [x] Member cancel like thread
+- [x] Member cancel dislike thread
 - [x] Member cancel like reply
 - [x] Member cancel dislike reply
 - [ ] Member follow member
@@ -58,9 +58,9 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [ ] Private letter between members
 - [ ] Notification of posting, replying, liking, etc.
 - [ ] Member ranking
-- [ ] Member report post
+- [ ] Member report thread
 - [ ] Member report reply
 - [ ] Member report member
-- [ ] Administrator delete post
+- [ ] Administrator delete thread
 - [ ] Administrator delete reply
 - [ ] Backstage management
