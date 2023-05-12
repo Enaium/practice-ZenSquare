@@ -53,7 +53,8 @@ export type MemberProfileDto = {
             readonly modifiedTime: string, 
             readonly username: string, 
             readonly thread: number, 
-            readonly reply: number
+            readonly reply: number, 
+            readonly message: number
         }, 
         readonly role: {
             readonly id: string, 
