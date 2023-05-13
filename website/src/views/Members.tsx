@@ -19,6 +19,8 @@
 
 import { defineComponent } from "vue"
 import { NCard } from "naive-ui"
+import MostThread from "@/views/MostThread"
+import MostReply from "@/views/MostReply";
 
 const Members = defineComponent({
   setup() {
@@ -28,8 +30,14 @@ const Members = defineComponent({
           <div>{window.$i18n("component.menu.members")}</div>
         </div>
         <div class={"flex justify-between mt-5"}>
-          <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most thread</div> }} />
-          <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most reply</div> }} />
+          <NCard
+            segmented={{ content: true }}
+            v-slots={{ header: () => <div>Most thread</div>, default: () => <MostThread /> }}
+          />
+          <NCard
+            segmented={{ content: true }}
+            v-slots={{ header: () => <div>Most reply</div>, default: () => <MostReply /> }}
+          />
           <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most message</div> }} />
         </div>
       </>

@@ -21,7 +21,10 @@ package cn.enaium.zensquare.controller.member.rank
 
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Member
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.MemberRankRepository
+import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,11 +32,13 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
+ * Member rank controller
+ *
  * @author Enaium
  */
 @SaIgnore
 @RestController
-class RankController(
+class MemberRankController(
     val memberRankRepository: MemberRankRepository
 ) {
     /**
@@ -47,7 +52,34 @@ class RankController(
     fun findThreadRank(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
-    ): Page<Member> {
+    ): Page<@FetchBy("DEFAULT_MEMBER_RANK") Member> {
         return memberRankRepository.findTop100OrderByThread(PageRequest.of(page, size))
+    }
+
+    /**
+     * Find member rank by reply
+     *
+     * @param page page
+     * @param size size
+     * @return member rank
+     */
+    @GetMapping("/members/rank/reply/")
+    fun findReplyRank(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10
+    ): Page<@FetchBy("DEFAULT_MEMBER_RANK") Member> {
+        return memberRankRepository.findTop100OrderByReply(PageRequest.of(page, size))
+    }
+
+    companion object {
+        val DEFAULT_MEMBER_RANK = newFetcher(Member::class).by {
+            profile {
+                avatar()
+                nickname()
+            }
+            thread()
+            reply()
+            message()
+        }
     }
 }
