@@ -33,7 +33,7 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member register
 - [x] Member login
 - [x] Member logout
-- [ ] Member information modify
+- [ ] Member profile modify
 - [ ] Member avatar modify
 - [ ] Member password modify
 - [x] Member post
