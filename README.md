@@ -33,9 +33,9 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member register
 - [x] Member login
 - [x] Member logout
-- [ ] Member information modification
-- [ ] Member avatar modification
-- [ ] Member password modification
+- [ ] Member information modify
+- [ ] Member avatar modify
+- [ ] Member password modify
 - [x] Member post
 - [ ] Post top
 - [ ] Post essence
@@ -56,8 +56,8 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [ ] Member unfollow member
 - [ ] Private letter between multiple members
 - [ ] Private letter between members
-- [ ] Notification of posting, replying, liking, etc.
-- [ ] Member ranking
+- [ ] Alert of posting, replying, liking, etc.
+- [ ] Member rank
 - [ ] Member report thread
 - [ ] Member report reply
 - [ ] Member report member
