@@ -17,38 +17,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, PropType, reactive, ref } from "vue"
-import { FormInst, NButton, NDatePicker, NForm, NFormItem, NGrid, NGridItem, NInput, useMessage } from "naive-ui"
-import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
+import { defineComponent, reactive, ref } from "vue"
+import type { FormInst } from "naive-ui"
+import { NButton, NDatePicker, NForm, NFormItem, NGrid, NGridItem, NInput, useMessage } from "naive-ui"
+import { api } from "@/common/ApiInstance"
 import { useSessionStore } from "@/store"
-import { RequestOf } from "@/__generated"
-import { MemberProfileDto } from "@/__generated/model/dto"
 import Avatar from "@/components/Avatar"
+import type { MemberProfileInput } from "@/__generated/model/static"
 
-const ModifyProfile = defineComponent({
-  props: {
-    onSuccess: {
-      type: Object as PropType<() => void>,
-    },
-  },
-  setup() {
+const ModifyProfile = defineComponent(
+  (props: { onSuccess: () => void }) => {
     const message = useMessage()
     const session = useSessionStore()
-    const options = reactive<RequestOf<typeof api.memberProfileController.findProfile>>({ memberId: session.id! })
-    const { data } = useQuery({
-      queryKey: ["findProfile", options],
-      queryFn: () => api.memberProfileController.findProfile(options),
-    })
 
-    const form = reactive(data.value ?? ({ memberId: session.id } as MemberProfileDto["DEFAULT"]))
+    const form = reactive<MemberProfileInput>({})
     const formRef = ref<FormInst | null>(null)
 
     const submit = () => {
       formRef.value?.validate((errors) => {
         if (!errors) {
-          api.memberProfileController.save({ body: form }).then(() => {
+          api.memberProfileController.save({ body: { ...form, memberId: session.id! } }).then(() => {
             message.success(window.$i18n("common.success"))
+            props.onSuccess()
           })
         }
       })
@@ -114,6 +104,9 @@ const ModifyProfile = defineComponent({
       </>
     )
   },
-})
+  {
+    props: ["onSuccess"]
+  }
+)
 
 export default ModifyProfile

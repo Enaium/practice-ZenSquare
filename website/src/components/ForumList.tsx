@@ -19,27 +19,21 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
-import { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
+import type { RequestOf } from "@/__generated"
 import { NIcon, NList, NListItem, NSpin } from "naive-ui"
 import { Chat24Regular } from "@vicons/fluent"
 import Image from "@/views/Image"
 import { RouterLink } from "vue-router"
-import Pagination from "@/components/Pagination.tsx"
+import Pagination from "@/components/Pagination"
 
-const ForumList = defineComponent({
-  props: {
-    category: {
-      type: String,
-      required: true,
-    },
-  },
-  setup: function (props) {
+const ForumList = defineComponent(
+  (props: { category: string }) => {
     const options = reactive<RequestOf<typeof api.forumController.findForums>>({ categoryId: props.category! })
 
     const { data, isLoading } = useQuery({
       queryKey: ["findForums", options],
-      queryFn: () => api.forumController.findForums(options),
+      queryFn: () => api.forumController.findForums(options)
     })
 
     return () =>
@@ -92,6 +86,9 @@ const ForumList = defineComponent({
         </>
       )
   },
-})
+  {
+    props: ["category"]
+  }
+)
 
 export default ForumList

@@ -19,8 +19,8 @@
 
 import { defineComponent, reactive } from "vue"
 import { useSessionStore } from "@/store"
-import { RequestOf } from "@/__generated"
-import { api } from "@/common/ApiInstance.ts"
+import type { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
 import { useQuery } from "@tanstack/vue-query"
 import { NButton, NGrid, NGridItem, NPopconfirm, NSpin, NTag, useMessage } from "naive-ui"
 import Avatar from "@/components/Avatar"

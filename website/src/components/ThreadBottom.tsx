@@ -17,26 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {defineComponent, PropType, ref} from "vue"
-import { ThreadDto } from "@/__generated/model/dto"
-import LikeState from "@/components/LikeState.tsx"
-import {NButton, NIcon, NPopconfirm, NPopover} from "naive-ui"
-import {MoreHorizontal32Filled} from "@vicons/fluent";
-import {useSessionStore} from "@/store";
+import { defineComponent, ref } from "vue"
+import type { ThreadDto } from "@/__generated/model/dto"
+import LikeState from "@/components/LikeState"
+import { NButton, NIcon, NPopconfirm, NPopover } from "naive-ui"
+import { MoreHorizontal32Filled } from "@vicons/fluent"
+import { useSessionStore } from "@/store"
 
-const ThreadBottom = defineComponent({
-  props: {
-    thread: {
-      type: Object as PropType<ThreadDto["ThreadController/FULL_THREAD"]>,
-      required: true,
-    },
-    onClickReply: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-  },
-  setup(props) {
-
+const ThreadBottom = defineComponent(
+  (props: { thread: ThreadDto["ThreadController/FULL_THREAD"]; onClickReply: () => void }) => {
     const session = useSessionStore()
     const showPop = ref(false)
 
@@ -44,53 +33,56 @@ const ThreadBottom = defineComponent({
       <div class={"flex justify-between"}>
         <LikeState target={props.thread.id} like={props.thread.like} />
         <NPopover
-            trigger={"click"}
-            onClickoutside={() => (showPop.value = false)}
-            v-slots={{
-              trigger: () => (
+          trigger={"click"}
+          onClickoutside={() => (showPop.value = false)}
+          v-slots={{
+            trigger: () => (
+              <NButton text type={"primary"}>
+                <NIcon size={32}>
+                  <MoreHorizontal32Filled />
+                </NIcon>
+              </NButton>
+            ),
+            default: () => (
+              <div class={"flex gap-5 items-center"}>
+                {/*If the session id is not equal to the reply member id, then show the report button.*/}
+                {session.id != props.thread.memberId && (
                   <NButton text type={"primary"}>
-                    <NIcon size={32}>
-                      <MoreHorizontal32Filled />
-                    </NIcon>
+                    {window.$i18n("component.button.report")}
                   </NButton>
-              ),
-              default: () => (
-                  <div class={"flex gap-5 items-center"}>
-                    {/*If the session id is not equal to the reply member id, then show the report button.*/}
-                    {session.id != props.thread.memberId && (
+                )}
+                {/*If the session id is equal to the reply member id, then show the edit button.*/}
+                {session.id == props.thread.memberId && (
+                  <NButton text type={"primary"}>
+                    {window.$i18n("component.button.edit")}
+                  </NButton>
+                )}
+                {/*If the session id is equal to the reply member id, then show the delete button.*/}
+                {session.id == props.thread.memberId && (
+                  <NPopconfirm
+                    v-slots={{
+                      trigger: () => (
                         <NButton text type={"primary"}>
-                          {window.$i18n("component.button.report")}
+                          {window.$i18n("component.button.delete")}
                         </NButton>
-                    )}
-                    {/*If the session id is equal to the reply member id, then show the edit button.*/}
-                    {session.id == props.thread.memberId && (
-                        <NButton text type={"primary"}>
-                          {window.$i18n("component.button.edit")}
-                        </NButton>
-                    )}
-                    {/*If the session id is equal to the reply member id, then show the delete button.*/}
-                    {session.id == props.thread.memberId && (
-                        <NPopconfirm
-                            v-slots={{
-                              trigger: () => (
-                                  <NButton text type={"primary"}>
-                                    {window.$i18n("component.button.delete")}
-                                  </NButton>
-                              ),
-                            }}
-                            onPositiveClick={() => {}}
-                        />
-                    )}
-                    <NButton type={"primary"} text onClick={props.onClickReply}>
-                      {window.$i18n("component.button.reply")}
-                    </NButton>
-                  </div>
-              ),
-            }}
+                      )
+                    }}
+                    onPositiveClick={() => {}}
+                  />
+                )}
+                <NButton type={"primary"} text onClick={props.onClickReply}>
+                  {window.$i18n("component.button.reply")}
+                </NButton>
+              </div>
+            )
+          }}
         />
       </div>
     )
   },
-})
+  {
+    props: ["thread"]
+  }
+)
 
 export default ThreadBottom

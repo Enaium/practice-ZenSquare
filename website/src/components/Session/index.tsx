@@ -18,8 +18,8 @@
  */
 
 import { useSessionStore } from "@/store"
-import NoSession from "@/components/Session/NoSession.tsx"
-import Sessional from "@/components/Session/Sessional.tsx"
+import NoSession from "@/components/Session/NoSession"
+import Sessional from "@/components/Session/Sessional"
 
 const State = () => {
   const session = useSessionStore()

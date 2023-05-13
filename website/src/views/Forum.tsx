@@ -22,7 +22,7 @@ import ThreadList from "@/components/ThreadList"
 import { NBreadcrumb, NBreadcrumbItem, NCard, NSpin } from "naive-ui"
 import { defineComponent } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
+import { api } from "@/common/ApiInstance"
 
 const Forum = defineComponent({
   setup() {

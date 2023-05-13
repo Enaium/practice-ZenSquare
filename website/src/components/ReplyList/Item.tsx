@@ -17,24 +17,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, PropType, ref } from "vue"
-import { ReplyDto } from "@/__generated/model/dto"
-import Avatar from "@/components/Avatar.tsx"
+import { defineComponent, ref } from "vue"
+import Avatar from "@/components/Avatar"
 import { NModal, NTag, NTime, NTooltip } from "naive-ui"
 import dayjs from "dayjs"
-import Content from "@/components/Content.tsx"
-import ReplyForm from "@/components/ReplyForm.tsx"
+import ReplyForm from "@/components/ReplyForm"
 import ChildReplyList from "@/components/ChildReplyList"
-import ReplyBottom from "@/components/ReplyBottom.tsx"
+import ReplyBottom from "@/components/ReplyBottom"
+import { MdPreview } from "md-editor-v3"
+import type { ReplyDto } from "@/__generated/model/dto"
 
-const Item = defineComponent({
-  props: {
-    reply: {
-      type: Object as PropType<ReplyDto["ReplyController/FULL_REPLY"]>,
-      required: true,
-    },
-  },
-  setup(props) {
+const Item = defineComponent(
+  (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
     const showForm = ref<string | null>(null)
     const showChild = ref<string | null>(null)
 
@@ -51,14 +45,14 @@ const Item = defineComponent({
                 trigger: () => (
                   <NTime time={new Date()} to={dayjs(props.reply.modifiedTime).toDate()} type={"relative"} />
                 ),
-                default: () => <div>{dayjs(props.reply.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+                default: () => <div>{dayjs(props.reply.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>
               }}
             />
           </div>
           <div class={"border-solid border-l border-gray-100"} />
           {/*content*/}
           <div class={"flex flex-col justify-between p-2 w-full"}>
-            <Content v-model={props.reply.content} previewOnly />
+            <MdPreview modelValue={props.reply.content} />
             <ReplyBottom
               reply={props.reply}
               onClickShowChild={() => (showChild.value = props.reply.id)}
@@ -75,6 +69,9 @@ const Item = defineComponent({
       </>
     )
   },
-})
+  {
+    props: ["reply"]
+  }
+)
 
 export default Item

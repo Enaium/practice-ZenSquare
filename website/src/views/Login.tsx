@@ -17,11 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
-import { FunctionalComponent, reactive, ref } from "vue"
-import { MemberInput } from "@/__generated/model/static"
+import { NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
+import {  reactive, ref } from "vue"
+import type { FunctionalComponent } from "vue"
+import type { MemberInput } from "@/__generated/model/static"
 import { api } from "@/common/ApiInstance"
 import { useSessionStore } from "@/store"
+import type { FormInst } from "naive-ui"
 
 const formRef = ref<FormInst | null>(null)
 const form = reactive<MemberInput>({})

@@ -21,15 +21,15 @@ import { defineComponent, reactive, ref } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance"
-import { RequestOf } from "@/__generated"
+import type { RequestOf } from "@/__generated"
 import dayjs from "dayjs"
 import Avatar from "@/components/Avatar"
-import Content from "@/components/Content"
 import { NBreadcrumb, NBreadcrumbItem, NIcon, NModal, NSpin, NTag, NTime, NTooltip } from "naive-ui"
 import { Clock16Regular, People16Regular } from "@vicons/fluent"
 import ReplyList from "@/components/ReplyList"
 import ReplyForm from "@/components/ReplyForm"
-import ThreadBottom from "@/components/ThreadBottom.tsx"
+import ThreadBottom from "@/components/ThreadBottom"
+import { MdPreview } from "md-editor-v3"
 
 const showReply = ref(false)
 
@@ -42,7 +42,7 @@ const Thread = defineComponent({
 
     const { data, isLoading } = useQuery({
       queryKey: ["threads", options],
-      queryFn: () => api.threadController.findThread(options),
+      queryFn: () => api.threadController.findThread(options)
     })
 
     return () =>
@@ -61,8 +61,8 @@ const Thread = defineComponent({
                 router.push({
                   name: "forum",
                   params: {
-                    forum: data.value?.forum.id,
-                  },
+                    forum: data.value?.forum.id
+                  }
                 })
               }
             >
@@ -88,7 +88,7 @@ const Thread = defineComponent({
                   trigger: () => (
                     <NTime time={new Date()} to={dayjs(data.value?.modifiedTime).toDate()} type={"relative"} />
                   ),
-                  default: () => <div>{dayjs(data.value?.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+                  default: () => <div>{dayjs(data.value?.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>
                 }}
               />
             </div>
@@ -104,7 +104,7 @@ const Thread = defineComponent({
             <div class={"border-solid border-l border-gray-100"} />
             {/*content*/}
             <div class={"flex flex-col w-full justify-between p-2"}>
-              <Content v-model={data.value.content} previewOnly />
+              <MdPreview modelValue={data.value.content} />
               <ThreadBottom thread={data.value} onClickReply={() => (showReply.value = true)} />
             </div>
           </div>
@@ -117,7 +117,7 @@ const Thread = defineComponent({
           </NModal>
         </>
       )
-  },
+  }
 })
 
 export default Thread

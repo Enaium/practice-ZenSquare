@@ -32,9 +32,9 @@ import {
   NTooltip,
 } from "naive-ui"
 import { useQuery } from "@tanstack/vue-query"
-import { RequestOf } from "@/__generated"
-import { api } from "@/common/ApiInstance.ts"
-import Avatar from "@/components/Avatar.tsx"
+import type { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
+import Avatar from "@/components/Avatar"
 import dayjs from "dayjs"
 import BiliBili from "@/assets/bilibili.svg"
 import GitHub from "@/assets/github.svg"

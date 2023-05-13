@@ -17,23 +17,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, PropType } from "vue"
-import { ThreadDto } from "@/__generated/model/dto"
-import Avatar from "@/components/Avatar.tsx"
+import { defineComponent } from "vue"
+import type { ThreadDto } from "@/__generated/model/dto"
+import Avatar from "@/components/Avatar"
 import { RouterLink } from "vue-router"
 import { NIcon, NTime, NTooltip } from "naive-ui"
 import { Clock16Regular } from "@vicons/fluent"
 import dayjs from "dayjs"
 
-const Item = defineComponent({
-  props: {
-    thread: {
-      type: Object as PropType<ThreadDto["ThreadController/DEFAULT_THREAD"]>,
-      required: true,
-    },
-  },
-  setup(props) {
-    return () => (
+const Item = defineComponent(
+  (props: { thread: ThreadDto["ThreadController/DEFAULT_THREAD"] }) => () =>
+    (
       <div class={"flex justify-between"}>
         {/*left*/}
         <div class={"flex"}>
@@ -42,7 +36,7 @@ const Item = defineComponent({
             <RouterLink
               to={{
                 name: "threads",
-                params: { thread: props.thread.id },
+                params: { thread: props.thread.id }
               }}
             >
               {props.thread.title}
@@ -57,7 +51,7 @@ const Item = defineComponent({
                   trigger: () => (
                     <NTime time={new Date()} to={dayjs(props.thread.modifiedTime).toDate()} type={"relative"} />
                   ),
-                  default: () => <div>{dayjs(props.thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+                  default: () => <div>{dayjs(props.thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>
                 }}
               />
             </div>
@@ -92,7 +86,7 @@ const Item = defineComponent({
                     <div>
                       {dayjs(props.thread.lastReplyTime ?? props.thread.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}
                     </div>
-                  ),
+                  )
                 }}
               />
               <div>{props.thread.lastReplyMember?.profile?.nickname ?? props.thread.member.profile?.nickname}</div>
@@ -106,8 +100,10 @@ const Item = defineComponent({
           </div>
         </div>
       </div>
-    )
-  },
-})
+    ),
+  {
+    props: ["thread"]
+  }
+)
 
 export default Item

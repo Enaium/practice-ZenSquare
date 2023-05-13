@@ -21,20 +21,10 @@ import { defineComponent, ref } from "vue"
 import { NButton, NIcon, useMessage } from "naive-ui"
 import { Heart20Regular, HeartBroken20Regular, Vote24Filled } from "@vicons/fluent"
 import { useSessionStore } from "@/store"
-import { api } from "@/common/ApiInstance.ts"
+import { api } from "@/common/ApiInstance"
 
-const LikeState = defineComponent({
-  props: {
-    target: {
-      type: String,
-      required: true,
-    },
-    like: {
-      type: Number,
-      required: true,
-    },
-  },
-  setup(props) {
+const LikeState = defineComponent(
+  (props: { target: string; like: number }) => {
     const likeCount = ref(props.like)
     const session = useSessionStore()
     const message = useMessage()
@@ -45,7 +35,7 @@ const LikeState = defineComponent({
           .like({
             memberId: session.id,
             target: props.target!,
-            dislike: dislike,
+            dislike: dislike
           })
           .then((data) => {
             likeCount.value = data
@@ -79,6 +69,9 @@ const LikeState = defineComponent({
       </>
     )
   },
-})
+  {
+    props: ["target", "like"]
+  }
+)
 
 export default LikeState

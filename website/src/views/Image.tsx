@@ -17,9 +17,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ImageProps, NImage } from "naive-ui"
-import { FunctionalComponent, VNode } from "vue"
-import { BASE_URL } from "@/common/ApiInstance.ts"
+import type { ImageProps } from "naive-ui"
+import { NImage } from "naive-ui"
+import type { FunctionalComponent, VNode } from "vue"
+import { BASE_URL } from "@/common/ApiInstance"
 
 interface Props extends ImageProps {
   id?: string

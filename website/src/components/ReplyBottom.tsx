@@ -17,30 +17,20 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, PropType, ref } from "vue"
-import { ReplyDto } from "@/__generated/model/dto"
+import { defineComponent, ref } from "vue"
+import type { ReplyDto } from "@/__generated/model/dto"
 import { NButton, NIcon, NModal, NPopconfirm, NPopover } from "naive-ui"
 import { useSessionStore } from "@/store"
 import LikeState from "@/components/LikeState"
 import { MoreHorizontal32Filled } from "@vicons/fluent"
-import ReplyForm from "@/components/ReplyForm.tsx"
+import ReplyForm from "@/components/ReplyForm"
 
-const ReplyBottom = defineComponent({
-  props: {
-    reply: {
-      type: Object as PropType<ReplyDto["ReplyController/FULL_REPLY"]>,
-      required: true,
-    },
-    onClickShowChild: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-    onClickReply: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-  },
-  setup(props) {
+const ReplyBottom = defineComponent(
+  (props: {
+    reply: ReplyDto["ReplyController/FULL_REPLY"]
+    onClickShowChild: () => void
+    onClickReply: () => void
+  }) => {
     const session = useSessionStore()
     const showPop = ref(false)
     const showEdit = ref(false)
@@ -90,7 +80,7 @@ const ReplyBottom = defineComponent({
                           <NButton text type={"primary"}>
                             {window.$i18n("component.button.delete")}
                           </NButton>
-                        ),
+                        )
                       }}
                       onPositiveClick={() => {}}
                     />
@@ -99,7 +89,7 @@ const ReplyBottom = defineComponent({
                     {window.$i18n("component.button.reply")}
                   </NButton>
                 </div>
-              ),
+              )
             }}
           />
         </div>
@@ -109,6 +99,9 @@ const ReplyBottom = defineComponent({
       </>
     )
   },
-})
+  {
+    props: ["reply", "onClickShowChild", "onClickReply"]
+  }
+)
 
 export default ReplyBottom

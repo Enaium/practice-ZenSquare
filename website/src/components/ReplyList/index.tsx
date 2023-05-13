@@ -20,24 +20,18 @@
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance"
-import { RequestOf } from "@/__generated"
+import type { RequestOf } from "@/__generated"
 import { NList, NListItem, NSpin } from "naive-ui"
 import Pagination from "@/components/Pagination"
 import Item from "@/components/ReplyList/Item"
 
-const ReplyList = defineComponent({
-  props: {
-    thread: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+const ReplyList = defineComponent(
+  (props: { thread: string }) => {
     const options = reactive<RequestOf<typeof api.replyController.findReplies>>({ threadId: props.thread! })
 
     const { data, isLoading } = useQuery({
       queryKey: ["replyList", options],
-      queryFn: () => api.replyController.findReplies(options),
+      queryFn: () => api.replyController.findReplies(options)
     })
 
     return () =>
@@ -56,6 +50,9 @@ const ReplyList = defineComponent({
         </>
       )
   },
-})
+  {
+    props: ["thread"]
+  }
+)
 
 export default ReplyList

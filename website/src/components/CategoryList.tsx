@@ -19,7 +19,7 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
+import { api } from "@/common/ApiInstance"
 import { NCard, NCollapse, NCollapseItem, NSpin, NTooltip } from "naive-ui"
 import ForumList from "@/components/ForumList"
 import Pagination from "@/components/Pagination"

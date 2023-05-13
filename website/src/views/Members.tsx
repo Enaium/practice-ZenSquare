@@ -21,7 +21,7 @@ import { defineComponent } from "vue"
 import { NCard } from "naive-ui"
 import MostThread from "@/views/MostThread"
 import MostReply from "@/views/MostReply"
-import MostMessage from "@/views/MostMessage.tsx"
+import MostMessage from "@/views/MostMessage"
 
 const Members = defineComponent({
   setup() {

@@ -23,21 +23,15 @@ import { api } from "@/common/ApiInstance"
 import { RouterLink, useRoute } from "vue-router"
 import { NCard, NList, NListItem, NSpin } from "naive-ui"
 import ThreadForm from "@/components/ThreadForm"
-import { RequestOf } from "@/__generated"
+import type { RequestOf } from "@/__generated"
 
-const PostThread = defineComponent({
-  props: {
-    forum: {
-      type: String,
-      nullable: true,
-    },
-  },
-  setup: function (props) {
+const PostThread = defineComponent(
+  (props: { forum?: string }) => {
     const route = useRoute()
     const options = reactive<RequestOf<typeof api.categoryController.findCategories>>({})
     const { data, isLoading } = useQuery({
       queryKey: ["categoryList"],
-      queryFn: () => api.categoryController.findCategories(options),
+      queryFn: () => api.categoryController.findCategories(options)
     })
 
     const forum = computed(() => props.forum ?? route.params.forum ?? null)
@@ -57,7 +51,7 @@ const PostThread = defineComponent({
                     <RouterLink
                       to={{
                         name: "post-thread",
-                        params: { forum: forum.id },
+                        params: { forum: forum.id }
                       }}
                     >
                       {forum.name}
@@ -71,6 +65,9 @@ const PostThread = defineComponent({
       </>
     )
   },
-})
+  {
+    props: ["forum"]
+  }
+)
 
 export default PostThread

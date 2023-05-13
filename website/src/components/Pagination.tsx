@@ -17,20 +17,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, PropType } from "vue"
+import { defineComponent } from "vue"
 import { NPagination } from "naive-ui"
-import { Page } from "@/__generated/model/static"
+import type { Page } from "@/__generated/model/static"
 
-const Pagination = defineComponent({
-  props: {
-    page: {
-      type: Object as PropType<Page<any>>,
-      required: true,
-    },
-    changePage: Number
-  },
-  emits: ["update:change"],
-  setup(props, context) {
+const Pagination = defineComponent(
+  (props: { page: Page<any>; changePage: number }, context) => {
     const onUpdatePage = (page: number) => {
       context.emit("update:change", page - 1)
     }
@@ -43,6 +35,10 @@ const Pagination = defineComponent({
       />
     )
   },
-})
+  {
+    props: ["page", "changePage"],
+    emits: ["update:change"]
+  }
+)
 
 export default Pagination

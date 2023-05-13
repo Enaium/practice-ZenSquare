@@ -19,7 +19,7 @@
 
 import { createRouter, createWebHistory } from "vue-router"
 import HomeLayout from "@/layouts/HomeLayout"
-import Forums from "@/views/Forums.tsx"
+import Forums from "@/views/Forums"
 import WhatsNew from "@/views/WhatsNew"
 import Members from "@/views/Members"
 import Forum from "@/views/Forum"

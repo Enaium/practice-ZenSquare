@@ -23,8 +23,8 @@ import Login from "@/views/Login"
 import { ref } from "vue"
 import Register from "@/views/Register"
 
-let showLogin = ref(false)
-let showRegister = ref(false)
+const showLogin = ref(false)
+const showRegister = ref(false)
 
 const NoSession = () => {
   return (

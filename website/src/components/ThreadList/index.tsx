@@ -19,24 +19,18 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
-import { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
+import type { RequestOf } from "@/__generated"
 import { NList, NListItem, NSpin } from "naive-ui"
-import Pagination from "@/components/Pagination.tsx"
-import Item from "@/components/ThreadList/Item.tsx"
+import Pagination from "@/components/Pagination"
+import Item from "@/components/ThreadList/Item"
 
-const ThreadList = defineComponent({
-  props: {
-    forum: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+const ThreadList = defineComponent(
+  (props: { forum: string }) => {
     const options = reactive<RequestOf<typeof api.threadController.findThreads>>({ forumId: props.forum! })
     const { data, isLoading } = useQuery({
       queryKey: ["findThreads", options],
-      queryFn: () => api.threadController.findThreads(options),
+      queryFn: () => api.threadController.findThreads(options)
     })
 
     return () =>
@@ -55,6 +49,9 @@ const ThreadList = defineComponent({
         </>
       )
   },
-})
+  {
+    props: ["forum"]
+  }
+)
 
 export default ThreadList

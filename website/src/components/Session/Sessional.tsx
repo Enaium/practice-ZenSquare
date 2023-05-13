@@ -19,7 +19,7 @@
 
 import { defineComponent, reactive, ref } from "vue"
 import { useSessionStore } from "@/store"
-import { RequestOf } from "@/__generated"
+import type { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance"
 import { useQuery } from "@tanstack/vue-query"
 import { NAlert, NButton, NModal, NPopover, NSpin } from "naive-ui"
@@ -27,7 +27,7 @@ import ModifyProfile from "@/views/ModifyProfile"
 import VisitorMenu from "@/views/VisitorMenu"
 import Avatar from "@/components/Avatar"
 
-let showModifyProfile = ref(false)
+const showModifyProfile = ref(false)
 
 const Sessional = defineComponent({
   setup() {

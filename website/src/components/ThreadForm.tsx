@@ -18,18 +18,14 @@
  */
 
 import { defineComponent, ref } from "vue"
-import { FormInst, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
-import Content from "@/components/Content"
+import type { FormInst } from "naive-ui"
+import { NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
+import Editor from "@/components/Editor"
 import { api } from "@/common/ApiInstance"
-import { ThreadInput } from "@/__generated/model/static"
+import type { ThreadInput } from "@/__generated/model/static"
 
-const ThreadForm = defineComponent({
-  props: {
-    forum: {
-      type: String,
-    },
-  },
-  setup(props) {
+const ThreadForm = defineComponent(
+  (props: { forum: string }) => {
     const form = ref<ThreadInput>({})
     const formRef = ref<FormInst | null>(null)
 
@@ -63,7 +59,7 @@ const ThreadForm = defineComponent({
             label={window.$i18n("component.threadForm.content.label")}
             rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
           >
-            <Content v-model={form.value.content} />
+            <Editor v-model={form.value.content} />
           </NFormItem>
           <NButton onClick={submit} type={"primary"}>
             {window.$i18n("common.submit")}
@@ -72,6 +68,9 @@ const ThreadForm = defineComponent({
       </>
     )
   },
-})
+  {
+    props: ["forum"]
+  }
+)
 
 export default ThreadForm

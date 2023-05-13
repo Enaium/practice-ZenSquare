@@ -23,6 +23,7 @@ import { Flash16Regular, NotepadEdit16Regular } from "@vicons/fluent"
 import { ref } from "vue"
 import PostThread from "@/views/PostThread"
 import { useRouter } from "vue-router"
+import Temp from "@/components/Temp"
 
 const showPostThread = ref(false)
 

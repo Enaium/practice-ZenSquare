@@ -19,11 +19,11 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
-import { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
+import type { RequestOf } from "@/__generated"
 import { NList, NListItem, NSpin } from "naive-ui"
-import Item from "@/components/ThreadList/Item.tsx"
-import Pagination from "@/components/Pagination.tsx"
+import Item from "@/components/ThreadList/Item"
+import Pagination from "@/components/Pagination"
 
 const WhatsNew = defineComponent({
   setup() {

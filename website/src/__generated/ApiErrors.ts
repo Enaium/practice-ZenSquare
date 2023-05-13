@@ -13,6 +13,8 @@ export type ApiErrors = {
     },
     "memberController": {
     },
+    "memberFollowController": {
+    },
     "memberLikeController": {
     },
     "memberProfileController": {

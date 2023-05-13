@@ -19,10 +19,10 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { api } from "@/common/ApiInstance.ts"
-import { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
+import type { RequestOf } from "@/__generated"
 import { NList, NListItem, NSpin } from "naive-ui"
-import Pagination from "@/components/Pagination.tsx"
+import Pagination from "@/components/Pagination"
 
 const MostMessage = defineComponent({
   setup() {

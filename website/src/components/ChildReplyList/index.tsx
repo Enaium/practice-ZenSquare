@@ -19,25 +19,19 @@
 
 import { defineComponent, reactive } from "vue"
 import { useQuery } from "@tanstack/vue-query"
-import { RequestOf } from "@/__generated"
-import { api } from "@/common/ApiInstance.ts"
+import type { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
 import { NList, NListItem, NSpin } from "naive-ui"
-import Pagination from "@/components/Pagination.tsx"
+import Pagination from "@/components/Pagination"
 import Item from "@/components/ChildReplyList/Item"
 
-const ChildReplyList = defineComponent({
-  props: {
-    parent: {
-      type: String,
-      required: true,
-    },
-  },
-  setup(props) {
+const ChildReplyList = defineComponent(
+  (props: { parent: string }) => {
     const options = reactive<RequestOf<typeof api.replyController.findChildrenReplies>>({ replyId: props.parent! })
 
     const { data, isLoading } = useQuery({
       queryKey: ["childReply", options],
-      queryFn: () => api.replyController.findChildrenReplies(options),
+      queryFn: () => api.replyController.findChildrenReplies(options)
     })
 
     return () =>
@@ -56,6 +50,9 @@ const ChildReplyList = defineComponent({
         </>
       )
   },
-})
+  {
+    props: ["parent"]
+  }
+)
 
 export default ChildReplyList

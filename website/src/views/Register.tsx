@@ -17,9 +17,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionalComponent, reactive, ref } from "vue"
-import { FormInst, FormItemRule, NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
-import { MemberInput } from "@/__generated/model/static"
+import type { FunctionalComponent } from "vue"
+import { reactive, ref } from "vue"
+import { NButton, NForm, NFormItem, NInput, useMessage } from "naive-ui"
+import type { FormInst, FormItemRule } from "naive-ui/es/form/src/interface"
+import type { MemberInput } from "@/__generated/model/static"
 import { api } from "@/common/ApiInstance"
 
 const formRef = ref<FormInst | null>(null)
@@ -70,8 +72,8 @@ const Register: FunctionalComponent<{ onSuccess: () => void }> = ({ onSuccess })
             {
               validator: validatePasswordSame,
               message: window.$i18n("view.register.passwordDifferent"),
-              trigger: ["blur", "input"],
-            },
+              trigger: ["blur", "input"]
+            }
           ]}
         >
           <NInput v-model:value={form.confirmPassword} type={"password"} />

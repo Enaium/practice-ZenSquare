@@ -19,25 +19,15 @@
 
 import { defineComponent, ref } from "vue"
 
-import { FormInst, NButton, NForm, NFormItem, useMessage } from "naive-ui"
-import { ReplyInput } from "@/__generated/model/static"
+import { NButton, NForm, NFormItem, useMessage } from "naive-ui"
+import type { FormInst } from "naive-ui/lib/form/src/interface"
+import type { ReplyInput } from "@/__generated/model/static"
 import { ArrowReply16Regular } from "@vicons/fluent"
-import Content from "@/components/Content.tsx"
-import { api } from "@/common/ApiInstance.ts"
+import Editor from "@/components/Editor"
+import { api } from "@/common/ApiInstance"
 
-const ReplyForm = defineComponent({
-  props: {
-    thread: {
-      type: String,
-    },
-    parent: {
-      type: String,
-    },
-    id: {
-      type: String,
-    },
-  },
-  setup: function (props) {
+const ReplyForm = defineComponent(
+  (props: { thread?: string; parent?: string; id?: string }) => {
     const form = ref<ReplyInput>({})
     const formRef = ref<FormInst | null>(null)
 
@@ -51,8 +41,8 @@ const ReplyForm = defineComponent({
                 ...form.value,
                 id: props.id,
                 threadId: props.thread,
-                parentId: props.parent,
-              },
+                parentId: props.parent
+              }
             })
             .then(() => {
               message.success(window.$i18n("common.success"))
@@ -73,7 +63,7 @@ const ReplyForm = defineComponent({
             label={window.$i18n("component.replyForm.reply.label")}
             rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
           >
-            <Content v-model={form.value.content} />
+            <Editor v-model={form.value.content} />
           </NFormItem>
           <div class={"flex flex-row-reverse"}>
             <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>
@@ -84,6 +74,7 @@ const ReplyForm = defineComponent({
       </>
     )
   },
-})
+  { props: ["thread", "parent", "id"] }
+)
 
 export default ReplyForm

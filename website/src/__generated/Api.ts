@@ -1,6 +1,6 @@
 import type { Executor } from './';
 
-import { CategoryController, ForumController, ImageController, MemberController, MemberLikeController, MemberProfileController, MemberRankController, ReplyController, SessionController, ThreadController } from './services';
+import { CategoryController, ForumController, ImageController, MemberController, MemberFollowController, MemberLikeController, MemberProfileController, MemberRankController, ReplyController, SessionController, ThreadController } from './services';
 
 export class Api {
     
@@ -15,6 +15,8 @@ export class Api {
     readonly imageController: ImageController;
     
     readonly memberController: MemberController;
+    
+    readonly memberFollowController: MemberFollowController;
     
     readonly memberLikeController: MemberLikeController;
     
@@ -31,6 +33,7 @@ export class Api {
         this.replyController = new ReplyController(executor);
         this.imageController = new ImageController(executor);
         this.memberController = new MemberController(executor);
+        this.memberFollowController = new MemberFollowController(executor);
         this.memberLikeController = new MemberLikeController(executor);
         this.memberProfileController = new MemberProfileController(executor);
         this.memberRankController = new MemberRankController(executor);
