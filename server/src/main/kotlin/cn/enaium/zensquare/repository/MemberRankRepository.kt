@@ -22,11 +22,9 @@ package cn.enaium.zensquare.repository
 import cn.enaium.zensquare.controller.member.rank.MemberRankController.Companion.DEFAULT_MEMBER_RANK
 import cn.enaium.zensquare.model.entity.*
 import org.babyfish.jimmer.spring.repository.KRepository
-import org.babyfish.jimmer.sql.kt.ast.expression.count
-import org.babyfish.jimmer.sql.kt.ast.expression.desc
-import org.babyfish.jimmer.sql.kt.ast.expression.eq
-import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
+import org.babyfish.jimmer.sql.kt.ast.expression.*
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -69,22 +67,10 @@ interface MemberRankRepository : KRepository<Member, UUID> {
             select(table.fetch(DEFAULT_MEMBER_RANK))
         })
 
-    //TODO: Find top 100 member order by message count
     fun findTop100OrderByMessage(pageable: Pageable): Page<Member> =
-        pager(pageable).execute(sql.createQuery(Member::class) {
-
-            subQuery(Thread::class) {
-                where(table.member.id eq parentTable.id)
-                select(table.member.id)
-            }
-
-            subQuery(Reply::class) {
-                where(table.member.id eq parentTable.id)
-                select(table.member.id)
-            }
-
-
-            groupBy(table.id)
-            select(table.fetch(DEFAULT_MEMBER_RANK))
-        })
+        PageImpl(sql.findByIds(DEFAULT_MEMBER_RANK, sql.createQuery(Member::class) {
+            groupBy(table   .id)
+            orderBy((count(table.asTableEx().threads.id) + count(table.asTableEx().replies.id)).desc())
+            select(table.id).limit(100, 0)
+        }.execute()).values.toList(), pageable, 100)
 }
