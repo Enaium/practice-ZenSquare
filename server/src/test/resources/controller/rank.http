@@ -2,3 +2,7 @@
 ### GET findThreadRank
 
 GET {{host}}/members/rank/thread/
+
+### GET findMessageRank
+
+GET {{host}}/members/rank/message/

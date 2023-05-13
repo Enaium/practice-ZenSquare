@@ -20,7 +20,8 @@
 import { defineComponent } from "vue"
 import { NCard } from "naive-ui"
 import MostThread from "@/views/MostThread"
-import MostReply from "@/views/MostReply";
+import MostReply from "@/views/MostReply"
+import MostMessage from "@/views/MostMessage.tsx"
 
 const Members = defineComponent({
   setup() {
@@ -38,7 +39,10 @@ const Members = defineComponent({
             segmented={{ content: true }}
             v-slots={{ header: () => <div>Most reply</div>, default: () => <MostReply /> }}
           />
-          <NCard segmented={{ content: true }} v-slots={{ header: () => <div>Most message</div> }} />
+          <NCard
+            segmented={{ content: true }}
+            v-slots={{ header: () => <div>Most message</div>, default: () => <MostMessage /> }}
+          />
         </div>
       </>
     )
