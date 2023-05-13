@@ -22,20 +22,20 @@ export default {
     login: {
       username: {
         label: "用户名",
-        message: "请输入你的用户名",
+        message: "请输入你的用户名"
       },
       password: {
         label: "密码",
-        message: "请输入你的密码",
+        message: "请输入你的密码"
       },
       login: "登录",
-      success: "登录成功",
+      success: "登录成功"
     },
     register: {
       confirmPassword: "请重新输入你的密码",
       passwordDifferent: "输入的密码和确认的密码不同",
       register: "注册",
-      success: "注册成功",
+      success: "注册成功"
     },
     modifyProfile: {
       nickname: { label: "昵称", message: "请输入你的昵称" },
@@ -45,7 +45,7 @@ export default {
       description: { label: "描述" },
       github: { label: "GitHub" },
       bilibili: { label: "哔哩哔哩" },
-      email: { label: "邮箱" },
+      email: { label: "邮箱" }
     },
     visitorMenu: {
       role: "角色",
@@ -56,56 +56,61 @@ export default {
       security: "密码和安全",
       logout: "登出",
       logoutConfirm: "你确定要登出吗?",
-      logoutSuccess: "登出成功",
+      logoutSuccess: "登出成功"
     },
     forums: {
       newPost: "新帖子",
-      newThread: "新主题",
+      newThread: "新主题"
     },
+    profile: {
+      follow: "关注",
+      startConversation: "开始会话",
+      find: "查找"
+    }
   },
   component: {
     state: {
       login: "登录",
       register: "注册",
       profile: "个人资料",
-      createProfile: "创建个人资料",
+      createProfile: "创建个人资料"
     },
     menu: {
       forums: "论坛",
       whatsNew: "新鲜事",
-      members: "会员",
+      members: "会员"
     },
     threadForm: {
       title: {
         label: "标题",
-        message: "请输入标题",
+        message: "请输入标题"
       },
       content: {
         label: "内容",
-        message: "请输入内容",
-      },
+        message: "请输入内容"
+      }
     },
     replyForm: {
       reply: {
         label: "回复",
-        message: "请输入回复",
-      },
+        message: "请输入回复"
+      }
     },
     replyList: {
-      viewChild: "查看 {child} 个回复",
+      viewChild: "查看 {child} 个回复"
     },
     likeState: {
-      notLogin: "请登录后点赞",
+      notLogin: "请登录后点赞"
     },
     button: {
       report: "举报",
       edit: "编辑",
       reply: "回复",
-      delete: "删除",
-    },
+      delete: "删除"
+    }
   },
   common: {
     submit: "提交",
-    success: "成功",
-  },
+    success: "成功"
+  }
 }

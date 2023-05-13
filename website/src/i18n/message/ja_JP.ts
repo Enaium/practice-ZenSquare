@@ -22,47 +22,47 @@ export default {
     login: {
       username: {
         label: "ユーザー名",
-        message: "ユーザー名を入力してください",
+        message: "ユーザー名を入力してください"
       },
       password: {
         label: "パスワード",
-        message: "パスワードを入力してください",
+        message: "パスワードを入力してください"
       },
       login: "ログイン",
-      success: "ログイン成功",
+      success: "ログイン成功"
     },
     register: {
       confirmPassword: "パスワードを再入力してください",
       passwordDifferent: "入力したパスワードと確認したパスワードが異なります",
       register: "登録",
-      success: "登録成功",
+      success: "登録成功"
     },
     modifyProfile: {
       nickname: {
         label: "ニックネーム",
-        message: "ニックネームを入力してください",
+        message: "ニックネームを入力してください"
       },
       birthday: {
-        label: "誕生日",
+        label: "誕生日"
       },
       location: {
-        label: "住所",
+        label: "住所"
       },
       website: {
-        label: "ウェブサイト",
+        label: "ウェブサイト"
       },
       description: {
-        label: "説明",
+        label: "説明"
       },
       github: {
-        label: "GitHub",
+        label: "GitHub"
       },
       bilibili: {
-        label: "BiliBili",
+        label: "BiliBili"
       },
       email: {
-        label: "メールアドレス",
-      },
+        label: "メールアドレス"
+      }
     },
     visitorMenu: {
       role: "役割",
@@ -73,56 +73,61 @@ export default {
       security: "パスワードとセキュリティ",
       logout: "ログアウト",
       logoutConfirm: "ログアウトしますか？",
-      logoutSuccess: "ログアウト成功",
+      logoutSuccess: "ログアウト成功"
     },
     forums: {
       newPost: "新しい投稿",
-      newThread: "新しいスレッド",
+      newThread: "新しいスレッド"
     },
+    profile: {
+      follow: "フォロー",
+      startConversation: "会話を開始",
+      find: "検索"
+    }
   },
   component: {
     state: {
       login: "ログイン",
       register: "登録",
       profile: "プロフィール",
-      createProfile: "プロフィールを作成",
+      createProfile: "プロフィールを作成"
     },
     menu: {
       forums: "フォーラム",
       whatsNew: "新着情報",
-      members: "メンバー",
+      members: "メンバー"
     },
     threadForm: {
       title: {
         label: "タイトル",
-        message: "タイトルを入力してください",
+        message: "タイトルを入力してください"
       },
       content: {
         label: "内容",
-        message: "内容を入力してください",
-      },
+        message: "内容を入力してください"
+      }
     },
     replyForm: {
       reply: {
         label: "返信",
-        message: "返信を入力してください",
-      },
+        message: "返信を入力してください"
+      }
     },
     replyList: {
-      viewChild: "子を見る {count} 件",
+      viewChild: "子を見る {count} 件"
     },
     likeState: {
-      notLogin: "ログインしていません",
+      notLogin: "ログインしていません"
     },
     button: {
       report: "報告",
       edit: "編集",
       reply: "返信",
-      delete: "削除",
-    },
+      delete: "削除"
+    }
   },
   common: {
     submit: "提出する",
-    success: "成功",
-  },
+    success: "成功"
+  }
 }

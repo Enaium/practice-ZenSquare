@@ -62,6 +62,11 @@ export default {
       newPost: "Nouveau message",
       newThread: "Nouveau fil",
     },
+    profile: {
+      follow: "Follow",
+      startConversation: "Start a conversation",
+      find: "Find",
+    }
   },
   component: {
     state: {
