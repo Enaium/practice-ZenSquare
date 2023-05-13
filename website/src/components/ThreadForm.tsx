@@ -59,7 +59,7 @@ const ThreadForm = defineComponent(
             label={window.$i18n("component.threadForm.content.label")}
             rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
           >
-            <Editor v-model={form.value.content} />
+            <Editor modelValue={form.value.content!}  autoDetectCode={true}/>
           </NFormItem>
           <NButton onClick={submit} type={"primary"}>
             {window.$i18n("common.submit")}

@@ -63,7 +63,7 @@ const ReplyForm = defineComponent(
             label={window.$i18n("component.replyForm.reply.label")}
             rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
           >
-            <Editor v-model={form.value.content} />
+            <Editor modelValue={form.value.content} />
           </NFormItem>
           <div class={"flex flex-row-reverse"}>
             <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>
