@@ -27,8 +27,7 @@ import Editor from "@/components/Editor"
 import { api } from "@/common/ApiInstance"
 
 const ReplyForm = defineComponent(
-  (props: { thread?: string; parent?: string; id?: string }) => {
-    const form = ref<ReplyInput>({})
+  (props: { reply: ReplyInput }) => {
     const formRef = ref<FormInst | null>(null)
 
     const message = useMessage()
@@ -37,16 +36,11 @@ const ReplyForm = defineComponent(
         if (!errors) {
           api.replyController
             .saveReply({
-              body: {
-                ...form.value,
-                id: props.id,
-                threadId: props.thread,
-                parentId: props.parent
-              }
+              body: props.reply
             })
             .then(() => {
               message.success(window.$i18n("common.success"))
-              form.value = {}
+              props.reply = {}
             })
             .catch((error) => {
               message.error(error)
@@ -57,13 +51,13 @@ const ReplyForm = defineComponent(
 
     return () => (
       <>
-        <NForm model={form.value} ref={formRef}>
+        <NForm model={props.reply} ref={formRef}>
           <NFormItem
             path={"content"}
             label={window.$i18n("component.replyForm.reply.label")}
             rule={[{ required: true, message: window.$i18n("component.replyForm.reply.message") }]}
           >
-            <Editor modelValue={form.value.content} />
+            <Editor v-model={props.reply.content} />
           </NFormItem>
           <div class={"flex flex-row-reverse"}>
             <NButton renderIcon={() => <ArrowReply16Regular />} type={"primary"} onClick={submit}>
@@ -74,7 +68,7 @@ const ReplyForm = defineComponent(
       </>
     )
   },
-  { props: ["thread", "parent", "id"] }
+  { props: ["reply"] }
 )
 
 export default ReplyForm

@@ -61,7 +61,7 @@ const Item = defineComponent(
           </div>
         </div>
         <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>
-          <ReplyForm thread={props.reply.threadId} parent={showForm.value!} />
+          <ReplyForm reply={{ threadId: props.reply.threadId!, parentId: showForm.value! }} />
         </NModal>
         <NModal show={showChild.value != null} onClose={() => (showChild.value = null)} preset={"card"}>
           <ChildReplyList parent={props.reply.id} />

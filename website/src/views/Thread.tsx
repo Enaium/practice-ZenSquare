@@ -120,7 +120,7 @@ const Thread = defineComponent({
           <ReplyList thread={data.value.id} />
           {/*reply*/}
           <NModal v-model:show={showReply.value} preset={"card"}>
-            <ReplyForm thread={data.value.id} />
+            <ReplyForm reply={{ threadId: data.value.id }} />
           </NModal>
         </>
       )

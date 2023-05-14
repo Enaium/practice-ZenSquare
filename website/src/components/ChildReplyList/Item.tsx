@@ -26,41 +26,44 @@ import dayjs from "dayjs"
 import ReplyBottom from "@/components/ReplyBottom"
 import { MdPreview } from "md-editor-v3"
 
-const Item = defineComponent((props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
-  const showForm = ref<string | null>(null)
-  const showChild = ref<string | null>(null)
+const Item = defineComponent(
+  (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
+    const showForm = ref<string | null>(null)
+    const showChild = ref<string | null>(null)
 
-  return () => (
-    <>
-      <div class={"flex flex-col justify-between p-2 w-full"}>
-        <div>
-          <NTooltip
-            v-slots={{
-              trigger: () => (
-                <NTime time={new Date()} to={dayjs(props.reply.modifiedTime).toDate()} type={"relative"} />
-              ),
-              default: () => <div>{dayjs(props.reply.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>
-            }}
+    return () => (
+      <>
+        <div class={"flex flex-col justify-between p-2 w-full"}>
+          <div>
+            <NTooltip
+              v-slots={{
+                trigger: () => (
+                  <NTime time={new Date()} to={dayjs(props.reply.modifiedTime).toDate()} type={"relative"} />
+                ),
+                default: () => <div>{dayjs(props.reply.modifiedTime).format("YYYY-MM-DD hh:mm:ss")}</div>
+              }}
+            />
+          </div>
+          <MdPreview modelValue={props.reply.content} />
+          {/*bottom*/}
+          <ReplyBottom
+            reply={props.reply}
+            onClickShowChild={() => (showChild.value = props.reply.id)}
+            onClickReply={() => (showForm.value = props.reply.id)}
           />
         </div>
-        <MdPreview modelValue={props.reply.content} />
-        {/*bottom*/}
-        <ReplyBottom
-          reply={props.reply}
-          onClickShowChild={() => (showChild.value = props.reply.id)}
-          onClickReply={() => (showForm.value = props.reply.id)}
-        />
-      </div>
-      <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>
-        <ReplyForm thread={props.reply.threadId} parent={showForm.value!} />
-      </NModal>
-      <NModal show={showChild.value != null} onClose={() => (showChild.value = null)} preset={"card"}>
-        <ChildReplyList parent={props.reply.id} />
-      </NModal>
-    </>
-  )
-},{
-  props:["reply"]
-})
+        <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>
+          <ReplyForm reply={{ threadId: props.reply.threadId!, parentId: showForm.value! }} />
+        </NModal>
+        <NModal show={showChild.value != null} onClose={() => (showChild.value = null)} preset={"card"}>
+          <ChildReplyList parent={props.reply.id} />
+        </NModal>
+      </>
+    )
+  },
+  {
+    props: ["reply"]
+  }
+)
 
 export default Item

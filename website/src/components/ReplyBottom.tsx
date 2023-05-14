@@ -94,7 +94,7 @@ const ReplyBottom = defineComponent(
           />
         </div>
         <NModal show={showEdit.value} preset={"card"} onClose={() => (showEdit.value = false)}>
-          <ReplyForm id={props.reply.id} />
+          <ReplyForm reply={{ ...props.reply }} />
         </NModal>
       </>
     )
