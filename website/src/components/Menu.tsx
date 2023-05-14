@@ -17,7 +17,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { MenuOption, NMenu } from "naive-ui"
+import type { MenuOption } from "naive-ui"
+import { NMenu } from "naive-ui"
 import { RouterLink, useRoute } from "vue-router"
 
 const menuOptions: MenuOption[] = [
@@ -25,20 +26,20 @@ const menuOptions: MenuOption[] = [
     label: () => {
       return <RouterLink to={{ name: "forums" }}>{window.$i18n("component.menu.forums")}</RouterLink>
     },
-    key: "forums",
+    key: "forums"
   },
   {
     label: () => {
       return <RouterLink to={{ name: "whats-new" }}>{window.$i18n("component.menu.whatsNew")}</RouterLink>
     },
-    key: "whats-new",
+    key: "whats-new"
   },
   {
     label: () => {
       return <RouterLink to={{ name: "members" }}>{window.$i18n("component.menu.members")}</RouterLink>
     },
-    key: "members",
-  },
+    key: "members"
+  }
 ]
 
 const Menu = () => {
