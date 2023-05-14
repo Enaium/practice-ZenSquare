@@ -71,6 +71,21 @@ class MemberRankController(
         return memberRankRepository.findTop100OrderByReply(PageRequest.of(page, size))
     }
 
+    /**
+     * Find member rank by message
+     *
+     * @param page page
+     * @param size size
+     * @return member rank
+     */
+    @GetMapping("/members/rank/message/")
+    fun findMessageRank(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10
+    ): Page<@FetchBy("DEFAULT_MEMBER_RANK") Member> {
+        return memberRankRepository.findTop100OrderByMessage(PageRequest.of(page, size))
+    }
+
     companion object {
         val DEFAULT_MEMBER_RANK = newFetcher(Member::class).by {
             profile {

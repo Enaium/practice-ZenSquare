@@ -67,10 +67,16 @@ interface MemberRankRepository : KRepository<Member, UUID> {
             select(table.fetch(DEFAULT_MEMBER_RANK))
         })
 
+    /**
+     * Find top 100 member order by message count
+     *
+     * @param pageable Pageable
+     * @return Page<Member>
+     */
     fun findTop100OrderByMessage(pageable: Pageable): Page<Member> =
         PageImpl(sql.findByIds(DEFAULT_MEMBER_RANK, sql.createQuery(Member::class) {
-            groupBy(table   .id)
+            groupBy(table.id)
             orderBy((count(table.asTableEx().threads.id) + count(table.asTableEx().replies.id)).desc())
-            select(table.id).limit(100, 0)
+            select(table).limit(100, 0)
         }.execute()).values.toList(), pageable, 100)
 }
