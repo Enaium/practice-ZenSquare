@@ -21,6 +21,9 @@ package cn.enaium.zensquare.controller.member.follow
 
 import cn.enaium.zensquare.bll.service.MemberFollowService
 import cn.enaium.zensquare.model.entity.Member
+import cn.enaium.zensquare.model.entity.by
+import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
@@ -62,7 +65,7 @@ class MemberFollowController(
         @PathVariable memberId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
-    ): Page<Member> {
+    ): Page<@FetchBy("DEFAULT_MEMBER_FOLLOW") Member> {
         return memberFollowService.followings(PageRequest.of(page, size), memberId)
     }
 
@@ -79,7 +82,7 @@ class MemberFollowController(
         @PathVariable memberId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
-    ): Page<Member> {
+    ): Page<@FetchBy("DEFAULT_MEMBER_FOLLOW") Member> {
         return memberFollowService.followers(PageRequest.of(page, size), memberId)
     }
 
@@ -111,5 +114,17 @@ class MemberFollowController(
         @PathVariable followId: UUID
     ) {
         memberFollowService.unfollow(memberId, followId)
+    }
+
+    companion object {
+        val DEFAULT_MEMBER_FOLLOW = newFetcher(Member::class).by {
+            allScalarFields()
+            password(false)
+            profile {
+                nickname()
+                description()
+                avatar(false)
+            }
+        }
     }
 }

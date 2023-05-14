@@ -22,20 +22,20 @@ export default {
     login: {
       username: {
         label: "Nom d'utilisateur",
-        message: "Veuillez saisir votre nom d'utilisateur",
+        message: "Veuillez saisir votre nom d'utilisateur"
       },
       password: {
         label: "Mot de passe",
-        message: "Veuillez saisir votre mot de passe",
+        message: "Veuillez saisir votre mot de passe"
       },
       login: "Connexion",
-      success: "Connexion réussie",
+      success: "Connexion réussie"
     },
     register: {
       confirmPassword: "Veuillez saisir votre mot de passe à nouveau",
       passwordDifferent: "Le mot de passe saisi est différent du mot de passe de confirmation",
       register: "S'inscrire",
-      success: "Inscription réussie",
+      success: "Inscription réussie"
     },
     modifyProfile: {
       nickname: { label: "Surnom", message: "Veuillez saisir votre surnom" },
@@ -45,27 +45,32 @@ export default {
       description: { label: "Description" },
       github: { label: "GitHub" },
       bilibili: { label: "BiliBili" },
-      email: { label: "Email" },
+      email: { label: "Email" }
     },
     visitorMenu: {
       role: "Rôle",
       thread: "Fil",
       reply: "Répondre",
       accountDetails: "Détails du compte",
-      following: "Suivant",
+      followers: "Suiveurs",
+      followings: "Suivis",
       security: "Mot de passe et sécurité",
       logout: "Se déconnecter",
       logoutConfirm: "Êtes-vous sûr de vouloir vous déconnecter?",
-      logoutSuccess: "Déconnexion réussie",
+      logoutSuccess: "Déconnexion réussie"
     },
     forum: {
       newPost: "Nouveau message",
-      newThread: "Nouveau fil",
+      newThread: "Nouveau fil"
     },
     profile: {
-      follow: "Follow",
-      startConversation: "Start a conversation",
-      find: "Find",
+      follow: "Suivre",
+      startConversation: "Commencer une conversation",
+      find: "Trouver"
+    },
+    follow: {
+      followers: "Suiveurs",
+      followings: "Suivis"
     }
   },
   component: {
@@ -73,48 +78,48 @@ export default {
       login: "Connexion",
       register: "S'inscrire",
       profile: "Profil",
-      createProfile: "Créer un profil",
+      createProfile: "Créer un profil"
     },
     menu: {
       forums: "Forums",
       whatsNew: "Quoi de neuf",
-      members: "Membres",
+      members: "Membres"
     },
     threadForm: {
       title: {
         label: "Titre",
-        message: "Veuillez saisir le titre",
+        message: "Veuillez saisir le titre"
       },
       content: {
         label: "Contenu",
-        message: "Veuillez saisir le contenu",
-      },
+        message: "Veuillez saisir le contenu"
+      }
     },
     replyForm: {
       replyForm: {
         label: "Répondre",
-        message: "Veuillez saisir le contenu",
-      },
+        message: "Veuillez saisir le contenu"
+      }
     },
     replyList: {
-      viewChild: "Voir les enfants ({count})",
+      viewChild: "Voir les enfants ({count})"
     },
     likeState: {
-      notLogin: "Vous n'êtes pas connecté",
+      notLogin: "Vous n'êtes pas connecté"
     },
     followButton: {
       follow: "Suivre",
-      unfollow: "Ne plus suivre",
+      unfollow: "Ne plus suivre"
     },
     button: {
       report: "Rapport",
       edit: "Modifier",
       reply: "Répondre",
-      delete: "Supprimer",
-    },
+      delete: "Supprimer"
+    }
   },
   common: {
     submit: "Soumettre",
-    success: "Succès",
-  },
+    success: "Succès"
+  }
 }

@@ -64,7 +64,7 @@ const CategoryList = defineComponent({
                 })}
               </NCollapse>
               {data.value.totalElements > data.value.size && (
-                <Pagination page={data.value} v-model:change={options.page} />
+                <Pagination page={data.value} v-model:changePage={options.page} />
               )}
             </>
           )}

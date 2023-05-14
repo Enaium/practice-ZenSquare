@@ -20,14 +20,14 @@
 import { NButton, NModal, NPopover } from "naive-ui"
 import { Clipboard16Regular, Key16Regular } from "@vicons/fluent"
 import Login from "@/views/Login"
-import { ref } from "vue"
+import { defineComponent, ref } from "vue"
 import Register from "@/views/Register"
 
-const showLogin = ref(false)
-const showRegister = ref(false)
+const NoSession = defineComponent(() => {
+  const showLogin = ref(false)
+  const showRegister = ref(false)
 
-const NoSession = () => {
-  return (
+  return () => (
     <>
       <div class={"flex gap-2"}>
         <NPopover
@@ -40,7 +40,7 @@ const NoSession = () => {
                 {window.$i18n("component.state.login")}
               </NButton>
             ),
-            default: () => <Login onSuccess={() => (showLogin.value = false)} />,
+            default: () => <Login onSuccess={() => (showLogin.value = false)} />
           }}
         />
         <NButton renderIcon={() => <Clipboard16Regular />} text onClick={() => (showRegister.value = true)}>
@@ -53,11 +53,10 @@ const NoSession = () => {
         onClose={() => (showRegister.value = false)}
         v-slots={{
           header: () => <div>{window.$i18n("view.register.register")}</div>,
-          default: () => <Register onSuccess={() => (showRegister.value = false)} />,
+          default: () => <Register onSuccess={() => (showRegister.value = false)} />
         }}
       />
     </>
   )
-}
-
+})
 export default NoSession

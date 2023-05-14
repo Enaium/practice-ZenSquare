@@ -27,10 +27,8 @@ const Members = defineComponent({
   setup() {
     return () => (
       <>
-        <div class={"mt-5"}>
-          <div>{window.$i18n("component.menu.members")}</div>
-        </div>
-        <div class={"flex justify-between mt-5"}>
+        <div>{window.$i18n("component.menu.members")}</div>
+        <div class={"flex justify-between"}>
           <NCard
             segmented={{ content: true }}
             v-slots={{ header: () => <div>Most thread</div>, default: () => <MostThread /> }}
@@ -46,7 +44,7 @@ const Members = defineComponent({
         </div>
       </>
     )
-  },
+  }
 })
 
 export default Members

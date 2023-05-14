@@ -26,6 +26,8 @@ import Forum from "@/views/Forum"
 import PostThread from "@/views/PostThread"
 import Thread from "@/views/Thread"
 import Profile from "@/views/Profile"
+import Followings from "@/views/follow/Followings"
+import Followers from "@/views/follow/Followers"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -34,47 +36,57 @@ const router = createRouter({
       path: "/",
       component: <HomeLayout />,
       redirect: {
-        name: "forums",
+        name: "forums"
       },
       children: [
         {
           path: "forums",
           name: "forums",
-          component: <Forums />,
+          component: <Forums />
         },
         {
           path: "forums/:forum",
           name: "forum",
-          component: <Forum />,
+          component: <Forum />
         },
         {
           path: "forums/:forum/threads",
           name: "post-thread",
-          component: <PostThread />,
+          component: <PostThread />
         },
         {
           path: "forums/threads/:thread",
           name: "threads",
-          component: <Thread />,
+          component: <Thread />
         },
         {
           path: "whats-new",
           name: "whats-new",
-          component: <WhatsNew />,
+          component: <WhatsNew />
         },
         {
           path: "members",
           name: "members",
-          component: <Members />,
+          component: <Members />
         },
         {
           path: "members/:id",
           name: "profile",
-          component: () => <Profile />,
+          component: <Profile />
         },
-      ],
-    },
-  ],
+        {
+          path: "members/:id/followings",
+          name: "followings",
+          component: <Followings />
+        },
+        {
+          path: "members/:id/followers",
+          name: "followers",
+          component: <Followers />
+        }
+      ]
+    }
+  ]
 })
 
 export default router

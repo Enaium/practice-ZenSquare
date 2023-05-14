@@ -26,8 +26,8 @@ import { NButton, NGrid, NGridItem, NPopconfirm, NSpin, NTag, useMessage } from 
 import Avatar from "@/components/Avatar"
 import { useRouter } from "vue-router"
 
-const VisitorMenu = defineComponent({
-  setup() {
+const VisitorMenu = defineComponent(
+  (props: { onPush: () => void }) => {
     const router = useRouter()
 
     const session = useSessionStore()
@@ -38,15 +38,19 @@ const VisitorMenu = defineComponent({
 
     const { data, isLoading } = useQuery({
       queryKey: ["findProfile", options],
-      queryFn: () => api.memberProfileController.findProfile(options),
+      queryFn: () => api.memberProfileController.findProfile(options)
     })
+
+    const clk = () => {
+      console.log(123)
+    }
 
     return () => (
       <>
         {isLoading.value || !data.value ? (
           <NSpin />
         ) : (
-          <>
+          <div>
             <div class={"flex gap-5"}>
               <Avatar id={data.value.avatar} size={128} round bordered />
               <div class={"flex flex-col w-36"}>
@@ -71,15 +75,47 @@ const VisitorMenu = defineComponent({
             <div>
               <NGrid xGap={10} yGap={10} cols={2}>
                 <NGridItem>
-                  <NButton text onClick={() => router.push({ name: "profile", params: { id: session.id! } })}>
+                  <NButton
+                    text
+                    onClick={() => {
+                      router.push({ name: "followers", params: { id: session.id! } })
+                      props.onPush()
+                    }}
+                  >
+                    {window.$i18n("view.visitorMenu.followers")}
+                  </NButton>
+                </NGridItem>
+                <NGridItem>
+                  <NButton
+                    text
+                    onClick={() => {
+                      router.push({ name: "followings", params: { id: session.id! } })
+                      props.onPush()
+                    }}
+                  >
+                    {window.$i18n("view.visitorMenu.followings")}
+                  </NButton>
+                </NGridItem>
+                <NGridItem>
+                  <NButton
+                    text
+                    onClick={() => {
+                      router.push({ name: "profile", params: { id: session.id! } })
+                      props.onPush()
+                    }}
+                  >
                     {window.$i18n("view.visitorMenu.accountDetails")}
                   </NButton>
                 </NGridItem>
                 <NGridItem>
-                  <NButton text>{window.$i18n("view.visitorMenu.following")}</NButton>
-                </NGridItem>
-                <NGridItem>
-                  <NButton text>{window.$i18n("view.visitorMenu.security")}</NButton>
+                  <NButton
+                    text
+                    onClick={() => {
+                      props.onPush()
+                    }}
+                  >
+                    {window.$i18n("view.visitorMenu.security")}
+                  </NButton>
                 </NGridItem>
               </NGrid>
             </div>
@@ -89,7 +125,7 @@ const VisitorMenu = defineComponent({
                 trigger: () => <NButton text>{window.$i18n("view.visitorMenu.logout")}</NButton>,
                 default: () => {
                   return <div>{window.$i18n("view.visitorMenu.logoutConfirm")}</div>
-                },
+                }
               }}
               onPositiveClick={() => {
                 api.sessionController.deleteSession({ id: session.id! }).then(() => {
@@ -99,11 +135,14 @@ const VisitorMenu = defineComponent({
                 })
               }}
             />
-          </>
+          </div>
         )}
       </>
     )
   },
-})
+  {
+    props: ["onPush"]
+  }
+)
 
 export default VisitorMenu

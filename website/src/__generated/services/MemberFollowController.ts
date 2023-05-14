@@ -7,7 +7,7 @@ export class MemberFollowController {
     constructor(private executor: Executor) {}
     
     async findFollowers(options: MemberFollowControllerOptions['findFollowers']): Promise<
-        Page<MemberDto['DEFAULT']>
+        Page<MemberDto['MemberFollowController/DEFAULT_MEMBER_FOLLOW']>
     > {
         let _uri = '/members/';
         _uri += encodeURIComponent(options.memberId);
@@ -28,11 +28,11 @@ export class MemberFollowController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberDto['DEFAULT']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberDto['MemberFollowController/DEFAULT_MEMBER_FOLLOW']>
     }
     
     async findFollowings(options: MemberFollowControllerOptions['findFollowings']): Promise<
-        Page<MemberDto['DEFAULT']>
+        Page<MemberDto['MemberFollowController/DEFAULT_MEMBER_FOLLOW']>
     > {
         let _uri = '/members/';
         _uri += encodeURIComponent(options.memberId);
@@ -53,7 +53,7 @@ export class MemberFollowController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberDto['DEFAULT']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberDto['MemberFollowController/DEFAULT_MEMBER_FOLLOW']>
     }
     
     async follow(options: MemberFollowControllerOptions['follow']): Promise<

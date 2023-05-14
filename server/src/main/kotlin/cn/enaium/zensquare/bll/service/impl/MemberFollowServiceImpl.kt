@@ -21,12 +21,14 @@ package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.MemberFollowService
+import cn.enaium.zensquare.controller.member.follow.MemberFollowController
 import cn.enaium.zensquare.model.entity.Member
 import cn.enaium.zensquare.model.entity.id
 import cn.enaium.zensquare.repository.MemberFollowRepository
 import cn.enaium.zensquare.util.i18n
 import org.babyfish.jimmer.sql.kt.KSqlClient
 import org.babyfish.jimmer.sql.kt.ast.expression.eq
+import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
 import org.babyfish.jimmer.sql.kt.ast.table.target
 import org.babyfish.jimmer.sql.kt.source
 import org.springframework.context.MessageSource
@@ -66,9 +68,12 @@ class MemberFollowServiceImpl(
      * @return Page<Member>
      */
     override fun followings(pageable: Pageable, memberId: UUID): Page<Member> =
-        memberFollowRepository.pager(pageable).execute(sql.queries.forList(Member::followings) {
-            where(table.source.id eq memberId)
-            select(table.target)
+        memberFollowRepository.pager(pageable).execute(sql.createQuery(Member::class) {
+            where(table.id valueIn subQueries.forList(Member::followings) {
+                where(table.source.id eq memberId)
+                select(table.target.id)
+            })
+            select(table.fetch(MemberFollowController.DEFAULT_MEMBER_FOLLOW))
         })
 
     /**
@@ -79,9 +84,12 @@ class MemberFollowServiceImpl(
      * @return Page<Member>
      */
     override fun followers(pageable: Pageable, memberId: UUID): Page<Member> =
-        memberFollowRepository.pager(pageable).execute(sql.queries.forList(Member::followers) {
-            where(table.source.id eq memberId)
-            select(table.target)
+        memberFollowRepository.pager(pageable).execute(sql.createQuery(Member::class) {
+            where(table.id valueIn subQueries.forList(Member::followers) {
+                where(table.source.id eq memberId)
+                select(table.target.id)
+            })
+            select(table.fetch(MemberFollowController.DEFAULT_MEMBER_FOLLOW))
         })
 
     /**

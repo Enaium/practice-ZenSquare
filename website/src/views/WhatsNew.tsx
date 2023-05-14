@@ -46,7 +46,7 @@ const WhatsNew = defineComponent({
             <>
               <NList bordered>
                 {data.value.content.map((thread) => (
-                  <NListItem>
+                  <NListItem key={thread.id}>
                     <Item thread={thread} />
                   </NListItem>
                 ))}

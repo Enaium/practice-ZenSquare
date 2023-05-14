@@ -69,7 +69,8 @@ export default {
       thread: "スレッド",
       reply: "返信",
       accountDetails: "アカウントの詳細",
-      following: "フォロー",
+      followers: "フォロワー",
+      followings: "フォロー中",
       security: "パスワードとセキュリティ",
       logout: "ログアウト",
       logoutConfirm: "ログアウトしますか？",
@@ -82,6 +83,10 @@ export default {
     profile: {
       startConversation: "会話を開始",
       find: "検索"
+    },
+    follow: {
+      followers: "フォロワー",
+      followings: "フォロー中"
     }
   },
   component: {

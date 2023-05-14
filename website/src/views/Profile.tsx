@@ -65,7 +65,7 @@ const Profile = defineComponent({
     return () => (
       <>
         <NBreadcrumb>
-          <NBreadcrumbItem onClick={() => router.push({ name: "members" })}>Members</NBreadcrumbItem>
+          <NBreadcrumbItem onClick={() => router.push({ name: "members" })}>{window.$i18n("component.menu.members")}</NBreadcrumbItem>
           <NBreadcrumbItem>Profile</NBreadcrumbItem>
         </NBreadcrumb>
         {isLoading.value || !data.value ? (

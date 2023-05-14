@@ -29,52 +29,55 @@ import Avatar from "@/components/Avatar"
 
 const showModifyProfile = ref(false)
 
-const Sessional = defineComponent({
-  setup() {
-    const session = useSessionStore()
+const Sessional = defineComponent(() => {
+  const showVistorMenu = ref(false)
 
-    const options = reactive<RequestOf<typeof api.memberProfileController.findProfile>>({ memberId: session.id! })
+  const session = useSessionStore()
 
-    const { data, isLoading } = useQuery({
-      queryKey: ["findProfile", options],
-      queryFn: () => api.memberProfileController.findProfile(options),
-    })
-    return () => (
-      <>
-        {data.value ? (
-          <NPopover
-            trigger={"click"}
-            v-slots={{
-              trigger: () => (
-                <NButton class={"flex items-center h-5/6"}>
-                  <Avatar id={data.value!.avatar} size={"large"} round bordered />
-                  <div>{data.value!.nickname}</div>
-                </NButton>
-              ),
-              default: () => <VisitorMenu />,
-            }}
-          />
-        ) : isLoading.value ? (
-          <NSpin />
-        ) : (
-          <NAlert type={"warning"}>
-            <NButton type={"warning"} text onClick={() => (showModifyProfile.value = true)}>
-              {window.$i18n("component.state.createProfile")}
-            </NButton>
-          </NAlert>
-        )}
-        <NModal
-          v-model:show={showModifyProfile.value}
-          preset={"card"}
-          onClose={() => (showModifyProfile.value = false)}
+  const options = reactive<RequestOf<typeof api.memberProfileController.findProfile>>({ memberId: session.id! })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["findProfile", options],
+    queryFn: () => api.memberProfileController.findProfile(options)
+  })
+
+  return () => (
+    <>
+      {data.value ? (
+        <NPopover
+          show={showVistorMenu.value}
+          trigger={"click"}
+          onClickoutside={() => (showVistorMenu.value = false)}
           v-slots={{
-            header: () => <div>{window.$i18n("component.state.profile")}</div>,
-            default: () => <ModifyProfile onSuccess={() => (showModifyProfile.value = false)} />,
+            trigger: () => (
+              <NButton class={"flex items-center h-5/6"} onClick={() => (showVistorMenu.value = true)}>
+                <Avatar id={data.value!.avatar} size={"large"} round bordered />
+                <div>{data.value!.nickname}</div>
+              </NButton>
+            ),
+            default: () => <VisitorMenu onPush={() => (showVistorMenu.value = false)} />
           }}
         />
-      </>
-    )
-  },
+      ) : isLoading.value ? (
+        <NSpin />
+      ) : (
+        <NAlert type={"warning"}>
+          <NButton type={"warning"} text onClick={() => (showModifyProfile.value = true)}>
+            {window.$i18n("component.state.createProfile")}
+          </NButton>
+        </NAlert>
+      )}
+      <NModal
+        v-model:show={showModifyProfile.value}
+        preset={"card"}
+        onClose={() => (showModifyProfile.value = false)}
+        v-slots={{
+          header: () => <div>{window.$i18n("component.state.profile")}</div>,
+          default: () => <ModifyProfile onSuccess={() => (showModifyProfile.value = false)} />
+        }}
+      />
+    </>
+  )
 })
 
 export default Sessional

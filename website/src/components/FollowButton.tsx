@@ -73,9 +73,13 @@ const FollowButton = defineComponent(
           {isFollow.value == undefined ? (
             <NButton>{window.$i18n("component.followButton.follow")}</NButton>
           ) : isFollow.value ? (
-            <NButton onClick={unfollow}>{window.$i18n("component.followButton.unfollow")}</NButton>
+            <NButton onClick={unfollow} type={"error"}>
+              {window.$i18n("component.followButton.unfollow")}
+            </NButton>
           ) : (
-            <NButton onClick={follow}>{window.$i18n("component.followButton.follow")}</NButton>
+            <NButton onClick={follow} type={"primary"}>
+              {window.$i18n("component.followButton.follow")}
+            </NButton>
           )}
         </>
       )

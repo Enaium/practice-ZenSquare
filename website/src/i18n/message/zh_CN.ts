@@ -52,7 +52,8 @@ export default {
       thread: "帖子",
       reply: "回复",
       accountDetails: "账户详情",
-      following: "关注",
+      followers: "粉丝",
+      followings: "关注",
       security: "密码和安全",
       logout: "登出",
       logoutConfirm: "你确定要登出吗?",
@@ -65,6 +66,10 @@ export default {
     profile: {
       startConversation: "开始会话",
       find: "查找"
+    },
+    follow: {
+      followers: "粉丝",
+      followings: "关注"
     }
   },
   component: {

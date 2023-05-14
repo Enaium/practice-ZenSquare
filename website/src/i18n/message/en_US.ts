@@ -22,20 +22,20 @@ export default {
     login: {
       username: {
         label: "Username",
-        message: "Please input your username",
+        message: "Please input your username"
       },
       password: {
         label: "Password",
-        message: "Please input your password",
+        message: "Please input your password"
       },
       login: "Login",
-      success: "Login successful",
+      success: "Login successful"
     },
     register: {
       confirmPassword: "Please input your password again",
       passwordDifferent: "The input password is different from the confirm password",
       register: "Register",
-      success: "Register successful",
+      success: "Register successful"
     },
     modifyProfile: {
       nickname: { label: "Nickname", message: "Please input your nickname" },
@@ -45,26 +45,31 @@ export default {
       description: { label: "Description" },
       github: { label: "GitHub" },
       bilibili: { label: "BiliBili" },
-      email: { label: "Email" },
+      email: { label: "Email" }
     },
     visitorMenu: {
       role: "Role",
       thread: "Thread",
       reply: "Reply",
       accountDetails: "Account details",
-      following: "Following",
+      followers: "Followers",
+      followings: "Followings",
       security: "Password and Security",
       logout: "Logout",
       logoutConfirm: "Are you sure you want to log out?",
-      logoutSuccess: "Logout successful",
+      logoutSuccess: "Logout successful"
     },
     forums: {
       newPost: "New Post",
-      newThread: "New Thread",
+      newThread: "New Thread"
     },
     profile: {
       startConversation: "Start Conversation",
-      find: "Find",
+      find: "Find"
+    },
+    follow: {
+      followers: "Followers",
+      followings: "Followings"
     }
   },
   component: {
@@ -72,48 +77,48 @@ export default {
       login: "Login",
       register: "Register",
       profile: "Profile",
-      createProfile: "Create your profile",
+      createProfile: "Create your profile"
     },
     menu: {
       forums: "Forums",
       whatsNew: "What's New",
-      members: "Members",
+      members: "Members"
     },
     threadForm: {
       title: {
         label: "Title",
-        message: "Please input title",
+        message: "Please input title"
       },
       content: {
         label: "Content",
-        message: "Please input content",
-      },
+        message: "Please input content"
+      }
     },
     replyForm: {
       reply: {
         label: "Reply",
-        message: "Please input reply",
-      },
+        message: "Please input reply"
+      }
     },
     replyList: {
-      viewChild: "View {count} child replies",
+      viewChild: "View {count} child replies"
     },
     likeState: {
-      notLogin: "Please login first to like",
+      notLogin: "Please login first to like"
     },
     followButton: {
       follow: "Follow",
-      unfollow: "Unfollow",
+      unfollow: "Unfollow"
     },
     button: {
       report: "Report",
       edit: "Edit",
       reply: "Reply",
-      delete: "Delete",
-    },
+      delete: "Delete"
+    }
   },
   common: {
     submit: "Submit",
-    success: "Success",
-  },
+    success: "Success"
+  }
 }

@@ -1,4 +1,15 @@
 export type MemberDto = {
+    'MemberFollowController/DEFAULT_MEMBER_FOLLOW': {
+        readonly id: string, 
+        readonly createdTime: string, 
+        readonly modifiedTime: string, 
+        readonly username: string, 
+        readonly profile?: {
+            readonly id: string, 
+            readonly nickname?: string, 
+            readonly description?: string
+        }
+    }, 
     'MemberRankController/DEFAULT_MEMBER_RANK': {
         readonly id: string, 
         readonly profile?: {
@@ -9,13 +20,5 @@ export type MemberDto = {
         readonly thread: number, 
         readonly reply: number, 
         readonly message: number
-    }, 
-    'DEFAULT': {
-        readonly createdTime: string, 
-        readonly modifiedTime: string, 
-        readonly id: string, 
-        readonly username: string, 
-        readonly password: string, 
-        readonly followers: ReadonlyArray<{readonly id: string}>
     }
 }

@@ -41,7 +41,7 @@ const ChildReplyList = defineComponent(
         <>
           <NList bordered>
             {data.value.content.map((child) => (
-              <NListItem>
+              <NListItem key={child.id}>
                 <Item reply={child} />
               </NListItem>
             ))}
