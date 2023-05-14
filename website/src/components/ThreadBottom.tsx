@@ -23,9 +23,11 @@ import LikeState from "@/components/LikeState"
 import { NButton, NIcon, NPopconfirm, NPopover } from "naive-ui"
 import { MoreHorizontal32Filled } from "@vicons/fluent"
 import { useSessionStore } from "@/store"
+import { useRouter } from "vue-router"
 
 const ThreadBottom = defineComponent(
   (props: { thread: ThreadDto["ThreadController/FULL_THREAD"]; onClickReply: () => void }) => {
+    const router = useRouter()
     const session = useSessionStore()
     const showPop = ref(false)
 
@@ -53,7 +55,16 @@ const ThreadBottom = defineComponent(
                 )}
                 {/*If the session id is equal to the reply member id, then show the edit button.*/}
                 {session.id == props.thread.memberId && (
-                  <NButton text type={"primary"}>
+                  <NButton
+                    text
+                    type={"primary"}
+                    onClick={() =>
+                      router.push({
+                        name: "post-thread-thread",
+                        params: { forum: props.thread.forum.id, thread: props.thread.id }
+                      })
+                    }
+                  >
                     {window.$i18n("component.button.edit")}
                   </NButton>
                 )}
@@ -81,7 +92,7 @@ const ThreadBottom = defineComponent(
     )
   },
   {
-    props: ["thread"]
+    props: ["thread", "onClickReply"]
   }
 )
 

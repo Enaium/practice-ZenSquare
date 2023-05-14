@@ -21,9 +21,8 @@ import { NButton, NButtonGroup, NModal } from "naive-ui"
 import CategoryList from "@/components/CategoryList"
 import { Flash16Regular, NotepadEdit16Regular } from "@vicons/fluent"
 import { ref } from "vue"
-import PostThread from "@/views/PostThread"
 import { useRouter } from "vue-router"
-import Temp from "@/components/Temp"
+import SelectForum from "@/views/SelectForum"
 
 const showPostThread = ref(false)
 
@@ -61,7 +60,7 @@ const Forums = () => {
         onClose={() => (showPostThread.value = false)}
         v-slots={{
           header: () => <div>{window.$i18n("view.forums.newThread")}</div>,
-          default: () => <PostThread />,
+          default: () => <SelectForum />
         }}
       />
     </>

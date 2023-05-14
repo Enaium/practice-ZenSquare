@@ -31,12 +31,12 @@ import ReplyForm from "@/components/ReplyForm"
 import ThreadBottom from "@/components/ThreadBottom"
 import { MdPreview } from "md-editor-v3"
 
-const showReply = ref(false)
-
 const Thread = defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
+
+    const showReply = ref(false)
 
     const options = reactive<RequestOf<typeof api.threadController.findThread>>({ id: route.params.thread as string })
 

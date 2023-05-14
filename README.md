@@ -42,7 +42,7 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member reply
 - [ ] Member delete thread
 - [ ] Member delete reply
-- [ ] Member modify thread
+- [x] Member modify thread
 - [ ] Member modify reply
 - [x] Member like thread
 - [x] Member dislike thread

@@ -55,6 +55,11 @@ const router = createRouter({
           component: <PostThread />
         },
         {
+          path: "forums/:forum/threads/:thread",
+          name: "post-thread-thread",
+          component: <PostThread />
+        },
+        {
           path: "forums/threads/:thread",
           name: "threads",
           component: <Thread />

@@ -17,57 +17,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { computed, defineComponent, reactive } from "vue"
-import { useQuery } from "@tanstack/vue-query"
+import { defineComponent, reactive, ref } from "vue"
 import { api } from "@/common/ApiInstance"
-import { RouterLink, useRoute } from "vue-router"
-import { NCard, NList, NListItem, NSpin } from "naive-ui"
-import ThreadForm from "@/components/ThreadForm"
+import { NButton, NForm, NFormItem, NInput, useMessage, type FormInst, NSpin } from "naive-ui"
+import type { ThreadInput } from "@/__generated/model/static"
+import Editor from "@/components/Editor"
+import { useRoute } from "vue-router"
+import { useQuery } from "@tanstack/vue-query"
 import type { RequestOf } from "@/__generated"
+import ThreadForm from "@/components/ThreadForm"
 
-const PostThread = defineComponent(
-  (props: { forum?: string }) => {
-    const route = useRoute()
-    const options = reactive<RequestOf<typeof api.categoryController.findCategories>>({})
-    const { data, isLoading } = useQuery({
-      queryKey: ["categoryList"],
-      queryFn: () => api.categoryController.findCategories(options)
-    })
+const PostThread = defineComponent(() => {
+  const route = useRoute()
+  const message = useMessage()
 
-    const forum = computed(() => props.forum ?? route.params.forum ?? null)
+  const options = reactive<RequestOf<typeof api.threadController.findThread>>({ id: route.params.thread as string })
 
-    return () => (
-      <>
-        {forum.value ? (
-          <ThreadForm forum={forum.value as string} />
-        ) : isLoading.value ? (
-          <NSpin />
-        ) : (
-          data.value?.content.map((category, categoryIndex) => (
-            <NCard title={category.name} key={categoryIndex} segmented={{ content: true }}>
-              <NList>
-                {category.forums?.map((forum, forumIndex) => (
-                  <NListItem key={forumIndex}>
-                    <RouterLink
-                      to={{
-                        name: "post-thread",
-                        params: { forum: forum.id }
-                      }}
-                    >
-                      {forum.name}
-                    </RouterLink>
-                  </NListItem>
-                ))}
-              </NList>
-            </NCard>
-          ))
-        )}
-      </>
+  const { data, isLoading } = useQuery({
+    queryKey: ["forums", options],
+    queryFn: () => api.threadController.findThread(options),
+    enabled: route.params.thread !== undefined
+  })
+
+  return () =>
+    route.params.thread !== undefined ? (
+      isLoading.value && !data.value ? (
+        <NSpin />
+      ) : (
+        <ThreadForm thread={{ ...data.value }} />
+      )
+    ) : (
+      <ThreadForm thread={{ forumId: route.params.forum as string }} />
     )
-  },
-  {
-    props: ["forum"]
-  }
-)
+})
 
 export default PostThread
