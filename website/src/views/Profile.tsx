@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, reactive } from "vue"
+import { defineComponent, reactive, ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
 import {
   NBreadcrumb,
@@ -29,7 +29,7 @@ import {
   NSpin,
   NTag,
   NTime,
-  NTooltip,
+  NTooltip
 } from "naive-ui"
 import { useQuery } from "@tanstack/vue-query"
 import type { RequestOf } from "@/__generated"
@@ -38,20 +38,29 @@ import Avatar from "@/components/Avatar"
 import dayjs from "dayjs"
 import BiliBili from "@/assets/bilibili.svg"
 import GitHub from "@/assets/github.svg"
+import { useSessionStore } from "@/store"
+import FollowButton from "@/components/FollowButton"
 
 const Profile = defineComponent({
   setup() {
     const route = useRoute()
     const router = useRouter()
 
-    const options = reactive<RequestOf<typeof api.memberProfileController.findFullProfile>>({
-      memberId: route.params.id as string,
+    const session = useSessionStore()
+
+    const options = ref<RequestOf<typeof api.memberProfileController.findFullProfile>>({
+      memberId: route.params.id as string
     })
 
     const { data, isLoading } = useQuery({
       queryKey: ["profile", options],
-      queryFn: () => api.memberProfileController.findFullProfile(options),
+      queryFn: () => api.memberProfileController.findFullProfile(options.value)
     })
+
+    watch(
+      () => route.params.id,
+      () => (options.value = { memberId: route.params.id as string })
+    )
 
     return () => (
       <>
@@ -83,7 +92,7 @@ const Profile = defineComponent({
                                   type={"relative"}
                                 />
                               ),
-                              default: () => <div>{dayjs(data.value!.createdTime).format("YYYY-MM-DD hh:mm:ss")}</div>,
+                              default: () => <div>{dayjs(data.value!.createdTime).format("YYYY-MM-DD hh:mm:ss")}</div>
                             }}
                           />
                         </div>
@@ -124,16 +133,20 @@ const Profile = defineComponent({
                         <div>{data.value!.member.message}</div>
                       </div>
                     </div>
-                    <div class={"bg-gray-200 w-full h-px my-2"} />
-                    <div class={"flex gap-1"}>
-                      <NButton>Follow</NButton>
-                      <NButtonGroup>
-                        <NButton>Start conversation</NButton>
-                        <NButton>Find</NButton>
-                      </NButtonGroup>
-                    </div>
+                    {data.value!.member.id != session.id && (
+                      <>
+                        <div class={"bg-gray-200 w-full h-px my-2"} />
+                        <div class={"flex gap-1"}>
+                          <FollowButton following={data.value!.member.id} />
+                          <NButtonGroup>
+                            <NButton>{window.$i18n("view.profile.startConversation")}</NButton>
+                            <NButton>{window.$i18n("view.profile.find")}</NButton>
+                          </NButtonGroup>
+                        </div>
+                      </>
+                    )}
                   </>
-                ),
+                )
               }}
               segmented={{ content: true }}
             />
@@ -141,7 +154,7 @@ const Profile = defineComponent({
         )}
       </>
     )
-  },
+  }
 })
 
 export default Profile

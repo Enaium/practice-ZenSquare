@@ -80,7 +80,6 @@ export default {
       newThread: "新しいスレッド"
     },
     profile: {
-      follow: "フォロー",
       startConversation: "会話を開始",
       find: "検索"
     }
@@ -118,6 +117,10 @@ export default {
     },
     likeState: {
       notLogin: "ログインしていません"
+    },
+    followButton: {
+      follow: "フォロー",
+      unfollow: "フォロー解除"
     },
     button: {
       report: "報告",

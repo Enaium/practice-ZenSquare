@@ -102,6 +102,10 @@ export default {
     likeState: {
       notLogin: "Vous n'êtes pas connecté",
     },
+    followButton: {
+      follow: "Suivre",
+      unfollow: "Ne plus suivre",
+    },
     button: {
       report: "Rapport",
       edit: "Modifier",

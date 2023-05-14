@@ -113,7 +113,7 @@ class MemberFollowServiceImpl(
         sql.queries.forList(Member::followings) {
             where(table.source.id eq memberId, table.target.id eq followId)
             select(table.target)
-        }.fetchOneOrNull()?.let {
+        }.fetchOneOrNull() ?: let {
             throw ServiceException(
                 HttpStatus.BAD_REQUEST,
                 message.i18n("controller.member.follow.alreadyUnfollow")

@@ -31,7 +31,7 @@ export class MemberFollowController {
         return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberDto['DEFAULT']>
     }
     
-    async findFollows(options: MemberFollowControllerOptions['findFollows']): Promise<
+    async findFollowings(options: MemberFollowControllerOptions['findFollowings']): Promise<
         Page<MemberDto['DEFAULT']>
     > {
         let _uri = '/members/';
@@ -65,6 +65,24 @@ export class MemberFollowController {
         _uri += encodeURIComponent(options.followId);
         return (await this.executor({uri: _uri, method: 'PUT'})) as Unit
     }
+    
+    async isFollowed(options: MemberFollowControllerOptions['isFollowed']): Promise<boolean> {
+        let _uri = '/members/';
+        _uri += encodeURIComponent(options.memberId);
+        _uri += '/followings/';
+        _uri += encodeURIComponent(options.followId);
+        return (await this.executor({uri: _uri, method: 'GET'})) as boolean
+    }
+    
+    async unfollow(options: MemberFollowControllerOptions['unfollow']): Promise<
+        Unit
+    > {
+        let _uri = '/members/';
+        _uri += encodeURIComponent(options.memberId);
+        _uri += '/followings/';
+        _uri += encodeURIComponent(options.followId);
+        return (await this.executor({uri: _uri, method: 'DELETE'})) as Unit
+    }
 }
 
 export type MemberFollowControllerOptions = {
@@ -73,10 +91,12 @@ export type MemberFollowControllerOptions = {
         readonly page?: number, 
         readonly size?: number
     },
-    'findFollows': {
+    'findFollowings': {
         readonly memberId: string, 
         readonly page?: number, 
         readonly size?: number
     },
-    'follow': {readonly memberId: string, readonly followId: string}
+    'follow': {readonly memberId: string, readonly followId: string},
+    'isFollowed': {readonly memberId: string, readonly followId: string},
+    'unfollow': {readonly memberId: string, readonly followId: string}
 }

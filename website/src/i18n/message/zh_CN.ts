@@ -63,7 +63,6 @@ export default {
       newThread: "新主题"
     },
     profile: {
-      follow: "关注",
       startConversation: "开始会话",
       find: "查找"
     }
@@ -101,6 +100,10 @@ export default {
     },
     likeState: {
       notLogin: "请登录后点赞"
+    },
+    followButton: {
+      follow: "关注",
+      unfollow: "取消关注"
     },
     button: {
       report: "举报",

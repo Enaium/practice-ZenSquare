@@ -63,7 +63,6 @@ export default {
       newThread: "New Thread",
     },
     profile: {
-      follow: "Follow",
       startConversation: "Start Conversation",
       find: "Find",
     }
@@ -101,6 +100,10 @@ export default {
     },
     likeState: {
       notLogin: "Please login first to like",
+    },
+    followButton: {
+      follow: "Follow",
+      unfollow: "Unfollow",
     },
     button: {
       report: "Report",

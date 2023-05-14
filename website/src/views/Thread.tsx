@@ -18,7 +18,7 @@
  */
 
 import { defineComponent, reactive, ref } from "vue"
-import { useRoute, useRouter } from "vue-router"
+import { RouterLink, useRoute, useRouter } from "vue-router"
 import { useQuery } from "@tanstack/vue-query"
 import { api } from "@/common/ApiInstance"
 import type { RequestOf } from "@/__generated"
@@ -98,8 +98,15 @@ const Thread = defineComponent({
             {/*member*/}
             <div class={"flex flex-col items-center m-5"}>
               <Avatar id={data.value.member.profile?.avatar} size={128} bordered round />
-              <div>{data.value.member.profile?.nickname}</div>
-              <NTag type={"primary"}>{data.value.member.profile?.role.name}</NTag>
+              <RouterLink
+                to={{
+                  name: "profile",
+                  params: { id: data.value!.member.id }
+                }}
+              >
+                {data.value.member.profile!.nickname}
+              </RouterLink>
+              <NTag type={"primary"}>{data.value.member.profile!.role.name}</NTag>
             </div>
             <div class={"border-solid border-l border-gray-100"} />
             {/*content*/}
