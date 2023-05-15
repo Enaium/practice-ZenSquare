@@ -58,9 +58,9 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [ ] Private letter between members
 - [ ] Alert of posting, replying, liking, etc.
 - [x] Member rank
-- [ ] Member report thread
-- [ ] Member report reply
-- [ ] Member report member
+- [x] Member report thread
+- [x] Member report reply
+- [x] Member report member
 - [ ] Administrator delete thread
 - [ ] Administrator delete reply
 - [ ] Backstage management

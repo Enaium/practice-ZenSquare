@@ -129,6 +129,12 @@ export default {
       follow: "フォロー",
       unfollow: "フォロー解除"
     },
+    reportForm: {
+      reason: {
+        label: "理由",
+        message: "理由を入力してください"
+      }
+    },
     button: {
       report: "報告",
       edit: "編集",

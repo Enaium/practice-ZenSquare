@@ -24,16 +24,17 @@ import { useSessionStore } from "@/store"
 import LikeState from "@/components/LikeState"
 import { MoreHorizontal32Filled } from "@vicons/fluent"
 import ReplyForm from "@/components/ReplyForm"
+import ReportForm from "./ReportForm"
+import ChildReplyList from "./ChildReplyList"
 
 const ReplyBottom = defineComponent(
-  (props: {
-    reply: ReplyDto["ReplyController/FULL_REPLY"]
-    onClickShowChild: () => void
-    onClickReply: () => void
-  }) => {
+  (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
     const session = useSessionStore()
     const showPop = ref(false)
     const showEdit = ref(false)
+    const showReport = ref(false)
+    const showReply = ref(false)
+    const showChild = ref(false)
 
     return () => (
       <>
@@ -42,7 +43,7 @@ const ReplyBottom = defineComponent(
           <LikeState target={props.reply.id} like={props.reply.like} />
           {/*middle*/}
           {props.reply.child > 0 && (
-            <NButton type={"primary"} text onClick={props.onClickShowChild}>
+            <NButton type={"primary"} text onClick={() => (showChild.value = true)}>
               {window.$i18n("component.replyList.viewChild", { child: props.reply.child })}
             </NButton>
           )}
@@ -62,7 +63,7 @@ const ReplyBottom = defineComponent(
                 <div class={"flex gap-5 items-center"}>
                   {/*If the session id is not equal to the reply member id, then show the report button.*/}
                   {session.id != props.reply.memberId && (
-                    <NButton text type={"primary"}>
+                    <NButton text type={"primary"} onClick={() => (showReport.value = true)}>
                       {window.$i18n("component.button.report")}
                     </NButton>
                   )}
@@ -85,7 +86,7 @@ const ReplyBottom = defineComponent(
                       onPositiveClick={() => {}}
                     />
                   )}
-                  <NButton type={"primary"} text onClick={props.onClickReply}>
+                  <NButton type={"primary"} text onClick={() => (showReply.value = true)}>
                     {window.$i18n("component.button.reply")}
                   </NButton>
                 </div>
@@ -93,14 +94,27 @@ const ReplyBottom = defineComponent(
             }}
           />
         </div>
+        {/* edit reply */}
         <NModal show={showEdit.value} preset={"card"} onClose={() => (showEdit.value = false)}>
           <ReplyForm reply={{ ...props.reply }} />
+        </NModal>
+        {/* report reply */}
+        <NModal show={showReport.value} onClose={() => (showReport.value = false)} preset={"card"}>
+          <ReportForm report={{ targetId: props.reply.id!, type: "REPLY" }} />
+        </NModal>
+        {/* reply reply */}
+        <NModal show={showReply.value} onClose={() => (showReply.value = false)} preset={"card"}>
+          <ReplyForm reply={{ threadId: props.reply.threadId!, parentId: props.reply.id! }} />
+        </NModal>
+        {/* child reply */}
+        <NModal show={showChild.value} onClose={() => (showChild.value = false)} preset={"card"}>
+          <ChildReplyList parent={props.reply.id!} />
         </NModal>
       </>
     )
   },
   {
-    props: ["reply", "onClickShowChild", "onClickReply"]
+    props: ["reply"]
   }
 )
 

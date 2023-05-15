@@ -117,6 +117,12 @@ export default {
       follow: "关注",
       unfollow: "取消关注"
     },
+    reportForm: {
+      reason: {
+        label: "原因",
+        message: "请输入原因"
+      }
+    },
     button: {
       report: "举报",
       edit: "编辑",

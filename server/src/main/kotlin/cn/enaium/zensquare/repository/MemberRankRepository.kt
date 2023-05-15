@@ -22,7 +22,10 @@ package cn.enaium.zensquare.repository
 import cn.enaium.zensquare.controller.member.rank.MemberRankController.Companion.DEFAULT_MEMBER_RANK
 import cn.enaium.zensquare.model.entity.*
 import org.babyfish.jimmer.spring.repository.KRepository
-import org.babyfish.jimmer.sql.kt.ast.expression.*
+import org.babyfish.jimmer.sql.kt.ast.expression.count
+import org.babyfish.jimmer.sql.kt.ast.expression.desc
+import org.babyfish.jimmer.sql.kt.ast.expression.plus
+import org.babyfish.jimmer.sql.kt.ast.expression.valueIn
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -73,10 +76,12 @@ interface MemberRankRepository : KRepository<Member, UUID> {
      * @param pageable Pageable
      * @return Page<Member>
      */
-    fun findTop100OrderByMessage(pageable: Pageable): Page<Member> =
-        PageImpl(sql.findByIds(DEFAULT_MEMBER_RANK, sql.createQuery(Member::class) {
+    fun findTop100OrderByMessage(pageable: Pageable): Page<Member> {
+        val content = sql.findByIds(DEFAULT_MEMBER_RANK, sql.createQuery(Member::class) {
             groupBy(table.id)
             orderBy((count(table.asTableEx().threads.id) + count(table.asTableEx().replies.id)).desc())
-            select(table).limit(100, 0)
-        }.execute()).values.toList(), pageable, 100)
+            select(table.id).limit(100, 0)
+        }.execute()).values.toList()
+        return PageImpl(content, pageable, content.size.toLong())
+    }
 }

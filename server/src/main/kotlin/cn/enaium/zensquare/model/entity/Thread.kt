@@ -77,4 +77,7 @@ interface Thread : BaseEntity {
      */
     @Transient(ThreadLikeCountResolver::class)
     val like: Long
+
+    @OneToMany(mappedBy = "targetThread")
+    val reports: List<Report>
 }

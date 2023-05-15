@@ -21,6 +21,8 @@ export type ApiErrors = {
     },
     "memberRankController": {
     },
+    "reportController": {
+    },
     "sessionController": {
     }
 };

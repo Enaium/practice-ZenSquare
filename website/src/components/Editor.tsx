@@ -17,14 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type { EditorProps } from "md-editor-v3"
 import { MdEditor } from "md-editor-v3"
 import "md-editor-v3/lib/style.css"
-import type { FunctionalComponent } from "vue"
+import { defineComponent, type FunctionalComponent } from "vue"
 import { BASE_URL } from "@/common/ApiInstance"
 import { useSessionStore } from "@/store"
 
-const Editor: FunctionalComponent<EditorProps> = ({ ...props }) => {
+const Editor = defineComponent((props) => {
   const session = useSessionStore()
   const onUpdateImage = (files: Array<File>, callback: (urls: Array<string>) => void) => {
     const formData = new FormData()
@@ -47,7 +46,7 @@ const Editor: FunctionalComponent<EditorProps> = ({ ...props }) => {
         console.error(error)
       })
   }
-  return <MdEditor onUploadImg={onUpdateImage} {...props} />
-}
+  return () => <MdEditor onUploadImg={onUpdateImage} {...props} />
+})
 
 export default Editor

@@ -20,7 +20,10 @@
 package cn.enaium.zensquare.model.entity
 
 import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.*
+import org.babyfish.jimmer.sql.Entity
+import org.babyfish.jimmer.sql.GeneratedValue
+import org.babyfish.jimmer.sql.Id
+import org.babyfish.jimmer.sql.ManyToOne
 import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
 import java.util.*
 
@@ -39,7 +42,16 @@ interface Report : BaseEntity {
 
     val target: UUID
 
-    val reportTypeId: UUID
+    @ManyToOne
+    val targetMember: Member?
 
-    val description: String
+    @ManyToOne
+    val targetThread: Thread?
+
+    @ManyToOne
+    val targetReply: Reply?
+
+    val type: ReportType
+
+    val report: String
 }

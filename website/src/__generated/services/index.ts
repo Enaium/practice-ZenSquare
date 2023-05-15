@@ -18,5 +18,7 @@ export { MemberProfileController } from './MemberProfileController';
 export type { MemberProfileControllerOptions } from './MemberProfileController';
 export { MemberRankController } from './MemberRankController';
 export type { MemberRankControllerOptions } from './MemberRankController';
+export { ReportController } from './ReportController';
+export type { ReportControllerOptions } from './ReportController';
 export { SessionController } from './SessionController';
 export type { SessionControllerOptions } from './SessionController';

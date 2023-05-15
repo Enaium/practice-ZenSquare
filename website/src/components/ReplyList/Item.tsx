@@ -26,12 +26,10 @@ import ChildReplyList from "@/components/ChildReplyList"
 import ReplyBottom from "@/components/ReplyBottom"
 import { MdPreview } from "md-editor-v3"
 import type { ReplyDto } from "@/__generated/model/dto"
+import ReportForm from "@/components/ReportForm"
 
 const Item = defineComponent(
   (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
-    const showForm = ref<string | null>(null)
-    const showChild = ref<string | null>(null)
-
     return () => (
       <>
         <div class={"flex"}>
@@ -53,19 +51,9 @@ const Item = defineComponent(
           {/*content*/}
           <div class={"flex flex-col justify-between p-2 w-full"}>
             <MdPreview modelValue={props.reply.content} />
-            <ReplyBottom
-              reply={props.reply}
-              onClickShowChild={() => (showChild.value = props.reply.id)}
-              onClickReply={() => (showForm.value = props.reply.id)}
-            />
+            <ReplyBottom reply={props.reply} />
           </div>
         </div>
-        <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>
-          <ReplyForm reply={{ threadId: props.reply.threadId!, parentId: showForm.value! }} />
-        </NModal>
-        <NModal show={showChild.value != null} onClose={() => (showChild.value = null)} preset={"card"}>
-          <ChildReplyList parent={props.reply.id} />
-        </NModal>
       </>
     )
   },

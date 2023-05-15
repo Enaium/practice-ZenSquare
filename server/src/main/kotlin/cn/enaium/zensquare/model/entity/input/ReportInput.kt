@@ -20,10 +20,10 @@
 package cn.enaium.zensquare.model.entity.input
 
 import cn.enaium.zensquare.model.entity.Report
+import cn.enaium.zensquare.model.entity.ReportType
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
-import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 import java.util.*
@@ -32,7 +32,8 @@ data class ReportInput(
     val id: UUID?,
     val memberId: UUID?,
     val targetId: UUID?,
-    val reportTypeId: UUID?,
+    val reason: String?,
+    val type: ReportType?,
 ) : Input<Report> {
 
     override fun toEntity(): Report {

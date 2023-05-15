@@ -68,4 +68,7 @@ interface Reply : BaseEntity {
      */
     @Transient(ReplyLikeCountResolver::class)
     val like: Long
+
+    @OneToMany(mappedBy = "targetReply")
+    val reports: List<Report>
 }

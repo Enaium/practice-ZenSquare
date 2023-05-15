@@ -112,6 +112,12 @@ export default {
       follow: "Suivre",
       unfollow: "Ne plus suivre"
     },
+    reportForm: {
+      reason: {
+        label: "Raison",
+        message: "Veuillez saisir la raison"
+      }
+    },
     button: {
       report: "Rapport",
       edit: "Modifier",

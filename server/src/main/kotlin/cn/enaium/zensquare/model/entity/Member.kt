@@ -68,4 +68,7 @@ interface Member : BaseEntity {
 
     @Transient(MemberMessageCountResolver::class)
     val message: Long
+
+    @OneToMany(mappedBy = "targetMember")
+    val reports: List<Report>
 }
