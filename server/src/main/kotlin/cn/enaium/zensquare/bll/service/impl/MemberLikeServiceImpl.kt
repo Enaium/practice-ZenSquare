@@ -41,6 +41,14 @@ class MemberLikeServiceImpl(
     val memberLikeRepository: MemberLikeRepository,
     val messageSource: MessageSource
 ) : MemberLikeService {
+
+    /**
+     * Find the like by member id and target id
+     *
+     * @param memberId member id
+     * @param target target id
+     * @return like
+     */
     override fun findLike(memberId: UUID, target: UUID): MemberLike? {
         return memberLikeRepository.findByMemberIdAndTarget(memberId, target)
     }
@@ -60,7 +68,11 @@ class MemberLikeServiceImpl(
         if (dislike) {// If dislike is true, dislike
             memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {// Find the like
                 if (it.dislike) {// If it is already disliked, un-dislike
-                    memberLikeRepository.deleteById(it.id)
+                    memberLikeRepository.delete(new(MemberLike::class).by {
+                        this.id = it.id
+                        this.memberId = memberId
+                        this.target = target
+                    })
                 } else {// If it is not disliked, update the dislike to true
                     memberLikeRepository.update(new(MemberLike::class).by {
                         this.id = it.id
@@ -77,7 +89,11 @@ class MemberLikeServiceImpl(
         } else {// If dislike is false, like
             memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {
                 if (!it.dislike) {// If it is already liked, un-like
-                    memberLikeRepository.deleteById(it.id)
+                    memberLikeRepository.delete(new(MemberLike::class).by {
+                        this.id = it.id
+                        this.memberId = memberId
+                        this.target = target
+                    })
                 } else {// If it is not liked, update the dislike to false
                     memberLikeRepository.update(new(MemberLike::class).by {
                         this.id = it.id

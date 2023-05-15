@@ -23,10 +23,14 @@
 import { Api } from "@/__generated"
 import { useSessionStore } from "@/store"
 
+// The base URL of the API
 export const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
+// Create an instance of the API
 export const api = new Api(async ({ uri, method, body }) => {
+  // Get the user's token from the store
   const token = useSessionStore().token as string | undefined
+  // Call the API
   const response = await fetch(`${BASE_URL}${uri}`, {
     method,
     body: body !== undefined ? JSON.stringify(body) : undefined,
@@ -35,12 +39,16 @@ export const api = new Api(async ({ uri, method, body }) => {
       ...(token !== undefined && token !== "" ? { token } : {}),
     },
   })
+  // If the response is not 200, throw an error
   if (response.status !== 200) {
     throw await response.text()
   }
+  // Get the response text
   const text = await response.text()
+  // If the response is empty, return null
   if (text.length === 0) {
     return null
   }
+  // Parse the response text as JSON
   return JSON.parse(text)
 })

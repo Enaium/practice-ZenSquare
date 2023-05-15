@@ -23,10 +23,13 @@ import type { Page } from "@/__generated/model/static"
 
 const Pagination = defineComponent(
   (props: { page: Page<any>; changePage: number }, context) => {
+    // 1. Define a function to update the page number when a page is changed
     const onUpdatePage = (page: number) => {
+      // 2. Emit the page number to the parent component
       context.emit("update:change", page - 1)
     }
     return () => (
+      // 3. Use the NPagination component and bind the page number, total page number and page size
       <NPagination
         onUpdate:page={onUpdatePage}
         page={props.page!.number + 1}
@@ -37,6 +40,7 @@ const Pagination = defineComponent(
   },
   {
     props: ["page", "changePage"],
+    // 4. Emit the page number to the parent component
     emits: ["update:change"]
   }
 )
