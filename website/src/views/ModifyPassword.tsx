@@ -77,7 +77,7 @@ const ModifyPassword = defineComponent(() => {
           label={window.$i18n("view.modifyPassowrd.oldPassword")}
           rule={[{ required: true, message: window.$i18n("view.login.password.message") }]}
         >
-          <NInput v-model:value={form.oldPassword} />
+          <NInput v-model:value={form.oldPassword} type={"password"} />
         </NFormItem>
 
         <NFormItem
@@ -85,7 +85,7 @@ const ModifyPassword = defineComponent(() => {
           label={window.$i18n("view.modifyPassowrd.newPassword")}
           rule={[{ required: true, message: window.$i18n("view.login.password.message") }]}
         >
-          <NInput v-model:value={form.newPassword} />
+          <NInput v-model:value={form.newPassword} type={"password"} />
         </NFormItem>
 
         <NFormItem
@@ -100,7 +100,7 @@ const ModifyPassword = defineComponent(() => {
             }
           ]}
         >
-          <NInput v-model:value={form.confirmPassword} />
+          <NInput v-model:value={form.confirmPassword} type={"password"} />
         </NFormItem>
         <NButton type={"primary"} onClick={submit}>
           {window.$i18n("view.register.register")}

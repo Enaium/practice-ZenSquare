@@ -291,7 +291,7 @@ CREATE TABLE forums.thread (
     title character varying(50) NOT NULL,
     content text NOT NULL,
     member_id uuid NOT NULL,
-    forum_id uuid
+    forum_id uuid NOT NULL
 );
 
 
@@ -327,6 +327,7 @@ f	2023-05-04 02:02:44.784642	2023-05-04 02:02:44.784642	0f5ca4a1-2f71-400d-9997-
 --
 
 COPY forums.follow_mapping (follower_id, following_id) FROM stdin;
+5b36da4a-80ab-494d-b7b0-8c548b8adebe	0cee6d54-c445-4fff-9c04-895b53441dad
 \.
 
 
@@ -356,7 +357,7 @@ f	2023-05-06 19:38:51.911234	2023-05-06 19:38:51.910721	5be57fe4-ec09-47a0-8abe-
 
 COPY forums.member (deleted, created_time, modified_time, id, username, password) FROM stdin;
 f	2023-05-04 11:11:02.842339	2023-05-04 11:11:02.841823	5b36da4a-80ab-494d-b7b0-8c548b8adebe	admin	$2a$10$wSIhyxFTchfHpEK3PvvC7.YabLjkJ5w8pIXCk5lNFk4e4P7EB4l3m
-f	2023-05-04 19:47:14.181918	2023-05-04 19:47:14.180898	0cee6d54-c445-4fff-9c04-895b53441dad	test	$2a$10$.rcAdUGfRSsPRnlNcdH6duavwyhMJg9gpCizmHup4ljg7GaPQXSne
+f	2023-05-04 19:47:14.181918	2023-05-15 16:42:21.446138	0cee6d54-c445-4fff-9c04-895b53441dad	test	$2a$10$4Iwvj5yi.QgIKzXczlUF/OajX0tE/WDo7Ypyd1sZ30WKVjliOToSi
 \.
 
 
@@ -365,11 +366,11 @@ f	2023-05-04 19:47:14.181918	2023-05-04 19:47:14.180898	0cee6d54-c445-4fff-9c04-
 --
 
 COPY forums.member_like (disabled, created_time, modified_time, id, member_id, target, dislike) FROM stdin;
-f	2023-05-11 09:58:52.022821	2023-05-11 09:58:52.022821	f2b70e25-57b8-46ef-bf81-83a98130f074	5b36da4a-80ab-494d-b7b0-8c548b8adebe	26a271e7-f487-403e-a123-c8811a72a0c9	f
 f	2023-05-11 09:58:52.631444	2023-05-11 09:58:52.631444	f30b8fa2-3eb7-46ed-9f12-f5bde7330443	5b36da4a-80ab-494d-b7b0-8c548b8adebe	e31df840-a856-4fda-960c-c14f5831c438	f
 f	2023-05-11 09:59:18.862847	2023-05-11 09:59:18.862847	ff8815c1-96a5-4248-bdc6-7f80e47fb618	5b36da4a-80ab-494d-b7b0-8c548b8adebe	7a8367d5-6693-4c5d-8c4e-708cb96d6a4b	f
 f	2023-05-11 14:43:35.343248	2023-05-11 14:43:35.342737	4832140a-ca0d-4afa-ac80-8e579e9e4555	5b36da4a-80ab-494d-b7b0-8c548b8adebe	af5a1841-7ed5-4d6c-83f4-6e99478559f9	f
 f	2023-05-11 16:24:22.118856	2023-05-11 16:24:22.118856	778a6c67-23e1-48a1-994a-f993de1b52c9	5b36da4a-80ab-494d-b7b0-8c548b8adebe	be55dc0d-750e-41c7-8c51-a8ca807b8253	f
+f	2023-05-14 17:11:35.653181	2023-05-14 17:11:35.650614	12adf426-da6b-46ff-8ce6-78cbc8f86f0f	5b36da4a-80ab-494d-b7b0-8c548b8adebe	26a271e7-f487-403e-a123-c8811a72a0c9	f
 \.
 
 
@@ -379,7 +380,7 @@ f	2023-05-11 16:24:22.118856	2023-05-11 16:24:22.118856	778a6c67-23e1-48a1-994a-
 
 COPY forums.member_profile (deleted, created_time, modified_time, id, member_id, nickname, birthday, location, website, description, github, bilibili, email, role_id, avatar) FROM stdin;
 f	2023-05-05 15:43:31.003228	2023-05-05 15:43:31.002716	09686101-fc02-4e64-ac2e-b120ca98a3dd	5b36da4a-80ab-494d-b7b0-8c548b8adebe	Enaium	\N	\N	\N	\N	\N	\N	\N	3b4d9552-879b-450e-afaf-6e17c1a74875	\N
-f	2023-05-10 22:10:35.366774	2023-05-10 22:10:35.36572	d81eeac4-5b60-4d93-9b2f-72ecc0f7ad7e	0cee6d54-c445-4fff-9c04-895b53441dad	Test	\N	\N	\N	\N	\N	\N	\N	8ef8b336-d2e3-4808-86a3-a8344d4c355b	\N
+f	2023-05-10 22:10:35.366774	2023-05-15 15:03:35.988823	d81eeac4-5b60-4d93-9b2f-72ecc0f7ad7e	0cee6d54-c445-4fff-9c04-895b53441dad	Test	\N	\N	\N	\N	\N	\N	\N	8ef8b336-d2e3-4808-86a3-a8344d4c355b	5be57fe4-ec09-47a0-8abe-739de5835b1f
 \.
 
 
@@ -405,7 +406,6 @@ f	2023-05-04 05:53:25.754451	2023-05-04 05:53:25.754451	3d8333d9-0ae1-4503-ab38-
 
 COPY forums.reply (deleted, created_time, modified_time, id, content, member_id, thread_id, parent_id) FROM stdin;
 f	2023-05-07 16:39:31.804297	2023-05-07 16:39:31.804297	af5a1841-7ed5-4d6c-83f4-6e99478559f9	Congratulations for new forum!\n\nI wish luck to ZenSquare.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
-f	2023-05-07 17:14:51.697343	2023-05-07 17:14:51.696827	26a271e7-f487-403e-a123-c8811a72a0c9	👍	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
 f	2023-05-08 14:47:49.991115	2023-05-08 14:47:49.990082	a5dc8021-7d8d-48c5-b0e3-737001e9287b	1	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
 f	2023-05-08 14:47:52.224806	2023-05-08 14:47:52.224806	b981a8c0-0d02-4494-b736-a9f0e926ea8f	2	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
 f	2023-05-08 14:47:53.786742	2023-05-08 14:47:53.786742	8505d583-817f-4a48-8a83-eca3f1e54179	3	5b36da4a-80ab-494d-b7b0-8c548b8adebe	2748fe13-42e4-42fb-aee2-ed795834ab94	\N
@@ -446,6 +446,10 @@ f	2023-05-11 10:49:42.733895	2023-05-11 10:49:42.733895	755c09d5-fd79-41be-8cb9-
 f	2023-05-10 12:33:40.528539	2023-05-11 15:25:23.22392	e31df840-a856-4fda-960c-c14f5831c438	🖖	0cee6d54-c445-4fff-9c04-895b53441dad	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
 f	2023-05-11 15:26:07.653452	2023-05-11 15:26:07.653452	84f6e0ba-3b19-462f-ad97-63de389a6565	🖖	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
 f	2023-05-11 16:24:19.413696	2023-05-11 16:24:19.412653	c07117e5-b2bd-4d6e-b2d5-7d8984cf7fc3	123	5b36da4a-80ab-494d-b7b0-8c548b8adebe	be55dc0d-750e-41c7-8c51-a8ca807b8253	\N
+f	2023-05-14 21:02:22.598193	2023-05-14 21:02:22.598193	4458a7b9-6925-4563-b749-5af80ef24541	👍	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
+f	2023-05-14 21:02:26.870893	2023-05-14 21:02:26.870893	5dce1161-e380-48b8-81ce-2d809426b890	👍	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
+f	2023-05-14 21:03:22.256287	2023-05-14 21:03:22.256287	3f6d8f61-1391-40ce-b2a7-2f0d8506f89d	🖖\n	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
+f	2023-05-07 17:14:51.697343	2023-05-14 21:19:48.396588	26a271e7-f487-403e-a123-c8811a72a0c9	🖖🖖🖖🖖	5b36da4a-80ab-494d-b7b0-8c548b8adebe	b692ea79-12a8-4e10-aad1-9a35d76bc561	\N
 \.
 
 
@@ -519,7 +523,6 @@ fe1f2744-9d6c-47d4-aef1-0898ba822bc6	169f4365-99b6-4587-aac4-44bb43e3030b
 --
 
 COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id) FROM stdin;
-f	2023-05-07 11:30:13.115439	2023-05-07 11:30:13.115439	b692ea79-12a8-4e10-aad1-9a35d76bc561	Welcome to ZenSquare	Welcome to ZenSquare! This is the community forum space for our open source community - here we ask questions, give answers and talk about everything related to our projects.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6
 f	2023-05-08 10:57:12.724329	2023-05-08 10:57:12.723818	2748fe13-42e4-42fb-aee2-ed795834ab94	Test	Test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a
 f	2023-05-11 16:14:06.859017	2023-05-11 16:14:06.857461	be55dc0d-750e-41c7-8c51-a8ca807b8253	test	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a
 f	2023-05-11 16:50:24.157192	2023-05-11 16:50:24.157192	f29ac71b-ad67-401e-900a-5cc46723fa4d	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a
@@ -545,6 +548,7 @@ f	2023-05-12 09:01:35.197421	2023-05-12 09:01:35.197421	a2529d4c-c219-4d06-b5fd-
 f	2023-05-12 09:01:35.664859	2023-05-12 09:01:35.664859	c5a814a5-44af-48ab-bc8a-ef800b21be0d	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a
 f	2023-05-12 09:01:37.463032	2023-05-12 09:01:37.463032	caff84e6-7142-420e-b14a-43a00c9c4598	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a
 f	2023-05-12 09:01:37.763683	2023-05-12 09:01:37.763683	14243b20-3f3d-411d-a855-b2811ec1c4eb	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a
+f	2023-05-07 11:30:13.115439	2023-05-14 20:48:23.199135	b692ea79-12a8-4e10-aad1-9a35d76bc561	Welcome to ZenSquare	Welcome to ZenSquare! This is the community forum space for our open source community - here we ask questions, give answers and talk about everything related to our projects.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6
 \.
 
 
@@ -610,6 +614,14 @@ ALTER TABLE ONLY forums.member
 
 ALTER TABLE ONLY forums.member_profile
     ADD CONSTRAINT member_profile_pk PRIMARY KEY (id);
+
+
+--
+-- Name: member_profile member_profile_pk2; Type: CONSTRAINT; Schema: forums; Owner: postgres
+--
+
+ALTER TABLE ONLY forums.member_profile
+    ADD CONSTRAINT member_profile_pk2 UNIQUE (member_id);
 
 
 --
@@ -738,6 +750,14 @@ ALTER TABLE ONLY forums.member_like
 
 ALTER TABLE ONLY forums.member_profile
     ADD CONSTRAINT member_profile_image_id_fk FOREIGN KEY (avatar) REFERENCES forums.image(id);
+
+
+--
+-- Name: member_profile member_profile_member_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
+--
+
+ALTER TABLE ONLY forums.member_profile
+    ADD CONSTRAINT member_profile_member_id_fk FOREIGN KEY (member_id) REFERENCES forums.member(id);
 
 
 --
