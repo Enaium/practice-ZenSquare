@@ -48,7 +48,7 @@ data class MemberProfileInput(
         return CONVERTER.toMemberProfile(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toMemberProfile(input: MemberProfileInput): MemberProfile

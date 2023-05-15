@@ -20,10 +20,13 @@
 package cn.enaium.zensquare.bll.service
 
 import cn.enaium.zensquare.model.entity.input.MemberInput
+import cn.enaium.zensquare.model.entity.input.MemberPasswordInput
 
 /**
  * @author Enaium
  */
 interface MemberService {
     fun register(memberInput: MemberInput)
+
+    fun modifyPassword(memberPasswordInput: MemberPasswordInput)
 }

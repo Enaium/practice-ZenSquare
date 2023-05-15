@@ -28,6 +28,8 @@ import Thread from "@/views/Thread"
 import Profile from "@/views/Profile"
 import Followings from "@/views/follow/Followings"
 import Followers from "@/views/follow/Followers"
+import ModifyProfile from "@/views/ModifyProfile"
+import ModifyPassword from "@/views/ModifyPassword"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -78,6 +80,16 @@ const router = createRouter({
           path: "members/:id",
           name: "profile",
           component: <Profile />
+        },
+        {
+          path: "members/:id/modify",
+          name: "modify-profile",
+          component: <ModifyProfile />
+        },
+        {
+          path: "members/:id/security",
+          name: "security",
+          component: <ModifyPassword />
         },
         {
           path: "members/:id/followings",

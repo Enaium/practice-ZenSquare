@@ -38,7 +38,7 @@ data class RoleInput(
         return CONVERTER.toRole(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toRole(input: RoleInput): Role

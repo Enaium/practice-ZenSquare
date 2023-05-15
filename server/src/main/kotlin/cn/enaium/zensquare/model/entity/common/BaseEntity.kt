@@ -32,6 +32,5 @@ interface BaseEntity {
 //    val deleted: Boolean
 
     val createdTime: LocalDateTime
-
     val modifiedTime: LocalDateTime
 }

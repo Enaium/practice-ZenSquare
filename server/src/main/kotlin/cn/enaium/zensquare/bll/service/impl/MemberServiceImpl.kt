@@ -20,11 +20,17 @@
 package cn.enaium.zensquare.bll.service.impl
 
 import cn.dev33.satoken.secure.BCrypt
+import cn.dev33.satoken.stp.StpUtil
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.MemberService
+import cn.enaium.zensquare.model.entity.Member
+import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.MemberInput
+import cn.enaium.zensquare.model.entity.input.MemberPasswordInput
 import cn.enaium.zensquare.repository.MemberRepository
+import cn.enaium.zensquare.util.checkId
 import cn.enaium.zensquare.util.i18n
+import org.babyfish.jimmer.kt.new
 import org.babyfish.jimmer.sql.ast.mutation.SaveMode
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
@@ -38,6 +44,12 @@ class MemberServiceImpl(
     val messageSource: MessageSource,
     val memberRepository: MemberRepository
 ) : MemberService {
+
+    /**
+     * create member
+     *
+     * @param memberInput MemberInput
+     */
     override fun register(memberInput: MemberInput) {
         memberInput.username?.takeIf { it.isNotBlank() } ?: let {
             throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.username.blank"))
@@ -54,5 +66,40 @@ class MemberServiceImpl(
         memberRepository.save(memberInput) {
             setMode(SaveMode.INSERT_ONLY)
         }
+    }
+
+    /**
+     * modify password
+     *
+     * @param memberPasswordInput MemberPasswordInput
+     */
+    override fun modifyPassword(memberPasswordInput: MemberPasswordInput) {
+        //Find Member
+        val member = memberRepository.findNullable(memberPasswordInput.id)
+            ?: throw ServiceException(
+                HttpStatus.BAD_REQUEST,
+                messageSource.i18n("controller.session.username.doesntExist")
+            )
+
+        //Check owner
+        if (!(checkId(memberPasswordInput.id) || StpUtil.hasRole("admin"))) {
+            throw ServiceException(HttpStatus.FORBIDDEN)
+        }
+
+        //Check old password
+        if (!BCrypt.checkpw(memberPasswordInput.newPassword, member.password)) {
+            throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.password.incorrect"))
+        }
+
+        //Check new password
+        if (memberPasswordInput.newPassword != memberPasswordInput.confirmPassword) {
+            throw ServiceException(HttpStatus.BAD_REQUEST, messageSource.i18n("controller.session.password.different"))
+        }
+
+        //Modify password
+        memberRepository.update(new(Member::class).by {
+            id = memberPasswordInput.id
+            password = BCrypt.hashpw(memberPasswordInput.newPassword)
+        })
     }
 }

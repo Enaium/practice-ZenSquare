@@ -43,7 +43,7 @@ interface ReplyRepository : KRepository<Reply, UUID> {
      * @param fetcher
      * @return
      */
-    fun findAllByThreadIdAndParentIdIsNull(
+    fun findAllByThreadIdAndParentIdIsNullOrderByCreatedTime(
         pageable: Pageable, threadId: UUID, fetcher: Fetcher<Reply>? = null
     ): Page<Reply>
 
@@ -55,5 +55,5 @@ interface ReplyRepository : KRepository<Reply, UUID> {
      * @param fetcher
      * @return
      */
-    fun findAllByParentId(pageable: Pageable, parentId: UUID, fetcher: Fetcher<Reply>? = null): Page<Reply>
+    fun findAllByParentIdOrderByCreatedTime(pageable: Pageable, parentId: UUID, fetcher: Fetcher<Reply>? = null): Page<Reply>
 }

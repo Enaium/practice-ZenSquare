@@ -17,49 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.entity
+package cn.enaium.zensquare.model.entity.input
 
-import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.*
-import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
-import java.time.LocalDate
 import java.util.*
 
 /**
  * @author Enaium
  */
-@Entity
-interface MemberProfile : BaseEntity {
-    @Id
-    @GeneratedValue(generatorType = UUIDIdGenerator::class)
-    val id: UUID
-
-    @Key
-    val memberId: UUID
-
-    @OneToOne
-    val member: Member
-
-    val nickname: String?
-
-    val birthday: LocalDate?
-
-    val location: String?
-
-    val website: String?
-
-    val description: String?
-
-    val github: String?
-
-    val bilibili: String?
-
-    val email: String?
-
-    val roleId: UUID
-
-    @ManyToOne
-    val role: Role
-
-    val avatar: UUID?
-}
+data class MemberPasswordInput(
+    val id: UUID,
+    val oldPassword: String?,
+    val newPassword: String?,
+    val confirmPassword: String?
+)

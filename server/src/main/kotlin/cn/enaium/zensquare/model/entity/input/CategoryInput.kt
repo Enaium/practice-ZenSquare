@@ -38,7 +38,7 @@ data class CategoryInput(
         return CONVERTER.toCategory(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toCategory(input: CategoryInput): Category

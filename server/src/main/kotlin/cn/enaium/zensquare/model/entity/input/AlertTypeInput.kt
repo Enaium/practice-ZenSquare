@@ -38,7 +38,7 @@ data class AlertTypeInput(
         return CONVERTER.toAlertType(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toAlertType(input: AlertTypeInput): AlertType

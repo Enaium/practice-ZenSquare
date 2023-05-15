@@ -64,8 +64,10 @@ export default {
       newThread: "New Thread"
     },
     profile: {
+      profile: "Profile",
       startConversation: "Start Conversation",
-      find: "Find"
+      find: "Find",
+      modify: "Modify"
     },
     follow: {
       followers: "Followers",

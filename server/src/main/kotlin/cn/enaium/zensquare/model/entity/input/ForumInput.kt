@@ -39,7 +39,7 @@ data class ForumInput(
         return CONVERTER.toForum(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toForum(input: ForumInput): Forum

@@ -137,6 +137,15 @@ export class MemberProfileController {
         let _uri = '/members/profiles/';
         return (await this.executor({uri: _uri, method: 'PUT', body: options.body})) as Unit
     }
+    
+    async saveAvatar(options: MemberProfileControllerOptions['saveAvatar']): Promise<
+        Unit
+    > {
+        let _uri = '/members/';
+        _uri += encodeURIComponent(options.memberId);
+        _uri += '/profiles/avatar/';
+        return (await this.executor({uri: _uri, method: 'PUT'})) as Unit
+    }
 }
 
 export type MemberProfileControllerOptions = {
@@ -147,5 +156,6 @@ export type MemberProfileControllerOptions = {
     },
     'findFullProfile': {readonly memberId: string},
     'findProfile': {readonly memberId: string},
-    'save': {readonly body: MemberProfileInput}
+    'save': {readonly body: MemberProfileInput},
+    'saveAvatar': {readonly memberId: string}
 }

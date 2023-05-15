@@ -17,96 +17,44 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, reactive, ref } from "vue"
-import type { FormInst } from "naive-ui"
-import { NButton, NDatePicker, NForm, NFormItem, NGrid, NGridItem, NInput, useMessage } from "naive-ui"
+import type { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance"
-import { useSessionStore } from "@/store"
-import Avatar from "@/components/Avatar"
-import type { MemberProfileInput } from "@/__generated/model/static"
+import ProfileForm from "@/components/ProfileForm"
+import { useQuery } from "@tanstack/vue-query"
+import { NBreadcrumb, NBreadcrumbItem, NSpin } from "naive-ui"
+import { defineComponent, reactive } from "vue"
+import { useRoute, useRouter } from "vue-router"
 
-const ModifyProfile = defineComponent(
-  (props: { onSuccess: () => void }) => {
-    const message = useMessage()
-    const session = useSessionStore()
+const ModifyProfile = defineComponent(() => {
+  const route = useRoute()
+  const router = useRouter()
 
-    const form = reactive<MemberProfileInput>({})
-    const formRef = ref<FormInst | null>(null)
+  const options = reactive<RequestOf<typeof api.memberProfileController.findFullProfile>>({
+    memberId: route.params.id as string
+  })
 
-    const submit = () => {
-      formRef.value?.validate((errors) => {
-        if (!errors) {
-          api.memberProfileController.save({ body: { ...form, memberId: session.id! } }).then(() => {
-            message.success(window.$i18n("common.success"))
-            props.onSuccess()
-          })
-        }
-      })
-    }
+  const { data, isLoading } = useQuery({
+    queryKey: ["findFullProfile", route.params],
+    queryFn: () => api.memberProfileController.findFullProfile(options)
+  })
 
-    return () => (
+  return () =>
+    isLoading.value || !data.value ? (
+      <NSpin />
+    ) : (
       <>
-        <NForm model={form} ref={formRef}>
-          <NFormItem class={"flex justify-center"}>
-            <Avatar id={form.avatar} size={96} round bordered />
-          </NFormItem>
-          <NGrid xGap={12} yGap={8} cols={4}>
-            <NGridItem>
-              <NFormItem
-                path={"nickname"}
-                label={window.$i18n("view.modifyProfile.nickname.label")}
-                rule={[{ required: true, message: window.$i18n("view.modifyProfile.nickname.message") }]}
-              >
-                <NInput v-model:value={form.nickname} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"birthday"} label={window.$i18n("view.modifyProfile.birthday.label")}>
-                <NDatePicker class={"w-full"} v-model:value={form.birthday} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"location"} label={window.$i18n("view.modifyProfile.location.label")}>
-                <NInput v-model:value={form.location} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"website"} label={window.$i18n("view.modifyProfile.website.label")}>
-                <NInput v-model:value={form.website} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"description"} label={window.$i18n("view.modifyProfile.description.label")}>
-                <NInput v-model:value={form.description} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"github"} label={window.$i18n("view.modifyProfile.github.label")}>
-                <NInput v-model:value={form.github} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"bilibili"} label={window.$i18n("view.modifyProfile.bilibili.label")}>
-                <NInput v-model:value={form.bilibili} />
-              </NFormItem>
-            </NGridItem>
-            <NGridItem>
-              <NFormItem path={"email"} label={window.$i18n("view.modifyProfile.email.label")}>
-                <NInput v-model:value={form.email} />
-              </NFormItem>
-            </NGridItem>
-          </NGrid>
-
-          <NButton class={"w-full"} type={"primary"} onClick={submit}>
-            {window.$i18n("common.submit")}
-          </NButton>
-        </NForm>
+        <NBreadcrumb>
+          <NBreadcrumbItem onClick={() => router.push({ name: "members" })}>
+            {window.$i18n("component.menu.members")}
+          </NBreadcrumbItem>
+          <NBreadcrumbItem onClick={() => router.push({ name: "profile", params: { id: data.value!.memberId } })}>
+            {window.$i18n("view.profile.profile")}
+          </NBreadcrumbItem>
+          <NBreadcrumbItem>{window.$i18n("view.profile.modify")}</NBreadcrumbItem>
+        </NBreadcrumb>
+        <ProfileForm profile={{ ...data.value }} />
       </>
     )
-  },
-  {
-    props: ["onSuccess"]
-  }
-)
+})
 
 export default ModifyProfile

@@ -54,8 +54,16 @@ const VisitorMenu = defineComponent(
             <div class={"flex gap-5"}>
               <Avatar id={data.value.avatar} size={128} round bordered />
               <div class={"flex flex-col w-36"}>
-                <NButton text class={"text-left"}>
-                  <h3>{data.value.nickname}</h3>
+                <NButton
+                  text
+                  class={"text-2xl text-left"}
+                  type={"info"}
+                  onClick={() => {
+                    router.push({ name: "profile", params: { id: session.id! } })
+                    props.onPush()
+                  }}
+                >
+                  {data.value.nickname}
                 </NButton>
                 <div class={"flex justify-between"}>
                   <div>{window.$i18n("view.visitorMenu.role")}:</div>
@@ -100,7 +108,7 @@ const VisitorMenu = defineComponent(
                   <NButton
                     text
                     onClick={() => {
-                      router.push({ name: "profile", params: { id: session.id! } })
+                      router.push({ name: "modify-profile", params: { id: session.id! } })
                       props.onPush()
                     }}
                   >
@@ -111,6 +119,7 @@ const VisitorMenu = defineComponent(
                   <NButton
                     text
                     onClick={() => {
+                      router.push({ name: "security", params: { id: session.id! } })
                       props.onPush()
                     }}
                   >

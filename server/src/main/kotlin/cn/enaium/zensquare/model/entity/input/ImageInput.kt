@@ -37,7 +37,7 @@ data class ImageInput(
         return CONVERTER.toImage(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toImage(input: ImageInput): Image

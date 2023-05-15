@@ -26,6 +26,7 @@ import { NAlert, NButton, NModal, NPopover, NSpin } from "naive-ui"
 import ModifyProfile from "@/views/ModifyProfile"
 import VisitorMenu from "@/views/VisitorMenu"
 import Avatar from "@/components/Avatar"
+import ProfileForm from "../ProfileForm"
 
 const showModifyProfile = ref(false)
 
@@ -73,7 +74,7 @@ const Sessional = defineComponent(() => {
         onClose={() => (showModifyProfile.value = false)}
         v-slots={{
           header: () => <div>{window.$i18n("component.state.profile")}</div>,
-          default: () => <ModifyProfile onSuccess={() => (showModifyProfile.value = false)} />
+          default: () => <ProfileForm profile={{}} onSuccess={() => (showModifyProfile.value = false)} />
         }}
       />
     </>

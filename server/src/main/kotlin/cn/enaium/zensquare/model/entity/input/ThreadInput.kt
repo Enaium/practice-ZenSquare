@@ -39,7 +39,7 @@ data class ThreadInput(
         return CONVERTER.toThread(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toThread(input: ThreadInput): Thread

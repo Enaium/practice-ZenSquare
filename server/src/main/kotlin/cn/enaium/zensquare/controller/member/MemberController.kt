@@ -21,6 +21,7 @@ package cn.enaium.zensquare.controller.member
 
 import cn.enaium.zensquare.bll.service.MemberService
 import cn.enaium.zensquare.model.entity.input.MemberInput
+import cn.enaium.zensquare.model.entity.input.MemberPasswordInput
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -40,5 +41,11 @@ class MemberController(val memberService: MemberService) {
     @ResponseStatus(HttpStatus.OK)
     fun saveMember(@RequestBody memberInput: MemberInput) {
         memberService.register(memberInput)
+    }
+
+    @PutMapping("password/")
+    @ResponseStatus(HttpStatus.OK)
+    fun savePassword(@RequestBody memberPasswordInput: MemberPasswordInput) {
+        memberService.modifyPassword(memberPasswordInput)
     }
 }

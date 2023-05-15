@@ -22,17 +22,21 @@ package cn.enaium.zensquare.controller.member.profile
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.dev33.satoken.stp.StpUtil
 import cn.enaium.zensquare.bll.error.ServiceException
+import cn.enaium.zensquare.bll.service.ImageService
 import cn.enaium.zensquare.model.entity.MemberProfile
 import cn.enaium.zensquare.model.entity.by
+import cn.enaium.zensquare.model.entity.input.MemberPasswordInput
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
 import cn.enaium.zensquare.util.checkId
 import org.babyfish.jimmer.client.FetchBy
+import org.babyfish.jimmer.kt.new
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import java.util.*
 
 /**
@@ -42,7 +46,8 @@ import java.util.*
  */
 @RestController
 class MemberProfileController(
-    val memberProfileRepository: MemberProfileRepository
+    val memberProfileRepository: MemberProfileRepository,
+    val imageService: ImageService
 ) {
 
     /**
@@ -95,21 +100,27 @@ class MemberProfileController(
     @PutMapping("/members/profiles/")
     fun save(@RequestBody memberProfileInput: MemberProfileInput) {
         //Check member profile owner
-        memberProfileInput.id ?: memberProfileInput.memberId?.let {
+        memberProfileInput.memberId?.let {
             if (!(checkId(it) || StpUtil.hasRole("admin"))) {
-                throw ServiceException(HttpStatus.FORBIDDEN)
-            }
-        }
-
-        //Check admin
-        memberProfileInput.roleId?.let {
-            if (!StpUtil.hasRole("admin")) {
                 throw ServiceException(HttpStatus.FORBIDDEN)
             }
         }
         memberProfileRepository.save(memberProfileInput)
     }
 
+    @PutMapping("/members/{memberId}/profiles/avatar/")
+    @ResponseStatus(HttpStatus.OK)
+    fun saveAvatar(@PathVariable memberId: UUID, file: MultipartFile) {
+        //Check member profile owner
+        if (!(checkId(memberId) || StpUtil.hasRole("admin"))) {
+            throw ServiceException(HttpStatus.FORBIDDEN)
+        }
+        imageService.upload(file)
+        memberProfileRepository.update(new(MemberProfile::class).by {
+            this.memberId = memberId
+            avatar = imageService.upload(file)
+        })
+    }
 
     companion object {
         /**

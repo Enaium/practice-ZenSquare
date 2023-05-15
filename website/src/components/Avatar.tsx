@@ -17,8 +17,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { FunctionalComponent } from "vue"
-import { AvatarProps, NAvatar } from "naive-ui"
+import type { FunctionalComponent } from "vue"
+import type { AvatarProps } from "naive-ui"
+import { NAvatar } from "naive-ui"
 import { BASE_URL } from "@/common/ApiInstance"
 import Default from "@/assets/avatar.jpg"
 
@@ -28,7 +29,7 @@ interface Props extends AvatarProps {
 
 const Avatar: FunctionalComponent<Props> = ({ id, ...props }) => {
   return id ? (
-    <NAvatar src={`${BASE_URL}/images/${id}`} fallbackSrc={Default} {...props} class={"border-2 border-gray-50"} />
+    <NAvatar src={`${BASE_URL}/images/${id}/`} fallbackSrc={Default} {...props} class={"border-2 border-gray-50"} />
   ) : (
     <NAvatar src={Default} {...props} class={"border-2 border-gray-50"} />
   )

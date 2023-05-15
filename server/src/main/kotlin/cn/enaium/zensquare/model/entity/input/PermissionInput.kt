@@ -38,7 +38,7 @@ data class PermissionInput(
         return CONVERTER.toPermission(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toPermission(input: PermissionInput): Permission

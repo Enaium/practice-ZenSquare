@@ -36,8 +36,7 @@ import java.util.*
 @SaIgnore
 @RestController
 @RequestMapping("/sessions/")
-class
-SessionController(
+class SessionController(
     val sessionService: SessionService
 ) {
     /**

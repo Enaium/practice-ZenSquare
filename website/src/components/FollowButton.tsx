@@ -41,13 +41,12 @@ const FollowButton = defineComponent(
       enabled: session.id != null
     })
 
-    const isFollow = toRef(data.value)
 
     const follow = () => {
       api.memberFollowController
         .follow({ memberId: session.id!, followId: props.following })
         .then(() => {
-          isFollow.value = true
+          data.value = true
         })
         .catch((error) => {
           message.error(error)
@@ -58,7 +57,7 @@ const FollowButton = defineComponent(
       api.memberFollowController
         .unfollow({ memberId: session.id!, followId: props.following })
         .then(() => {
-          isFollow.value = false
+          data.value = false
         })
         .catch((error) => {
           message.error(error)
@@ -70,9 +69,9 @@ const FollowButton = defineComponent(
         <NSpin />
       ) : (
         <>
-          {isFollow.value == undefined ? (
+          {data.value == undefined ? (
             <NButton>{window.$i18n("component.followButton.follow")}</NButton>
-          ) : isFollow.value ? (
+          ) : data.value ? (
             <NButton onClick={unfollow} type={"error"}>
               {window.$i18n("component.followButton.unfollow")}
             </NButton>

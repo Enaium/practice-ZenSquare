@@ -81,8 +81,10 @@ export default {
       newThread: "新しいスレッド"
     },
     profile: {
+      profile: "プロフィール",
       startConversation: "会話を開始",
-      find: "検索"
+      find: "検索",
+      modify: "変更"
     },
     follow: {
       followers: "フォロワー",

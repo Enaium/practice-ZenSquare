@@ -39,7 +39,7 @@ data class MemberInput(
         return CONVERTER.toMember(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toMember(input: MemberInput): Member

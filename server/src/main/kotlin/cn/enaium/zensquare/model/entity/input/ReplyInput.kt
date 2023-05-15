@@ -40,7 +40,7 @@ data class ReplyInput(
         return CONVERTER.toReply(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toReply(input: ReplyInput): Reply

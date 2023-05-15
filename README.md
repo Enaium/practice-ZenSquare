@@ -33,9 +33,9 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member register
 - [x] Member login
 - [x] Member logout
-- [ ] Member profile modify
-- [ ] Member avatar modify
-- [ ] Member password modify
+- [x] Member profile modify
+- [x] Member avatar modify
+- [x] Member password modify
 - [x] Member post
 - [ ] Post top
 - [ ] Post essence

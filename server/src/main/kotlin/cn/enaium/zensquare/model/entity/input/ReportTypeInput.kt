@@ -38,7 +38,7 @@ data class ReportTypeInput(
         return CONVERTER.toReportType(this)
     }
 
-    @Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+    @Mapper
     interface Converter {
         @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
         fun toReportType(input: ReportTypeInput): ReportType

@@ -64,12 +64,19 @@ export default {
       newThread: "新主题"
     },
     profile: {
+      profile: "资料",
       startConversation: "开始会话",
-      find: "查找"
+      find: "查找",
+      modify: "修改"
     },
     follow: {
       followers: "粉丝",
       followings: "关注"
+    },
+    modifyPassowrd: {
+      oldPassword: "旧密码",
+      newPassword: "新密码",
+      confirmPassword: "确认密码"
     }
   },
   component: {

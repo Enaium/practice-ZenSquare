@@ -59,7 +59,7 @@ class ReplyController(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
     ): Page<@FetchBy("FULL_REPLY") Reply> {
-        return replyRepository.findAllByThreadIdAndParentIdIsNull(PageRequest.of(page, size), threadId, FULL_REPLY)
+        return replyRepository.findAllByThreadIdAndParentIdIsNullOrderByCreatedTime(PageRequest.of(page, size), threadId, FULL_REPLY)
     }
 
     /**
@@ -77,7 +77,7 @@ class ReplyController(
         @RequestParam(defaultValue = "10") size: Int = 10,
         @PathVariable replyId: UUID
     ): Page<@FetchBy("FULL_REPLY") Reply> {
-        return replyRepository.findAllByParentId(PageRequest.of(page, size), replyId, FULL_REPLY)
+        return replyRepository.findAllByParentIdOrderByCreatedTime(PageRequest.of(page, size), replyId, FULL_REPLY)
     }
 
     /**

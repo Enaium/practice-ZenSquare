@@ -71,4 +71,8 @@ kotlin {
     }
 }
 
-File(project.projectDir, "run").takeUnless  { it.exists() }?.mkdirs()
+File(project.projectDir, "run").takeUnless { it.exists() }?.mkdirs()
+
+tasks.bootRun {
+    workingDir = File(project.projectDir, "run")
+}

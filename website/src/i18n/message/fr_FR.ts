@@ -64,9 +64,10 @@ export default {
       newThread: "Nouveau fil"
     },
     profile: {
-      follow: "Suivre",
+      profile: "Profil",
       startConversation: "Commencer une conversation",
-      find: "Trouver"
+      find: "Trouver",
+      modify: "Modifier"
     },
     follow: {
       followers: "Suiveurs",
