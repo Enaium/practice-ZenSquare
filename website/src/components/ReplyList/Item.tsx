@@ -17,16 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, ref } from "vue"
+import { defineComponent } from "vue"
 import Avatar from "@/components/Avatar"
-import { NModal, NTag, NTime, NTooltip } from "naive-ui"
+import { NTag, NTime, NTooltip } from "naive-ui"
 import dayjs from "dayjs"
-import ReplyForm from "@/components/ReplyForm"
-import ChildReplyList from "@/components/ChildReplyList"
 import ReplyBottom from "@/components/ReplyBottom"
 import { MdPreview } from "md-editor-v3"
 import type { ReplyDto } from "@/__generated/model/dto"
-import ReportForm from "@/components/ReportForm"
 
 const Item = defineComponent(
   (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {

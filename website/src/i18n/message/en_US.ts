@@ -105,9 +105,6 @@ export default {
     replyList: {
       viewChild: "View {count} child replies"
     },
-    likeState: {
-      notLogin: "Please login first to like"
-    },
     followButton: {
       follow: "Follow",
       unfollow: "Unfollow"
@@ -127,6 +124,7 @@ export default {
   },
   common: {
     submit: "Submit",
-    success: "Success"
+    success: "Success",
+    notLogin: "Please login first to continue"
   }
 }

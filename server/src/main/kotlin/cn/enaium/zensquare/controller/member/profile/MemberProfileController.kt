@@ -25,7 +25,6 @@ import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.ImageService
 import cn.enaium.zensquare.model.entity.MemberProfile
 import cn.enaium.zensquare.model.entity.by
-import cn.enaium.zensquare.model.entity.input.MemberPasswordInput
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
 import cn.enaium.zensquare.repository.MemberProfileRepository
 import cn.enaium.zensquare.util.checkId
@@ -87,10 +86,9 @@ class MemberProfileController(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10,
         memberProfileInput: MemberProfileInput?
-    ): Page<MemberProfile> {
+    ): Page<@FetchBy("DEFAULT_MEMBER_PROFILE") MemberProfile> {
         return memberProfileRepository.findAllByMemberProfile(PageRequest.of(page, size), memberProfileInput)
     }
-
 
     /**
      * Put member profile

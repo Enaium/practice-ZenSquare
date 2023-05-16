@@ -27,7 +27,7 @@ import Editor from "@/components/Editor"
 import { api } from "@/common/ApiInstance"
 
 const ReplyForm = defineComponent(
-  (props: { reply: ReplyInput }) => {
+  (props: { reply: ReplyInput; onSuccess: () => void }) => {
     const formRef = ref<FormInst | null>(null)
 
     const message = useMessage()
@@ -68,7 +68,7 @@ const ReplyForm = defineComponent(
       </>
     )
   },
-  { props: ["reply"] }
+  { props: ["reply", "onSuccess"] }
 )
 
 export default ReplyForm

@@ -24,7 +24,7 @@ import Editor from "@/components/Editor"
 import { api } from "@/common/ApiInstance"
 
 const ReportForm = defineComponent(
-  (props: { report: ReportInput }) => {
+  (props: { report: ReportInput; onSuccess: () => void }) => {
     const message = useMessage()
 
     const formRef = ref<FormInst | null>(null)
@@ -53,7 +53,7 @@ const ReportForm = defineComponent(
     )
   },
   {
-    props: ["report"]
+    props: ["report", "onSuccess"]
   }
 )
 

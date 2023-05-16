@@ -22,11 +22,12 @@ import { useSessionStore } from "@/store"
 import type { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance"
 import { useQuery } from "@tanstack/vue-query"
-import { NAlert, NButton, NModal, NPopover, NSpin } from "naive-ui"
+import { NAlert, NBreadcrumb, NBreadcrumbItem, NButton, NButtonGroup, NIcon, NModal, NPopover, NSpin } from "naive-ui"
 import ModifyProfile from "@/views/ModifyProfile"
 import VisitorMenu from "@/views/VisitorMenu"
 import Avatar from "@/components/Avatar"
 import ProfileForm from "../ProfileForm"
+import { Alert24Regular, Mail24Filled, Mail24Regular, Search24Regular } from "@vicons/fluent"
 
 const showModifyProfile = ref(false)
 
@@ -45,20 +46,35 @@ const Sessional = defineComponent(() => {
   return () => (
     <>
       {data.value ? (
-        <NPopover
-          show={showVistorMenu.value}
-          trigger={"click"}
-          onClickoutside={() => (showVistorMenu.value = false)}
-          v-slots={{
-            trigger: () => (
-              <NButton class={"flex items-center h-5/6"} onClick={() => (showVistorMenu.value = true)}>
-                <Avatar id={data.value!.avatar} size={"large"} round bordered />
-                <div>{data.value!.nickname}</div>
-              </NButton>
-            ),
-            default: () => <VisitorMenu onPush={() => (showVistorMenu.value = false)} />
-          }}
-        />
+        <div class={"flex items-center gap-2"}>
+          <NButtonGroup>
+            <NPopover
+              show={showVistorMenu.value}
+              trigger={"click"}
+              onClickoutside={() => (showVistorMenu.value = false)}
+              v-slots={{
+                trigger: () => (
+                  <NButton class={"flex items-center"} onClick={() => (showVistorMenu.value = true)}>
+                    <Avatar id={data.value!.avatar} size={"small"} round bordered />
+                    <div>{data.value!.nickname}</div>
+                  </NButton>
+                ),
+                default: () => <VisitorMenu onPush={() => (showVistorMenu.value = false)} />
+              }}
+            />
+            <NButton>
+              <NIcon size={24}>
+                <Mail24Regular />
+              </NIcon>
+            </NButton>
+            <NButton>
+              <NIcon size={24}>
+                <Alert24Regular />
+              </NIcon>
+            </NButton>
+          </NButtonGroup>
+          <NButton renderIcon={() => <Search24Regular />}>Search</NButton>
+        </div>
       ) : isLoading.value ? (
         <NSpin />
       ) : (

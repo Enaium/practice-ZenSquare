@@ -8,7 +8,7 @@ export interface ReportInput {
     
     readonly reason?: string;
     
-    readonly targetId?: string;
+    readonly target?: string;
     
     readonly type?: ReportType;
 }

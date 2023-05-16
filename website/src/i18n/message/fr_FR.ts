@@ -105,9 +105,6 @@ export default {
     replyList: {
       viewChild: "Voir les enfants ({count})"
     },
-    likeState: {
-      notLogin: "Vous n'êtes pas connecté"
-    },
     followButton: {
       follow: "Suivre",
       unfollow: "Ne plus suivre"
@@ -127,6 +124,7 @@ export default {
   },
   common: {
     submit: "Soumettre",
-    success: "Succès"
+    success: "Succès",
+    notLogin: "Veuillez d'abord vous connecter pour continuer"
   }
 }

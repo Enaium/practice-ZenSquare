@@ -45,47 +45,51 @@ const ThreadBottom = defineComponent(
                 </NIcon>
               </NButton>
             ),
-            default: () => (
-              <div class={"flex gap-5 items-center"}>
-                {/*If the session id is not equal to the reply member id, then show the report button.*/}
-                {session.id != props.thread.memberId && (
-                  <NButton text type={"primary"}>
-                    {window.$i18n("component.button.report")}
+            default: () =>
+              // If the session id is null, then show the not login text.
+              session.id == null ? (
+                <div>{window.$i18n("common.notLogin")}</div>
+              ) : (
+                <div class={"flex gap-5 items-center"}>
+                  {/*If the session id is not equal to the reply member id, then show the report button.*/}
+                  {session.id != props.thread.memberId && (
+                    <NButton text type={"primary"}>
+                      {window.$i18n("component.button.report")}
+                    </NButton>
+                  )}
+                  {/*If the session id is equal to the reply member id, then show the edit button.*/}
+                  {session.id == props.thread.memberId && (
+                    <NButton
+                      text
+                      type={"primary"}
+                      onClick={() =>
+                        router.push({
+                          name: "post-thread-thread",
+                          params: { forum: props.thread.forum.id, thread: props.thread.id }
+                        })
+                      }
+                    >
+                      {window.$i18n("component.button.edit")}
+                    </NButton>
+                  )}
+                  {/*If the session id is equal to the reply member id, then show the delete button.*/}
+                  {session.id == props.thread.memberId && (
+                    <NPopconfirm
+                      v-slots={{
+                        trigger: () => (
+                          <NButton text type={"primary"}>
+                            {window.$i18n("component.button.delete")}
+                          </NButton>
+                        )
+                      }}
+                      onPositiveClick={() => {}}
+                    />
+                  )}
+                  <NButton type={"primary"} text onClick={props.onClickReply}>
+                    {window.$i18n("component.button.reply")}
                   </NButton>
-                )}
-                {/*If the session id is equal to the reply member id, then show the edit button.*/}
-                {session.id == props.thread.memberId && (
-                  <NButton
-                    text
-                    type={"primary"}
-                    onClick={() =>
-                      router.push({
-                        name: "post-thread-thread",
-                        params: { forum: props.thread.forum.id, thread: props.thread.id }
-                      })
-                    }
-                  >
-                    {window.$i18n("component.button.edit")}
-                  </NButton>
-                )}
-                {/*If the session id is equal to the reply member id, then show the delete button.*/}
-                {session.id == props.thread.memberId && (
-                  <NPopconfirm
-                    v-slots={{
-                      trigger: () => (
-                        <NButton text type={"primary"}>
-                          {window.$i18n("component.button.delete")}
-                        </NButton>
-                      )
-                    }}
-                    onPositiveClick={() => {}}
-                  />
-                )}
-                <NButton type={"primary"} text onClick={props.onClickReply}>
-                  {window.$i18n("component.button.reply")}
-                </NButton>
-              </div>
-            )
+                </div>
+              )
           }}
         />
       </div>

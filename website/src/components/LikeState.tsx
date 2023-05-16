@@ -44,7 +44,7 @@ const LikeState = defineComponent(
             message.error(error)
           })
       } else {
-        message.error(window.$i18n("component.likeState.notLogin"))
+        message.error(window.$i18n("common.notLogin"))
       }
     }
 

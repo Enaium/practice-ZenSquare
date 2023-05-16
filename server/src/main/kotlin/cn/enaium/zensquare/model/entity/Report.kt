@@ -53,5 +53,5 @@ interface Report : BaseEntity {
 
     val type: ReportType
 
-    val report: String
+    val reason: String
 }

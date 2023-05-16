@@ -59,52 +59,62 @@ const ReplyBottom = defineComponent(
                   </NIcon>
                 </NButton>
               ),
-              default: () => (
-                <div class={"flex gap-5 items-center"}>
-                  {/*If the session id is not equal to the reply member id, then show the report button.*/}
-                  {session.id != props.reply.memberId && (
-                    <NButton text type={"primary"} onClick={() => (showReport.value = true)}>
-                      {window.$i18n("component.button.report")}
+              default: () =>
+                // If the session id is null, then show the not login text.
+                session.id == null ? (
+                  <div>{window.$i18n("common.notLogin")}</div>
+                ) : (
+                  <div class={"flex gap-5 items-center"}>
+                    {/*If the session id is not equal to the reply member id, then show the report button.*/}
+                    {session.id != props.reply.memberId && (
+                      <NButton text type={"primary"} onClick={() => (showReport.value = true)}>
+                        {window.$i18n("component.button.report")}
+                      </NButton>
+                    )}
+                    {/*If the session id is equal to the reply member id, then show the edit button.*/}
+                    {session.id == props.reply.memberId && (
+                      <NButton text type={"primary"} onClick={() => (showEdit.value = true)}>
+                        {window.$i18n("component.button.edit")}
+                      </NButton>
+                    )}
+                    {/*If the session id is equal to the reply member id, then show the delete button.*/}
+                    {session.id == props.reply.memberId && (
+                      <NPopconfirm
+                        v-slots={{
+                          trigger: () => (
+                            <NButton text type={"primary"}>
+                              {window.$i18n("component.button.delete")}
+                            </NButton>
+                          )
+                        }}
+                        onPositiveClick={() => {}}
+                      />
+                    )}
+                    <NButton type={"primary"} text onClick={() => (showReply.value = true)}>
+                      {window.$i18n("component.button.reply")}
                     </NButton>
-                  )}
-                  {/*If the session id is equal to the reply member id, then show the edit button.*/}
-                  {session.id == props.reply.memberId && (
-                    <NButton text type={"primary"} onClick={() => (showEdit.value = true)}>
-                      {window.$i18n("component.button.edit")}
-                    </NButton>
-                  )}
-                  {/*If the session id is equal to the reply member id, then show the delete button.*/}
-                  {session.id == props.reply.memberId && (
-                    <NPopconfirm
-                      v-slots={{
-                        trigger: () => (
-                          <NButton text type={"primary"}>
-                            {window.$i18n("component.button.delete")}
-                          </NButton>
-                        )
-                      }}
-                      onPositiveClick={() => {}}
-                    />
-                  )}
-                  <NButton type={"primary"} text onClick={() => (showReply.value = true)}>
-                    {window.$i18n("component.button.reply")}
-                  </NButton>
-                </div>
-              )
+                  </div>
+                )
             }}
           />
         </div>
         {/* edit reply */}
         <NModal show={showEdit.value} preset={"card"} onClose={() => (showEdit.value = false)}>
-          <ReplyForm reply={{ ...props.reply }} />
+          <ReplyForm reply={{ ...props.reply }} onSuccess={() => (showEdit.value = false)} />
         </NModal>
         {/* report reply */}
         <NModal show={showReport.value} onClose={() => (showReport.value = false)} preset={"card"}>
-          <ReportForm report={{ targetId: props.reply.id!, type: "REPLY" }} />
+          <ReportForm
+            report={{ memberId: session.id!, target: props.reply.id!, type: "REPLY" }}
+            onSuccess={() => (showReply.value = false)}
+          />
         </NModal>
         {/* reply reply */}
         <NModal show={showReply.value} onClose={() => (showReply.value = false)} preset={"card"}>
-          <ReplyForm reply={{ threadId: props.reply.threadId!, parentId: props.reply.id! }} />
+          <ReplyForm
+            reply={{ threadId: props.reply.threadId!, parentId: props.reply.id! }}
+            onSuccess={() => (showReply.value = false)}
+          />
         </NModal>
         {/* child reply */}
         <NModal show={showChild.value} onClose={() => (showChild.value = false)} preset={"card"}>

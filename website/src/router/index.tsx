@@ -30,6 +30,7 @@ import Followings from "@/views/follow/Followings"
 import Followers from "@/views/follow/Followers"
 import ModifyProfile from "@/views/ModifyProfile"
 import ModifyPassword from "@/views/ModifyPassword"
+import Conversation from "@/views/Conversation"
 
 const router = createRouter({
   history: createWebHistory(),
@@ -100,6 +101,11 @@ const router = createRouter({
           path: "members/:id/followers",
           name: "followers",
           component: <Followers />
+        },
+        {
+          path: "conversations",
+          name: "conversations",
+          component: () => <Conversation />
         }
       ]
     }

@@ -20,9 +20,13 @@
 package cn.enaium.zensquare.repository
 
 import cn.enaium.zensquare.model.entity.MemberProfile
+import cn.enaium.zensquare.model.entity.birthday
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
+import cn.enaium.zensquare.model.entity.memberId
+import cn.enaium.zensquare.model.entity.nickname
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.babyfish.jimmer.sql.fetcher.Fetcher
+import org.babyfish.jimmer.sql.kt.ast.expression.eq
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -32,10 +36,14 @@ import java.util.*
  */
 @Repository
 interface MemberProfileRepository : KRepository<MemberProfile, UUID> {
-
     fun findByMemberId(memberId: UUID, fetcher: Fetcher<MemberProfile>? = null): MemberProfile?
     fun findAllByMemberProfile(pageable: Pageable, memberProfile: MemberProfileInput?) =
         pager(pageable).execute(sql.createQuery(MemberProfile::class) {
+            if (memberProfile != null) {
+                memberProfile.memberId?.let { where(table.memberId eq it) }
+                memberProfile.nickname?.takeIf { it.isNotBlank() }?.let { where(table.nickname eq it) }
+                memberProfile.birthday?.let { where(table.birthday eq it) }
+            }
             select(table)
         })
 }

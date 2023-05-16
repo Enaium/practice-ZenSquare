@@ -110,9 +110,6 @@ export default {
     replyList: {
       viewChild: "查看 {child} 个回复"
     },
-    likeState: {
-      notLogin: "请登录后点赞"
-    },
     followButton: {
       follow: "关注",
       unfollow: "取消关注"
@@ -132,6 +129,7 @@ export default {
   },
   common: {
     submit: "提交",
-    success: "成功"
+    success: "成功",
+    notLogin: "请先登录"
   }
 }

@@ -122,9 +122,6 @@ export default {
     replyList: {
       viewChild: "子を見る {count} 件"
     },
-    likeState: {
-      notLogin: "ログインしていません"
-    },
     followButton: {
       follow: "フォロー",
       unfollow: "フォロー解除"
@@ -144,6 +141,7 @@ export default {
   },
   common: {
     submit: "提出する",
-    success: "成功"
+    success: "成功",
+    notLogin: "続行するには最初にログインしてください"
   }
 }
