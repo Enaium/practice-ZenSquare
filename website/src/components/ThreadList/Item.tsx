@@ -26,7 +26,7 @@ import { Clock16Regular } from "@vicons/fluent"
 import dayjs from "dayjs"
 
 const Item = defineComponent(
-  (props: { thread: ThreadDto["ThreadController/DEFAULT_THREAD"] }) => () =>
+  (props: { thread: ThreadDto["ThreadFetcher/DEFAULT_THREAD"] }) => () =>
     (
       <div class={"flex justify-between"}>
         {/*left*/}

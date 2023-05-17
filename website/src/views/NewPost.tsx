@@ -17,25 +17,22 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, reactive, ref } from "vue"
+import { defineComponent, reactive } from "vue"
 import { api } from "@/common/ApiInstance"
-import { NButton, NForm, NFormItem, NInput, useMessage, type FormInst, NSpin } from "naive-ui"
-import type { ThreadInput } from "@/__generated/model/static"
-import Editor from "@/components/Editor"
+import { useMessage, NSpin } from "naive-ui"
 import { useRoute } from "vue-router"
 import { useQuery } from "@tanstack/vue-query"
 import type { RequestOf } from "@/__generated"
 import ThreadForm from "@/components/ThreadForm"
 
-const PostThread = defineComponent(() => {
+const NewPost = defineComponent(() => {
   const route = useRoute()
-  const message = useMessage()
 
-  const options = reactive<RequestOf<typeof api.threadController.findThread>>({ id: route.params.thread as string })
+  const options = reactive<RequestOf<typeof api.postController.findPost>>({ id: route.params.thread as string })
 
   const { data, isLoading } = useQuery({
     queryKey: ["forums", options],
-    queryFn: () => api.threadController.findThread(options),
+    queryFn: () => api.postController.findPost(options),
     enabled: route.params.thread !== undefined
   })
 
@@ -51,4 +48,4 @@ const PostThread = defineComponent(() => {
     )
 })
 
-export default PostThread
+export default NewPost

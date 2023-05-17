@@ -2,14 +2,14 @@ import type { Executor } from '../';
 import type { ThreadDto } from '../model/dto';
 import type { Page, ThreadInput, Unit } from '../model/static';
 
-export class ThreadController {
+export class PostController {
     
     constructor(private executor: Executor) {}
     
-    async findComplexThreads(options: ThreadControllerOptions['findComplexThreads']): Promise<
-        Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+    async findComplexPosts(options: PostControllerOptions['findComplexPosts']): Promise<
+        Page<ThreadDto['ThreadFetcher/DEFAULT_THREAD']>
     > {
-        let _uri = '/categories/forums/threads/';
+        let _uri = '/categories/forums/threads/posts/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.threadInput.content;
@@ -61,13 +61,13 @@ export class ThreadController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadFetcher/DEFAULT_THREAD']>
     }
     
-    async findLatest(options: ThreadControllerOptions['findLatest']): Promise<
-        Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+    async findLatest(options: PostControllerOptions['findLatest']): Promise<
+        Page<ThreadDto['ThreadFetcher/DEFAULT_THREAD']>
     > {
-        let _uri = '/categories/forums/threads/latest/';
+        let _uri = '/categories/forums/threads/posts/latest/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.page;
@@ -84,24 +84,24 @@ export class ThreadController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadFetcher/DEFAULT_THREAD']>
     }
     
-    async findThread(options: ThreadControllerOptions['findThread']): Promise<
-        ThreadDto['ThreadController/FULL_THREAD'] | undefined
+    async findPost(options: PostControllerOptions['findPost']): Promise<
+        ThreadDto['ThreadFetcher/FULL_POST'] | undefined
     > {
-        let _uri = '/categories/forums/threads/';
+        let _uri = '/categories/forums/threads/posts/';
         _uri += encodeURIComponent(options.id);
         _uri += '/';
-        return (await this.executor({uri: _uri, method: 'GET'})) as ThreadDto['ThreadController/FULL_THREAD'] | undefined
+        return (await this.executor({uri: _uri, method: 'GET'})) as ThreadDto['ThreadFetcher/FULL_POST'] | undefined
     }
     
-    async findThreads(options: ThreadControllerOptions['findThreads']): Promise<
-        Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+    async findPosts(options: PostControllerOptions['findPosts']): Promise<
+        Page<ThreadDto['ThreadFetcher/DEFAULT_THREAD']>
     > {
         let _uri = '/categories/forums/';
         _uri += encodeURIComponent(options.forumId);
-        _uri += '/threads/';
+        _uri += '/threads/posts/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.page;
@@ -118,29 +118,29 @@ export class ThreadController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadController/DEFAULT_THREAD']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ThreadDto['ThreadFetcher/DEFAULT_THREAD']>
     }
     
-    async saveThread(options: ThreadControllerOptions['saveThread']): Promise<
+    async savePost(options: PostControllerOptions['savePost']): Promise<
         Unit
     > {
-        let _uri = '/categories/forums/threads/';
+        let _uri = '/categories/forums/threads/posts/';
         return (await this.executor({uri: _uri, method: 'PUT', body: options.body})) as Unit
     }
 }
 
-export type ThreadControllerOptions = {
-    'findComplexThreads': {
+export type PostControllerOptions = {
+    'findComplexPosts': {
         readonly page?: number, 
         readonly size?: number, 
         readonly threadInput: ThreadInput
     },
     'findLatest': {readonly page?: number, readonly size?: number},
-    'findThread': {readonly id: string},
-    'findThreads': {
+    'findPost': {readonly id: string},
+    'findPosts': {
         readonly forumId: string, 
         readonly page?: number, 
         readonly size?: number
     },
-    'saveThread': {readonly body: ThreadInput}
+    'savePost': {readonly body: ThreadInput}
 }

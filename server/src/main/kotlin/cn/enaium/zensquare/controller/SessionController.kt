@@ -17,35 +17,45 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.member
+package cn.enaium.zensquare.controller
 
-import cn.enaium.zensquare.bll.service.MemberService
+import cn.dev33.satoken.annotation.SaIgnore
+import cn.enaium.zensquare.bll.service.SessionService
 import cn.enaium.zensquare.model.entity.input.MemberInput
-import cn.enaium.zensquare.model.entity.input.MemberPasswordInput
+import cn.enaium.zensquare.model.response.LoginResponse
+import cn.enaium.zensquare.util.checkId
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
 
 /**
- * member controller
+ * session controller
  *
  * @author Enaium
  */
+@SaIgnore
 @RestController
-@RequestMapping("/members/")
-class MemberController(val memberService: MemberService) {
+class SessionController(
+    val sessionService: SessionService
+) {
     /**
-     * Register
+     * Login
      */
-    @PutMapping
-    @ResponseStatus(HttpStatus.OK)
-    fun saveMember(@RequestBody memberInput: MemberInput) {
-        memberService.register(memberInput)
+    @PutMapping("/sessions/")
+    fun saveSession(@RequestBody memberInput: MemberInput): LoginResponse {
+        return sessionService.login(memberInput)
     }
 
-    @PutMapping("password/")
+    /**
+     * Logout
+     *
+     * @param id Member
+     */
+    @DeleteMapping("/sessions/{id}/")
     @ResponseStatus(HttpStatus.OK)
-    fun savePassword(@RequestBody memberPasswordInput: MemberPasswordInput) {
-        memberService.modifyPassword(memberPasswordInput)
+    fun deleteSession(@PathVariable id: UUID) {
+        if (checkId(id)) {
+            sessionService.logout(id)
+        }
     }
 }

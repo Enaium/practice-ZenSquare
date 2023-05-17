@@ -7,7 +7,7 @@ export class CategoryController {
     constructor(private executor: Executor) {}
     
     async findCategories(options: CategoryControllerOptions['findCategories']): Promise<
-        Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
+        Page<CategoryDto['CategoryFetcher/DEFAULT_CATEGORY']>
     > {
         let _uri = '/categories/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
@@ -26,7 +26,7 @@ export class CategoryController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<CategoryDto['CategoryController/DEFAULT_CATEGORY']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<CategoryDto['CategoryFetcher/DEFAULT_CATEGORY']>
     }
     
     async findCategory(options: CategoryControllerOptions['findCategory']): Promise<

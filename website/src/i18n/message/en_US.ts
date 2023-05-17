@@ -72,6 +72,20 @@ export default {
     follow: {
       followers: "Followers",
       followings: "Followings"
+    },
+    conversations: {
+      member: {
+        label: "Member",
+        message: "Please select member"
+      },
+      title: {
+        label: "Title",
+        message: "Please input title"
+      },
+      content: {
+        label: "Content",
+        message: "Please input content"
+      }
     }
   },
   component: {

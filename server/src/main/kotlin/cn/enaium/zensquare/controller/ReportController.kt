@@ -17,14 +17,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.report
+package cn.enaium.zensquare.controller
 
 import cn.enaium.zensquare.model.entity.Report
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.model.entity.input.ReportInput
 import cn.enaium.zensquare.repository.ReportRepository
+import cn.enaium.zensquare.util.getSession
 import org.babyfish.jimmer.client.FetchBy
-import org.babyfish.jimmer.sql.ast.mutation.SaveMode
 import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -35,7 +35,6 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/reports/")
 class ReportController(
     val reportRepository: ReportRepository
 ) {
@@ -47,7 +46,7 @@ class ReportController(
      * @param size size
      * @return Page<Report>
      */
-    @GetMapping
+    @GetMapping("/reports/")
     fun findReports(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10,
@@ -61,11 +60,10 @@ class ReportController(
      *
      * @param reportInput reportInput
      */
-    @PutMapping
+    @PutMapping("/reports/")
     fun saveReport(@RequestBody reportInput: ReportInput) {
-        reportRepository.save(reportInput) {
-            setMode(SaveMode.INSERT_ONLY)
-        }
+        reportInput.memberId = getSession()
+        reportRepository.insert(reportInput)
     }
 
     companion object {

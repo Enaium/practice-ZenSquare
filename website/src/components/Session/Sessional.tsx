@@ -22,17 +22,18 @@ import { useSessionStore } from "@/store"
 import type { RequestOf } from "@/__generated"
 import { api } from "@/common/ApiInstance"
 import { useQuery } from "@tanstack/vue-query"
-import { NAlert, NBreadcrumb, NBreadcrumbItem, NButton, NButtonGroup, NIcon, NModal, NPopover, NSpin } from "naive-ui"
-import ModifyProfile from "@/views/ModifyProfile"
+import { NAlert, NButton, NButtonGroup, NIcon, NModal, NPopover, NSpin } from "naive-ui"
 import VisitorMenu from "@/views/VisitorMenu"
 import Avatar from "@/components/Avatar"
 import ProfileForm from "../ProfileForm"
-import { Alert24Regular, Mail24Filled, Mail24Regular, Search24Regular } from "@vicons/fluent"
+import { Alert24Regular, Mail24Regular, Search24Regular } from "@vicons/fluent"
+import ConversationList from "@/components/ConversationList"
 
 const showModifyProfile = ref(false)
 
 const Sessional = defineComponent(() => {
   const showVistorMenu = ref(false)
+  const showConversation = ref(false)
 
   const session = useSessionStore()
 
@@ -50,7 +51,6 @@ const Sessional = defineComponent(() => {
           <NButtonGroup>
             <NPopover
               show={showVistorMenu.value}
-              trigger={"click"}
               onClickoutside={() => (showVistorMenu.value = false)}
               v-slots={{
                 trigger: () => (
@@ -62,11 +62,21 @@ const Sessional = defineComponent(() => {
                 default: () => <VisitorMenu onPush={() => (showVistorMenu.value = false)} />
               }}
             />
-            <NButton>
-              <NIcon size={24}>
-                <Mail24Regular />
-              </NIcon>
-            </NButton>
+            <NPopover
+              raw
+              show={showConversation.value}
+              onClickoutside={() => (showConversation.value = false)}
+              v-slots={{
+                trigger: () => (
+                  <NButton onClick={() => (showConversation.value = true)}>
+                    <NIcon size={24}>
+                      <Mail24Regular />
+                    </NIcon>
+                  </NButton>
+                ),
+                default: () => <ConversationList size={3} onPush={() => (showConversation.value = false)} />
+              }}
+            />
             <NButton>
               <NIcon size={24}>
                 <Alert24Regular />

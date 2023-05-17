@@ -17,14 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.category.forum
+package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Forum
-import cn.enaium.zensquare.model.entity.by
+import cn.enaium.zensquare.model.entity.fetcher.ForumFetcher
 import cn.enaium.zensquare.repository.ForumRepository
 import org.babyfish.jimmer.client.FetchBy
-import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.GetMapping
@@ -40,7 +39,6 @@ import java.util.*
  */
 @RestController
 class ForumController(val forumRepository: ForumRepository) {
-
     /**
      * Get forum by id
      *
@@ -48,8 +46,8 @@ class ForumController(val forumRepository: ForumRepository) {
      */
     @SaIgnore
     @GetMapping("/categories/forums/{id}/")
-    fun findForum(@PathVariable id: UUID): @FetchBy("DEFAULT_FORUM") Forum? =
-        forumRepository.findNullable(id, DEFAULT_FORUM)
+    fun findForum(@PathVariable id: UUID): @FetchBy("DEFAULT_FORUM", ownerType = ForumFetcher::class) Forum? =
+        forumRepository.findNullable(id, ForumFetcher.DEFAULT_FORUM)
 
     /**
      * Get forums by category id
@@ -65,18 +63,7 @@ class ForumController(val forumRepository: ForumRepository) {
         @PathVariable categoryId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
-    ): Page<@FetchBy("DEFAULT_FORUM") Forum> {
-        return forumRepository.findAllByCategoryId(PageRequest.of(page, size), categoryId, DEFAULT_FORUM)
-    }
-
-    companion object {
-        val DEFAULT_FORUM = newFetcher(Forum::class).by {
-            allScalarFields()
-            category {
-                name()
-            }
-            thread()
-            message()
-        }
+    ): Page<@FetchBy("DEFAULT_FORUM", ownerType = ForumFetcher::class) Forum> {
+        return forumRepository.findAllByCategoryId(PageRequest.of(page, size), categoryId, ForumFetcher.DEFAULT_FORUM)
     }
 }

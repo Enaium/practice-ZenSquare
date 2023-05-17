@@ -19,8 +19,8 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.controller.category.forum.thread.ThreadController
 import cn.enaium.zensquare.model.entity.*
+import cn.enaium.zensquare.model.entity.fetcher.ThreadFetcher
 import cn.enaium.zensquare.model.entity.input.ThreadInput
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.babyfish.jimmer.sql.fetcher.Fetcher
@@ -36,12 +36,78 @@ import java.util.*
  */
 @Repository
 interface ThreadRepository : KRepository<Thread, UUID> {
-    fun findAllByForumId(pageable: Pageable, forumId: UUID, fetcher: Fetcher<Thread>? = null): Page<Thread>
 
-    fun findTop30OrderByModifiedTimeDesc(pageable: Pageable, fetcher: Fetcher<Thread>? = null): Page<Thread>
+    /**
+     * Find thread by id and type
+     *
+     * @param id thread id
+     * @param type thread type
+     * @param fetcher fetcher
+     * @return thread
+     */
+    fun findByIdAndType(id: UUID, type: ThreadType, fetcher: Fetcher<Thread>? = null): Thread?
 
-    fun findAllByThread(pageable: Pageable, threadInput: ThreadInput?): Page<Thread> =
+    /**
+     * Find all thread by forum id and type
+     *
+     * @param pageable page
+     * @param forumId forum id
+     * @param type thread type
+     * @param fetcher fetcher
+     * @return thread page
+     */
+    fun findAllByForumIdAndType(
+        pageable: Pageable,
+        forumId: UUID,
+        type: ThreadType,
+        fetcher: Fetcher<Thread>? = null
+    ): Page<Thread>
+
+    /**
+     * Find all thread by member id and type
+     *
+     * @param pageable page
+     * @param memberId member id
+     * @param type thread type
+     * @param fetcher fetcher
+     * @return thread page
+     */
+    fun findAllByMemberIdAndType(
+        pageable: Pageable,
+        memberId: UUID,
+        type: ThreadType,
+        fetcher: Fetcher<Thread>? = null
+    ): Page<Thread>
+
+    /**
+     * Find all thread by member id and type
+     *
+     * @param pageable page
+     * @param type thread type
+     * @param fetcher fetcher
+     * @return thread page
+     */
+    fun findTop30ByTypeOrderByModifiedTimeDesc(
+        pageable: Pageable,
+        type: ThreadType,
+        fetcher: Fetcher<Thread>? = null,
+    ): Page<Thread>
+
+    /**
+     * Find all thread by thread input and type
+     *
+     * @param pageable page
+     * @param threadInput thread input
+     * @param type thread type
+     * @return thread page
+     */
+    fun findAllByThreadAndType(
+        pageable: Pageable,
+        threadInput: ThreadInput?,
+        type: ThreadType
+    ): Page<Thread> =
         pager(pageable).execute(sql.createQuery(Thread::class) {
+            where(table.type eq type)
             if (threadInput != null) {
                 threadInput.title?.takeIf { it.isNotBlank() }?.let { where(table.title ilike it) }
                 threadInput.content?.takeIf { it.isNotBlank() }?.let { where(table.content ilike it) }
@@ -52,6 +118,6 @@ interface ThreadRepository : KRepository<Thread, UUID> {
                     where(table.forumId eq it)
                 }
             }
-            select(table.fetch(ThreadController.DEFAULT_THREAD))
+            select(table.fetch(ThreadFetcher.DEFAULT_THREAD))
         })
 }

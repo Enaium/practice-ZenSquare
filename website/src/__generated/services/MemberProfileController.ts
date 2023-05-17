@@ -7,7 +7,7 @@ export class MemberProfileController {
     constructor(private executor: Executor) {}
     
     async findComplexProfiles(options: MemberProfileControllerOptions['findComplexProfiles']): Promise<
-        Page<MemberProfileDto['DEFAULT']>
+        Page<MemberProfileDto['MemberProfileController/DEFAULT_MEMBER_PROFILE']>
     > {
         let _uri = '/members/profiles/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
@@ -110,7 +110,7 @@ export class MemberProfileController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberProfileDto['DEFAULT']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<MemberProfileDto['MemberProfileController/DEFAULT_MEMBER_PROFILE']>
     }
     
     async findFullProfile(options: MemberProfileControllerOptions['findFullProfile']): Promise<
@@ -118,7 +118,7 @@ export class MemberProfileController {
     > {
         let _uri = '/members/';
         _uri += encodeURIComponent(options.memberId);
-        _uri += '/profiles/full';
+        _uri += '/profiles/full/';
         return (await this.executor({uri: _uri, method: 'GET'})) as MemberProfileDto['MemberProfileController/FULL_MEMBER_PROFILE'] | undefined
     }
     

@@ -17,14 +17,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.category
+package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Category
-import cn.enaium.zensquare.model.entity.by
+import cn.enaium.zensquare.model.entity.fetcher.CategoryFetcher
 import cn.enaium.zensquare.repository.CategoryRepository
 import org.babyfish.jimmer.client.FetchBy
-import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.*
@@ -36,7 +35,6 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/categories/")
 class CategoryController(
     val categoryRepository: CategoryRepository
 ) {
@@ -47,7 +45,7 @@ class CategoryController(
      * @param id category id
      * @return Category
      */
-    @GetMapping("{id}/")
+    @GetMapping("/categories/{id}/")
     fun findCategory(@PathVariable id: UUID): Category? {
         return categoryRepository.findNullable(id)
     }
@@ -58,20 +56,11 @@ class CategoryController(
      * @return
      */
     @SaIgnore
-    @GetMapping
+    @GetMapping("/categories/")
     fun findCategories(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
-    ): Page<@FetchBy("DEFAULT_CATEGORY") Category> {
-        return categoryRepository.findAll(PageRequest.of(page, size), DEFAULT_CATEGORY)
-    }
-
-    companion object {
-        val DEFAULT_CATEGORY = newFetcher(Category::class).by {
-            allScalarFields()
-            forums {
-                allScalarFields()
-            }
-        }
+    ): Page<@FetchBy("DEFAULT_CATEGORY", ownerType = CategoryFetcher::class) Category> {
+        return categoryRepository.findAll(PageRequest.of(page, size), CategoryFetcher.DEFAULT_CATEGORY)
     }
 }

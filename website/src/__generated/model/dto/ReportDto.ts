@@ -8,6 +8,6 @@ export type ReportDto = {
         readonly memberId: string, 
         readonly target: string, 
         readonly type: ReportType, 
-        readonly report: string
+        readonly reason: string
     }
 }

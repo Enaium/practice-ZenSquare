@@ -63,6 +63,7 @@ export class MemberFollowController {
         _uri += encodeURIComponent(options.memberId);
         _uri += '/followings/';
         _uri += encodeURIComponent(options.followId);
+        _uri += '/';
         return (await this.executor({uri: _uri, method: 'PUT'})) as Unit
     }
     
@@ -71,6 +72,7 @@ export class MemberFollowController {
         _uri += encodeURIComponent(options.memberId);
         _uri += '/followings/';
         _uri += encodeURIComponent(options.followId);
+        _uri += '/';
         return (await this.executor({uri: _uri, method: 'GET'})) as boolean
     }
     
@@ -81,6 +83,7 @@ export class MemberFollowController {
         _uri += encodeURIComponent(options.memberId);
         _uri += '/followings/';
         _uri += encodeURIComponent(options.followId);
+        _uri += '/';
         return (await this.executor({uri: _uri, method: 'DELETE'})) as Unit
     }
 }

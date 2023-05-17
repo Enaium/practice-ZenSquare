@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.image
+package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.bll.service.ImageService
@@ -33,7 +33,6 @@ import java.util.*
  * @author Enaium
  */
 @RestController
-@RequestMapping("/images/")
 class ImageController(
     val imageService: ImageService
 ) {
@@ -44,7 +43,7 @@ class ImageController(
      * @param id image id
      */
     @SaIgnore
-    @GetMapping("{id}/")
+    @GetMapping("/images/{id}/")
     fun findImage(@PathVariable id: UUID, httpServletResponse: HttpServletResponse) {
         httpServletResponse.contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE
         httpServletResponse.outputStream.write(imageService.find(id))
@@ -55,7 +54,7 @@ class ImageController(
      *
      * @param file images
      */
-    @PutMapping
+    @PutMapping("/images/")
     fun saveImages(file: Array<MultipartFile>): List<UUID> {
         return file.map { imageService.upload(it) }
     }

@@ -77,6 +77,20 @@ export default {
       oldPassword: "旧密码",
       newPassword: "新密码",
       confirmPassword: "确认密码"
+    },
+    conversations: {
+      member: {
+        label: "会员",
+        message: "请选择会员"
+      },
+      title: {
+        label: "标题",
+        message: "请输入标题"
+      },
+      content: {
+        label: "内容",
+        message: "请输入内容"
+      }
     }
   },
   component: {

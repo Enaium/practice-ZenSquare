@@ -1,3 +1,5 @@
+import type { ThreadType } from '../enums';
+
 export interface ThreadInput {
     
     readonly content?: string;
@@ -9,4 +11,6 @@ export interface ThreadInput {
     readonly memberId?: string;
     
     readonly title?: string;
+    
+    readonly type?: ThreadType;
 }

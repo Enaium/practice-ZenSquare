@@ -17,17 +17,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.category.forum.thread.reply
+package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaCheckPermission
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.bll.service.ReplyService
 import cn.enaium.zensquare.model.entity.Reply
-import cn.enaium.zensquare.model.entity.by
+import cn.enaium.zensquare.model.entity.fetcher.ReplyFetcher
 import cn.enaium.zensquare.model.entity.input.ReplyInput
 import cn.enaium.zensquare.repository.ReplyRepository
 import org.babyfish.jimmer.client.FetchBy
-import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
@@ -58,8 +57,12 @@ class ReplyController(
         @PathVariable threadId: UUID,
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10
-    ): Page<@FetchBy("FULL_REPLY") Reply> {
-        return replyRepository.findAllByThreadIdAndParentIdIsNullOrderByCreatedTime(PageRequest.of(page, size), threadId, FULL_REPLY)
+    ): Page<@FetchBy("FULL_REPLY", ownerType = ReplyFetcher::class) Reply> {
+        return replyRepository.findAllByThreadIdAndParentIdIsNullOrderByCreatedTime(
+            PageRequest.of(page, size),
+            threadId,
+            ReplyFetcher.FULL_REPLY
+        )
     }
 
     /**
@@ -76,8 +79,12 @@ class ReplyController(
         @RequestParam(defaultValue = "0") page: Int = 0,
         @RequestParam(defaultValue = "10") size: Int = 10,
         @PathVariable replyId: UUID
-    ): Page<@FetchBy("FULL_REPLY") Reply> {
-        return replyRepository.findAllByParentIdOrderByCreatedTime(PageRequest.of(page, size), replyId, FULL_REPLY)
+    ): Page<@FetchBy("FULL_REPLY", ownerType = ReplyFetcher::class) Reply> {
+        return replyRepository.findAllByParentIdOrderByCreatedTime(
+            PageRequest.of(page, size),
+            replyId,
+            ReplyFetcher.FULL_REPLY
+        )
     }
 
     /**
@@ -90,22 +97,5 @@ class ReplyController(
     @ResponseStatus(HttpStatus.OK)
     fun saveReply(@RequestBody replyInput: ReplyInput) {
         replyService.saveReply(replyInput)
-    }
-
-    companion object {
-        val FULL_REPLY = newFetcher(Reply::class).by {
-            allScalarFields()
-            member {
-                profile {
-                    nickname()
-                    avatar()
-                    role {
-                        name()
-                    }
-                }
-            }
-            child()
-            like()
-        }
     }
 }

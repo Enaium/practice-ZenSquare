@@ -20,10 +20,10 @@
 package cn.enaium.zensquare.model.entity.input
 
 import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.model.entity.ThreadType
 import org.babyfish.jimmer.Input
 import org.mapstruct.BeanMapping
 import org.mapstruct.Mapper
-import org.mapstruct.NullValueCheckStrategy
 import org.mapstruct.ReportingPolicy
 import org.mapstruct.factory.Mappers
 import java.util.*
@@ -33,7 +33,8 @@ data class ThreadInput(
     val title: String?,
     val content: String?,
     var memberId: UUID?,
-    val forumId: UUID?
+    val forumId: UUID?,
+    var type: ThreadType?,
 ) : Input<Thread> {
     override fun toEntity(): Thread {
         return CONVERTER.toThread(this)

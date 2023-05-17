@@ -23,13 +23,14 @@ import Forums from "@/views/Forums"
 import WhatsNew from "@/views/WhatsNew"
 import Members from "@/views/Members"
 import Forum from "@/views/Forum"
-import PostThread from "@/views/PostThread"
-import Thread from "@/views/Thread"
+import NewPost from "@/views/NewPost"
+import Post from "@/views/Post"
 import Profile from "@/views/Profile"
 import Followings from "@/views/follow/Followings"
 import Followers from "@/views/follow/Followers"
 import ModifyProfile from "@/views/ModifyProfile"
 import ModifyPassword from "@/views/ModifyPassword"
+import NewConversation from "@/views/NewConversation"
 import Conversation from "@/views/Conversation"
 
 const router = createRouter({
@@ -54,18 +55,18 @@ const router = createRouter({
         },
         {
           path: "forums/:forum/threads",
-          name: "post-thread",
-          component: <PostThread />
+          name: "new-post",
+          component: <NewPost />
         },
         {
-          path: "forums/:forum/threads/:thread",
-          name: "post-thread-thread",
-          component: <PostThread />
+          path: "forums/threads/:thread/modify",
+          name: "modify-post",
+          component: <NewPost />
         },
         {
           path: "forums/threads/:thread",
           name: "threads",
-          component: <Thread />
+          component: <Post />
         },
         {
           path: "whats-new",
@@ -104,8 +105,13 @@ const router = createRouter({
         },
         {
           path: "conversations",
+          name: "new-conversation",
+          component: <NewConversation />
+        },
+        {
+          path: "conversations/:thread",
           name: "conversations",
-          component: () => <Conversation />
+          component: <Conversation />
         }
       ]
     }

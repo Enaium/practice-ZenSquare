@@ -20,6 +20,7 @@
 package cn.enaium.zensquare.configuration
 
 import cn.enaium.zensquare.model.entity.ReportType
+import cn.enaium.zensquare.model.entity.ThreadType
 import org.babyfish.jimmer.sql.EnumItem
 import org.babyfish.jimmer.sql.kt.cfg.KCustomizer
 import org.babyfish.jimmer.sql.runtime.ScalarProvider
@@ -38,6 +39,7 @@ class JimmerConfiguration {
     fun customizer(): KCustomizer = KCustomizer {
         it.addScalarProvider(UUIDScalar())
         it.addScalarProvider(EnumScalar(ReportType::class))
+        it.addScalarProvider(EnumScalar(ThreadType::class))
     }
 
     private class UUIDScalar : ScalarProvider<UUID, PGobject>() {
@@ -56,7 +58,9 @@ class JimmerConfiguration {
     private class EnumScalar<E : Enum<E>>(val enumType: KClass<E>) :
         ScalarProvider<E, PGobject>(enumType.java, PGobject::class.java) {
         override fun toScalar(sqlValue: PGobject): E {
-            return java.lang.Enum.valueOf(enumType.java, sqlValue.value ?: "")
+            return enumType.java.declaredFields.firstOrNull {
+                it.getAnnotation(EnumItem::class.java)?.name == sqlValue.value
+            }?.let { java.lang.Enum.valueOf(enumType.java, it.name) } ?: throw IllegalArgumentException()
         }
 
         override fun toSql(scalarValue: E): PGobject {

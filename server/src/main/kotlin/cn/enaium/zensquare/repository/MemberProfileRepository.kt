@@ -19,6 +19,7 @@
 
 package cn.enaium.zensquare.repository
 
+import cn.enaium.zensquare.controller.MemberProfileController
 import cn.enaium.zensquare.model.entity.MemberProfile
 import cn.enaium.zensquare.model.entity.birthday
 import cn.enaium.zensquare.model.entity.input.MemberProfileInput
@@ -27,6 +28,7 @@ import cn.enaium.zensquare.model.entity.nickname
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.babyfish.jimmer.sql.fetcher.Fetcher
 import org.babyfish.jimmer.sql.kt.ast.expression.eq
+import org.babyfish.jimmer.sql.kt.ast.expression.ilike
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 import java.util.*
@@ -41,9 +43,9 @@ interface MemberProfileRepository : KRepository<MemberProfile, UUID> {
         pager(pageable).execute(sql.createQuery(MemberProfile::class) {
             if (memberProfile != null) {
                 memberProfile.memberId?.let { where(table.memberId eq it) }
-                memberProfile.nickname?.takeIf { it.isNotBlank() }?.let { where(table.nickname eq it) }
+                memberProfile.nickname?.takeIf { it.isNotBlank() }?.let { where(table.nickname ilike it) }
                 memberProfile.birthday?.let { where(table.birthday eq it) }
             }
-            select(table)
+            select(table.fetch(MemberProfileController.DEFAULT_MEMBER_PROFILE))
         })
 }

@@ -27,11 +27,11 @@ import Pagination from "@/components/Pagination"
 
 const WhatsNew = defineComponent({
   setup() {
-    const options = reactive<RequestOf<typeof api.threadController.findLatest>>({})
+    const options = reactive<RequestOf<typeof api.postController.findLatest>>({})
 
     const { data, isLoading } = useQuery({
       queryKey: ["whatsNew", options],
-      queryFn: () => api.threadController.findLatest(options),
+      queryFn: () => api.postController.findLatest(options),
     })
 
     return () => (

@@ -27,10 +27,10 @@ import Item from "@/components/ThreadList/Item"
 
 const ThreadList = defineComponent(
   (props: { forum: string }) => {
-    const options = reactive<RequestOf<typeof api.threadController.findThreads>>({ forumId: props.forum! })
+    const options = reactive<RequestOf<typeof api.postController.findPosts>>({ forumId: props.forum! })
     const { data, isLoading } = useQuery({
-      queryKey: ["findThreads", options],
-      queryFn: () => api.threadController.findThreads(options)
+      queryKey: ["findPosts", options],
+      queryFn: () => api.postController.findPosts(options)
     })
 
     return () =>

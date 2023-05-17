@@ -17,20 +17,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, ref } from "vue"
+import { defineComponent } from "vue"
 import type { ReplyDto } from "@/__generated/model/dto"
-import { NModal, NTime, NTooltip } from "naive-ui"
-import ReplyForm from "@/components/ReplyForm"
-import ChildReplyList from "@/components/ChildReplyList/index"
+import { NTime, NTooltip } from "naive-ui"
 import dayjs from "dayjs"
 import ReplyBottom from "@/components/ReplyBottom"
 import { MdPreview } from "md-editor-v3"
 
 const Item = defineComponent(
-  (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
-    const showForm = ref<string | null>(null)
-    const showChild = ref<string | null>(null)
-
+  (props: { reply: ReplyDto["ReplyFetcher/FULL_REPLY"] }) => {
     return () => (
       <>
         <div class={"flex flex-col justify-between p-2 w-full"}>
@@ -46,18 +41,8 @@ const Item = defineComponent(
           </div>
           <MdPreview modelValue={props.reply.content} />
           {/*bottom*/}
-          <ReplyBottom
-            reply={props.reply}
-            onClickShowChild={() => (showChild.value = props.reply.id)}
-            onClickReply={() => (showForm.value = props.reply.id)}
-          />
+          <ReplyBottom reply={props.reply} />
         </div>
-        <NModal show={showForm.value != null} onClose={() => (showForm.value = null)} preset={"card"}>
-          <ReplyForm reply={{ threadId: props.reply.threadId!, parentId: showForm.value! }} />
-        </NModal>
-        <NModal show={showChild.value != null} onClose={() => (showChild.value = null)} preset={"card"}>
-          <ChildReplyList parent={props.reply.id} />
-        </NModal>
       </>
     )
   },

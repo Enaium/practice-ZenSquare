@@ -1,5 +1,5 @@
 export type ReplyDto = {
-    'ReplyController/FULL_REPLY': {
+    'ReplyFetcher/FULL_REPLY': {
         readonly id: string, 
         readonly createdTime: string, 
         readonly modifiedTime: string, 

@@ -32,8 +32,8 @@ fun getSession(): UUID = UUID.fromString(StpUtil.getLoginId().toString())
 /**
  * check current id is equal to id
  *
- * @param id
- * @return
+ * @param id id
+ * @return is equal
  */
 fun checkId(id: UUID): Boolean = try {
     UUID.fromString(StpUtil.getLoginId().toString()) == id

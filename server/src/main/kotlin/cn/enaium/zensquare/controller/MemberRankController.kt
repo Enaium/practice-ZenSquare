@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.member.rank
+package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.model.entity.Member

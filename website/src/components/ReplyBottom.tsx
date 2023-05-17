@@ -28,7 +28,7 @@ import ReportForm from "./ReportForm"
 import ChildReplyList from "./ChildReplyList"
 
 const ReplyBottom = defineComponent(
-  (props: { reply: ReplyDto["ReplyController/FULL_REPLY"] }) => {
+  (props: { reply: ReplyDto["ReplyFetcher/FULL_REPLY"] }) => {
     const session = useSessionStore()
     const showPop = ref(false)
     const showEdit = ref(false)

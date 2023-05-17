@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.member.follow
+package cn.enaium.zensquare.controller
 
 import cn.enaium.zensquare.bll.service.MemberFollowService
 import cn.enaium.zensquare.model.entity.Member
@@ -44,7 +44,7 @@ class MemberFollowController(
      * @param followId follow id
      * @return is followed
      */
-    @GetMapping("/members/{memberId}/followings/{followId}")
+    @GetMapping("/members/{memberId}/followings/{followId}/")
     fun isFollowed(
         @PathVariable memberId: UUID,
         @PathVariable followId: UUID
@@ -92,7 +92,7 @@ class MemberFollowController(
      * @param memberId member id
      * @param followId follow id
      */
-    @PutMapping("/members/{memberId}/followings/{followId}")
+    @PutMapping("/members/{memberId}/followings/{followId}/")
     @ResponseStatus(HttpStatus.OK)
     fun follow(
         @PathVariable memberId: UUID,
@@ -107,7 +107,7 @@ class MemberFollowController(
      * @param memberId member id
      * @param followId follow id
      */
-    @DeleteMapping("/members/{memberId}/followings/{followId}")
+    @DeleteMapping("/members/{memberId}/followings/{followId}/")
     @ResponseStatus(HttpStatus.OK)
     fun unfollow(
         @PathVariable memberId: UUID,

@@ -21,7 +21,7 @@ package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.MemberFollowService
-import cn.enaium.zensquare.controller.member.follow.MemberFollowController
+import cn.enaium.zensquare.controller.MemberFollowController
 import cn.enaium.zensquare.model.entity.Member
 import cn.enaium.zensquare.model.entity.id
 import cn.enaium.zensquare.repository.MemberFollowRepository

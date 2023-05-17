@@ -54,8 +54,8 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member cancel dislike reply
 - [x] Member follow member
 - [x] Member unfollow member
-- [ ] Private letter between multiple members
-- [ ] Private letter between members
+- [x] Private letter between multiple members
+- [x] Private letter between members
 - [ ] Alert of posting, replying, liking, etc.
 - [x] Member rank
 - [x] Member report thread

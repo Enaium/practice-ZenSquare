@@ -71,4 +71,10 @@ interface Member : BaseEntity {
 
     @OneToMany(mappedBy = "targetMember")
     val reports: List<Report>
+
+    /**
+     * conversations that this member is in
+     */
+    @ManyToMany(mappedBy = "members")
+    val conversations: List<Thread>
 }

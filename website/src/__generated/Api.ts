@@ -1,16 +1,14 @@
 import type { Executor } from './';
 
-import { CategoryController, ForumController, ImageController, MemberController, MemberFollowController, MemberLikeController, MemberProfileController, MemberRankController, ReplyController, ReportController, SessionController, ThreadController } from './services';
+import { CategoryController, ConversationController, ForumController, ImageController, MemberController, MemberFollowController, MemberLikeController, MemberProfileController, MemberRankController, PostController, ReplyController, ReportController, SessionController } from './services';
 
 export class Api {
     
     readonly categoryController: CategoryController;
     
+    readonly conversationController: ConversationController;
+    
     readonly forumController: ForumController;
-    
-    readonly threadController: ThreadController;
-    
-    readonly replyController: ReplyController;
     
     readonly imageController: ImageController;
     
@@ -24,21 +22,26 @@ export class Api {
     
     readonly memberRankController: MemberRankController;
     
+    readonly postController: PostController;
+    
+    readonly replyController: ReplyController;
+    
     readonly reportController: ReportController;
     
     readonly sessionController: SessionController;
     
     constructor(executor: Executor) {
         this.categoryController = new CategoryController(executor);
+        this.conversationController = new ConversationController(executor);
         this.forumController = new ForumController(executor);
-        this.threadController = new ThreadController(executor);
-        this.replyController = new ReplyController(executor);
         this.imageController = new ImageController(executor);
         this.memberController = new MemberController(executor);
         this.memberFollowController = new MemberFollowController(executor);
         this.memberLikeController = new MemberLikeController(executor);
         this.memberProfileController = new MemberProfileController(executor);
         this.memberRankController = new MemberRankController(executor);
+        this.postController = new PostController(executor);
+        this.replyController = new ReplyController(executor);
         this.reportController = new ReportController(executor);
         this.sessionController = new SessionController(executor);
     }

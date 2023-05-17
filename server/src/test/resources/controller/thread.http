@@ -1,4 +1,7 @@
 ### ThreadController
 
-### PUT register
+### PUT
 GET {{host}}/categories/forums/threads/latest/
+
+### GET
+GET {{host}}/categories/forums/f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6/threads/posts/

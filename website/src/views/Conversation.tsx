@@ -17,23 +17,27 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import Editor from "@/components/Editor"
-import { NForm, NFormItem, NInput } from "naive-ui"
-import { defineComponent } from "vue"
+import type { RequestOf } from "@/__generated"
+import { api } from "@/common/ApiInstance"
+import Thread from "@/components/Thread"
+import { useQuery } from "@tanstack/vue-query"
+import { NSpin } from "naive-ui"
+import { defineComponent, reactive } from "vue"
+import { useRoute } from "vue-router"
 
 const Conversation = defineComponent(() => {
-  return () => (
-    <>
-      <NForm labelPlacement={"left"} labelWidth={100}>
-        <NFormItem label={"title"}>
-          <NInput />
-        </NFormItem>
-        <NFormItem label={"content"}>
-          <Editor />
-        </NFormItem>
-      </NForm>
-    </>
-  )
+  const route = useRoute()
+
+  const options = reactive<RequestOf<typeof api.conversationController.findConversation>>({
+    threadId: route.params.thread as string
+  })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["findConversation", options],
+    queryFn: () => api.conversationController.findConversation(options)
+  })
+
+  return () => (isLoading.value || !data.value ? <NSpin /> : <Thread thread={data.value} />)
 })
 
 export default Conversation

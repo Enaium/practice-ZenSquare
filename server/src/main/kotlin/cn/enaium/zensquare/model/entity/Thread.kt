@@ -80,4 +80,13 @@ interface Thread : BaseEntity {
 
     @OneToMany(mappedBy = "targetThread")
     val reports: List<Report>
+
+    val type: ThreadType
+
+    /**
+     * the member of the thread(conversation)
+     */
+    @ManyToMany
+    @JoinTable(name = "conversation_mapping", joinColumnName = "thread_id", inverseJoinColumnName = "member_id")
+    val members: List<Member>
 }

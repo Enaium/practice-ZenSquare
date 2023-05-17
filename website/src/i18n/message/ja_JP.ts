@@ -89,6 +89,20 @@ export default {
     follow: {
       followers: "フォロワー",
       followings: "フォロー中"
+    },
+    conversations: {
+      member: {
+        label: "メンバー",
+        message: "メンバーを選択してください"
+      },
+      title: {
+        label: "タイトル",
+        message: "タイトルを入力してください"
+      },
+      content: {
+        label: "内容",
+        message: "内容を入力してください"
+      }
     }
   },
   component: {

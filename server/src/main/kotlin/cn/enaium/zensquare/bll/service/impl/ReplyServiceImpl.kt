@@ -21,14 +21,19 @@ package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
 import cn.enaium.zensquare.bll.service.ReplyService
-import cn.enaium.zensquare.model.entity.Reply
+import cn.enaium.zensquare.model.entity.Thread
+import cn.enaium.zensquare.model.entity.ThreadType
+import cn.enaium.zensquare.model.entity.id
 import cn.enaium.zensquare.model.entity.input.ReplyInput
 import cn.enaium.zensquare.repository.ReplyRepository
 import cn.enaium.zensquare.repository.ThreadRepository
 import cn.enaium.zensquare.util.getSession
 import cn.enaium.zensquare.util.i18n
+import org.babyfish.jimmer.sql.kt.KSqlClient
+import org.babyfish.jimmer.sql.kt.ast.expression.eq
+import org.babyfish.jimmer.sql.kt.ast.table.target
+import org.babyfish.jimmer.sql.kt.source
 import org.springframework.context.MessageSource
-import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
@@ -39,6 +44,7 @@ import org.springframework.stereotype.Service
 class ReplyServiceImpl(
     val replyRepository: ReplyRepository,
     val threadRepository: ThreadRepository,
+    val sql: KSqlClient,
     val messageSource: MessageSource
 ) : ReplyService {
     /**
@@ -52,20 +58,28 @@ class ReplyServiceImpl(
             val reply = replyRepository.findNullable(it)
                 ?: throw ServiceException(
                     HttpStatus.NOT_FOUND,
-                    messageSource.i18n("controller.forum.thread.reply.doesntExist")
+                    messageSource.i18n("controller.thread.reply.doesntExist")
                 )// If reply is null
             if (reply.threadId != replyInput.threadId) {// If parentId is not null and threadId is not equal
                 throw ServiceException(
                     HttpStatus.BAD_REQUEST,
-                    messageSource.i18n("controller.forum.thread.reply.wrongThread")
+                    messageSource.i18n("controller.thread.reply.wrongThread")
                 )
             }
         }
         replyInput.threadId?.let {// If threadId is not null
-            threadRepository.findNullable(it) ?: throw ServiceException(
+            val thread = threadRepository.findNullable(it) ?: throw ServiceException(
                 HttpStatus.NOT_FOUND,
-                messageSource.i18n("controller.forum.thread.doesntExist")
-            )// If thread is null
+                messageSource.i18n("controller.thread.doesntExist")
+            )
+            if (thread.type == ThreadType.CONVERSATION) {// If threadId is not null and type is conversation
+                sql.queries.forList(Thread::members) {
+                    where(table.source.id eq getSession(), table.target.id eq thread.id)
+                    select(table.target)
+                }.fetchOneOrNull() ?: throw ServiceException(
+                    HttpStatus.FORBIDDEN, messageSource.i18n("error.forbidden")
+                )// If threadId is not null and type is conversation and member is not in the conversation
+            }
         }
         replyRepository.save(replyInput)
     }

@@ -63,9 +63,7 @@ class MemberServiceImpl(
         }
 
         memberInput.password = BCrypt.hashpw(memberInput.password)
-        memberRepository.save(memberInput) {
-            setMode(SaveMode.INSERT_ONLY)
-        }
+        memberRepository.insert(memberInput)
     }
 
     /**

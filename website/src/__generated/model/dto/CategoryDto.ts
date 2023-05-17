@@ -6,7 +6,7 @@ export type CategoryDto = {
         readonly name: string, 
         readonly description: string
     }, 
-    'CategoryController/DEFAULT_CATEGORY': {
+    'CategoryFetcher/DEFAULT_CATEGORY': {
         readonly id: string, 
         readonly createdTime: string, 
         readonly modifiedTime: string, 

@@ -19,7 +19,7 @@
 
 package cn.enaium.zensquare.repository
 
-import cn.enaium.zensquare.controller.member.rank.MemberRankController.Companion.DEFAULT_MEMBER_RANK
+import cn.enaium.zensquare.controller.MemberRankController.Companion.DEFAULT_MEMBER_RANK
 import cn.enaium.zensquare.model.entity.*
 import org.babyfish.jimmer.spring.repository.KRepository
 import org.babyfish.jimmer.sql.kt.ast.expression.count
@@ -80,7 +80,7 @@ interface MemberRankRepository : KRepository<Member, UUID> {
         val content = sql.findByIds(DEFAULT_MEMBER_RANK, sql.createQuery(Member::class) {
             groupBy(table.id)
             orderBy((count(table.asTableEx().threads.id) + count(table.asTableEx().replies.id)).desc())
-            select(table.id).limit(100, 0)
+            select(table.id).limit(100)
         }.execute()).values.toList()
         return PageImpl(content, pageable, content.size.toLong())
     }

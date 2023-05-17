@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.member.like
+package cn.enaium.zensquare.controller
 
 import cn.enaium.zensquare.bll.service.MemberLikeService
 import cn.enaium.zensquare.model.entity.MemberLike

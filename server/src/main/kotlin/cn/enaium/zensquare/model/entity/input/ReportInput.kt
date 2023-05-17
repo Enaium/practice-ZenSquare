@@ -30,7 +30,7 @@ import java.util.*
 
 data class ReportInput(
     val id: UUID?,
-    val memberId: UUID?,
+    var memberId: UUID?,
     val target: UUID?,
     val reason: String?,
     val type: ReportType?,

@@ -7,7 +7,7 @@ export class ReplyController {
     constructor(private executor: Executor) {}
     
     async findChildrenReplies(options: ReplyControllerOptions['findChildrenReplies']): Promise<
-        Page<ReplyDto['ReplyController/FULL_REPLY']>
+        Page<ReplyDto['ReplyFetcher/FULL_REPLY']>
     > {
         let _uri = '/categories/forum/thread/replies/';
         _uri += encodeURIComponent(options.replyId);
@@ -28,11 +28,11 @@ export class ReplyController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ReplyDto['ReplyController/FULL_REPLY']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ReplyDto['ReplyFetcher/FULL_REPLY']>
     }
     
     async findReplies(options: ReplyControllerOptions['findReplies']): Promise<
-        Page<ReplyDto['ReplyController/FULL_REPLY']>
+        Page<ReplyDto['ReplyFetcher/FULL_REPLY']>
     > {
         let _uri = '/categories/forum/thread/';
         _uri += encodeURIComponent(options.threadId);
@@ -53,7 +53,7 @@ export class ReplyController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ReplyDto['ReplyController/FULL_REPLY']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ReplyDto['ReplyFetcher/FULL_REPLY']>
     }
     
     async saveReply(options: ReplyControllerOptions['saveReply']): Promise<

@@ -3,11 +3,9 @@ export type AllErrors = {};
 export type ApiErrors = {
     "categoryController": {
     },
+    "conversationController": {
+    },
     "forumController": {
-    },
-    "threadController": {
-    },
-    "replyController": {
     },
     "imageController": {
     },
@@ -20,6 +18,10 @@ export type ApiErrors = {
     "memberProfileController": {
     },
     "memberRankController": {
+    },
+    "postController": {
+    },
+    "replyController": {
     },
     "reportController": {
     },

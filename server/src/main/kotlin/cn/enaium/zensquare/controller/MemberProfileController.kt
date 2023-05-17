@@ -17,7 +17,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.controller.member.profile
+package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.dev33.satoken.stp.StpUtil
@@ -68,7 +68,7 @@ class MemberProfileController(
      * @return MemberProfile
      */
     @SaIgnore
-    @GetMapping("/members/{memberId}/profiles/full")
+    @GetMapping("/members/{memberId}/profiles/full/")
     fun findFullProfile(@PathVariable memberId: UUID): @FetchBy("FULL_MEMBER_PROFILE") MemberProfile? {
         return memberProfileRepository.findByMemberId(memberId, FULL_MEMBER_PROFILE)
     }

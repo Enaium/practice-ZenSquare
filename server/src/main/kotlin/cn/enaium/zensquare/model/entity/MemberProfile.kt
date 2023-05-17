@@ -40,6 +40,7 @@ interface MemberProfile : BaseEntity {
     @OneToOne
     val member: Member
 
+    @Key
     val nickname: String?
 
     val birthday: LocalDate?

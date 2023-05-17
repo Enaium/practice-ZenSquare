@@ -7,16 +7,16 @@ export class ForumController {
     constructor(private executor: Executor) {}
     
     async findForum(options: ForumControllerOptions['findForum']): Promise<
-        ForumDto['ForumController/DEFAULT_FORUM'] | undefined
+        ForumDto['ForumFetcher/DEFAULT_FORUM'] | undefined
     > {
         let _uri = '/categories/forums/';
         _uri += encodeURIComponent(options.id);
         _uri += '/';
-        return (await this.executor({uri: _uri, method: 'GET'})) as ForumDto['ForumController/DEFAULT_FORUM'] | undefined
+        return (await this.executor({uri: _uri, method: 'GET'})) as ForumDto['ForumFetcher/DEFAULT_FORUM'] | undefined
     }
     
     async findForums(options: ForumControllerOptions['findForums']): Promise<
-        Page<ForumDto['ForumController/DEFAULT_FORUM']>
+        Page<ForumDto['ForumFetcher/DEFAULT_FORUM']>
     > {
         let _uri = '/categories/';
         _uri += encodeURIComponent(options.categoryId);
@@ -37,7 +37,7 @@ export class ForumController {
             _uri += encodeURIComponent(_value);
             _separator = '&';
         }
-        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ForumDto['ForumController/DEFAULT_FORUM']>
+        return (await this.executor({uri: _uri, method: 'GET'})) as Page<ForumDto['ForumFetcher/DEFAULT_FORUM']>
     }
 }
 

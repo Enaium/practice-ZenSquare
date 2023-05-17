@@ -1,5 +1,5 @@
 export type ForumDto = {
-    'ForumController/DEFAULT_FORUM': {
+    'ForumFetcher/DEFAULT_FORUM': {
         readonly id: string, 
         readonly createdTime: string, 
         readonly modifiedTime: string, 

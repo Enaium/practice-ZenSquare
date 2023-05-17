@@ -42,7 +42,7 @@ const SelectForum = defineComponent(() => {
               <NListItem key={forumIndex}>
                 <RouterLink
                   to={{
-                    name: "post-thread",
+                    name: "new-post",
                     params: { forum: forum.id }
                   }}
                 >
