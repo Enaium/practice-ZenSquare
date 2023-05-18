@@ -17,15 +17,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type { RequestOf } from "@/__generated"
 import type { MemberProfileDto } from "@/__generated/model/dto"
 import type { Page } from "@/__generated/model/static"
 import { api } from "@/common/ApiInstance"
 import Editor from "@/components/Editor"
-import { NButton, NCard, NForm, NFormItem, NInput, NSelect, c, type SelectOption, useMessage } from "naive-ui"
+import { NButton, NCard, NForm, NFormItem, NInput, NSelect, c, type SelectOption, useMessage, NSpin } from "naive-ui"
 import type { FormInst } from "naive-ui/lib"
 import { defineComponent, reactive, ref } from "vue"
+import { useRoute } from "vue-router"
+import { useQuery } from "@tanstack/vue-query"
+import ThreadForm from "@/components/ThreadForm"
 
 const NewConversation = defineComponent(() => {
+  const route = useRoute()
+
   const message = useMessage()
 
   const form = reactive<{
@@ -35,7 +41,7 @@ const NewConversation = defineComponent(() => {
   }>({})
 
   const loading = ref(false)
-  const options = ref<SelectOption[]>([])
+  const optionMembers = ref<SelectOption[]>([])
 
   const formRef = ref<FormInst | null>(null)
 
@@ -51,7 +57,7 @@ const NewConversation = defineComponent(() => {
 
   const searchMember = (query: string) => {
     if (!query.trim().length) {
-      options.value = []
+      optionMembers.value = []
       return
     }
 
@@ -61,7 +67,7 @@ const NewConversation = defineComponent(() => {
       api.memberProfileController
         .findComplexProfiles({ memberProfileInput: { nickname: query } })
         .then((value: Page<MemberProfileDto["MemberProfileController/DEFAULT_MEMBER_PROFILE"]>) => {
-          options.value = value.content.map((profile) => {
+          optionMembers.value = value.content.map((profile) => {
             return {
               label: profile.nickname,
               value: profile.member.id
@@ -72,8 +78,24 @@ const NewConversation = defineComponent(() => {
     }, 1000)
   }
 
-  return () => (
-    <>
+  const options = reactive<RequestOf<typeof api.conversationController.findConversation>>({
+    threadId: route.params.thread as string
+  })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["findConversation", options],
+    queryFn: () => api.conversationController.findConversation(options),
+    enabled: route.params.thread !== undefined
+  })
+
+  return () =>
+    route.params.thread !== undefined ? (
+      isLoading.value && !data.value ? (
+        <NSpin />
+      ) : (
+        <ThreadForm thread={{ ...data.value }} />
+      )
+    ) : (
       <NForm labelPlacement={"left"} model={form} ref={formRef}>
         <NFormItem
           path={"members"}
@@ -86,7 +108,7 @@ const NewConversation = defineComponent(() => {
             filterable
             placeholder={window.$i18n("view.conversations.member.message")}
             loading={loading.value}
-            options={options.value}
+            options={optionMembers.value}
             clearable
             remote
             clearFilterAfterSelect={false}
@@ -113,8 +135,7 @@ const NewConversation = defineComponent(() => {
           </NButton>
         </div>
       </NForm>
-    </>
-  )
+    )
 })
 
 export default NewConversation

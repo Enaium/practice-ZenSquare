@@ -130,29 +130,33 @@ class ConversationServiceImpl(
             )
         }
 
-        //If members is empty throw error, members is required
-        if (members.distinct().isEmpty()) {
-            throw ServiceException(
-                HttpStatus.BAD_REQUEST,
-                messageSource.i18n("controller.thread.membersAreEmpty")
-            )
-        }
-
-        //If members contains null throw error, members can't contain null
-        members.forEach {
-            if (!memberRepository.existsById(it)) {
+        threadInput.id?.let {//If id is not null update conversation
+            threadRepository.update(threadInput)
+        } ?: let {//If id is null create conversation
+            //If members is empty throw error, members is required
+            if (members.distinct().isEmpty()) {
                 throw ServiceException(
                     HttpStatus.BAD_REQUEST,
-                    messageSource.i18n("controller.thread.memberDoesntExist")
+                    messageSource.i18n("controller.thread.membersAreEmpty")
                 )
             }
+
+            //If members contains null throw error, members can't contain null
+            members.forEach {
+                if (!memberRepository.existsById(it)) {
+                    throw ServiceException(
+                        HttpStatus.BAD_REQUEST,
+                        messageSource.i18n("controller.thread.memberDoesntExist")
+                    )
+                }
+            }
+
+            //Insert conversation
+            val thread = threadRepository.insert(threadInput)
+
+            //Insert members
+            sql.getAssociations(Thread::members)
+                .batchSave(listOf(thread.id), members.toMutableSet().apply { add(threadInput.memberId!!) })
         }
-
-        //Insert conversation
-        val thread = threadRepository.insert(threadInput)
-
-        //Insert members
-        sql.getAssociations(Thread::members)
-            .batchSave(listOf(thread.id), members.toMutableSet().apply { add(threadInput.memberId!!) })
     }
 }

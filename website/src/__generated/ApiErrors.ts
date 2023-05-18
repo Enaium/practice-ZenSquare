@@ -26,5 +26,7 @@ export type ApiErrors = {
     "reportController": {
     },
     "sessionController": {
+    },
+    "threadController": {
     }
 };

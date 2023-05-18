@@ -24,3 +24,5 @@ export { ReportController } from './ReportController';
 export type { ReportControllerOptions } from './ReportController';
 export { SessionController } from './SessionController';
 export type { SessionControllerOptions } from './SessionController';
+export { ThreadController } from './ThreadController';
+export type { ThreadControllerOptions } from './ThreadController';

@@ -109,6 +109,11 @@ const router = createRouter({
           component: <NewConversation />
         },
         {
+          path: "conversations/:thread/modify",
+          name: "modify-conversation",
+          component: <NewConversation />
+        },
+        {
           path: "conversations/:thread",
           name: "conversations",
           component: <Conversation />

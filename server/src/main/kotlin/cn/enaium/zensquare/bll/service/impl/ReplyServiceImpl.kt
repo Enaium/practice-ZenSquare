@@ -74,7 +74,7 @@ class ReplyServiceImpl(
             )
             if (thread.type == ThreadType.CONVERSATION) {// If threadId is not null and type is conversation
                 sql.queries.forList(Thread::members) {
-                    where(table.source.id eq getSession(), table.target.id eq thread.id)
+                    where(table.source.id eq thread.id, table.target.id eq getSession())
                     select(table.target)
                 }.fetchOneOrNull() ?: throw ServiceException(
                     HttpStatus.FORBIDDEN, messageSource.i18n("error.forbidden")

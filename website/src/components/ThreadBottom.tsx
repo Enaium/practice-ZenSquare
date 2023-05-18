@@ -67,12 +67,17 @@ const ThreadBottom = defineComponent(
                       <NButton
                         text
                         type={"primary"}
-                        onClick={() =>
-                          router.push({
-                            name: "modify-post",
-                            params: { thread: props.thread.id }
-                          })
-                        }
+                        onClick={() => {
+                          props.thread.type == "POST"
+                            ? router.push({
+                                name: "modify-post",
+                                params: { thread: props.thread.id }
+                              })
+                            : router.push({
+                                name: "modify-conversation",
+                                params: { thread: props.thread.id }
+                              })
+                        }}
                       >
                         {window.$i18n("component.button.edit")}
                       </NButton>

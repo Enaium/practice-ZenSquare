@@ -32,8 +32,8 @@ const ThreadForm = defineComponent(
     const submit = () => {
       formRef.value?.validate((errors) => {
         if (!errors) {
-          api.postController
-            .savePost({ body: props.thread })
+          api.threadController
+            .updateThread({ body: props.thread })
             .then(() => {
               message.success(window.$i18n("common.success"))
             })

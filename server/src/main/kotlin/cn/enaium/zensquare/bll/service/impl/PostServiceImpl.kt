@@ -99,21 +99,21 @@ class PostServiceImpl(
         threadInput.memberId = getSession()
         threadInput.type = ThreadType.POST
 
-        //Check title
-        if (threadInput.title.isNullOrBlank()) {
-            throw ServiceException(
-                HttpStatus.BAD_REQUEST,
-                messageSource.i18n("controller.thread.titleIsEmpty")
-            )
-        }
-
-        //Check content
-        if (threadInput.content.isNullOrBlank()) {
-            throw ServiceException(
-                HttpStatus.BAD_REQUEST,
-                messageSource.i18n("controller.thread.contentIsEmpty")
-            )
-        }
+//        //Check title
+//        if (threadInput.title.isNullOrBlank()) {
+//            throw ServiceException(
+//                HttpStatus.BAD_REQUEST,
+//                messageSource.i18n("controller.thread.titleIsEmpty")
+//            )
+//        }
+//
+//        //Check content
+//        if (threadInput.content.isNullOrBlank()) {
+//            throw ServiceException(
+//                HttpStatus.BAD_REQUEST,
+//                messageSource.i18n("controller.thread.contentIsEmpty")
+//            )
+//        }
 
         //Check forum exist
         if (threadInput.forumId == null) {

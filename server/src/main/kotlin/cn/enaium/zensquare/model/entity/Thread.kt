@@ -49,7 +49,7 @@ interface Thread : BaseEntity {
     val forumId: UUID?
 
     @ManyToOne
-    val forum: Forum
+    val forum: Forum?
 
     @OneToMany(mappedBy = "thread")
     val replies: List<Reply>
