@@ -21,6 +21,7 @@ package cn.enaium.zensquare.controller
 
 import cn.enaium.zensquare.bll.service.MemberLikeService
 import cn.enaium.zensquare.model.entity.MemberLike
+import cn.enaium.zensquare.model.entity.MemberLikeType
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -58,7 +59,7 @@ class MemberLikeController(val memberLikeService: MemberLikeService) {
     fun like(
         @PathVariable memberId: UUID,
         @PathVariable target: UUID,
-        @RequestParam type: String,
+        @RequestParam type: MemberLikeType,
         @RequestParam dislike: Boolean,
     ): Long {
         return memberLikeService.like(memberId, target, type, dislike)
