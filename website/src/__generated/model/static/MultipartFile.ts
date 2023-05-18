@@ -1,8 +1,8 @@
-import type { InputStream, Resource, byte } from './';
+import type { InputStream, Resource } from './';
 
 export interface MultipartFile {
     
-    readonly bytes: ReadonlyArray<byte>;
+    readonly bytes: ReadonlyArray<number>;
     
     readonly contentType?: string;
     

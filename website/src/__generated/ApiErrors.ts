@@ -1,6 +1,8 @@
 export type AllErrors = {};
 
 export type ApiErrors = {
+    "alertController": {
+    },
     "categoryController": {
     },
     "conversationController": {

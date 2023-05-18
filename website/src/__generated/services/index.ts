@@ -1,3 +1,5 @@
+export { AlertController } from './AlertController';
+export type { AlertControllerOptions } from './AlertController';
 export { CategoryController } from './CategoryController';
 export type { CategoryControllerOptions } from './CategoryController';
 export { ConversationController } from './ConversationController';

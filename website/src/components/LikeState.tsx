@@ -22,9 +22,10 @@ import { NButton, NIcon, useMessage } from "naive-ui"
 import { Heart20Regular, HeartBroken20Regular, Vote24Filled } from "@vicons/fluent"
 import { useSessionStore } from "@/store"
 import { api } from "@/common/ApiInstance"
+import type { MemberLikeType } from "@/__generated/model/enums"
 
 const LikeState = defineComponent(
-  (props: { target: string; like: number }) => {
+  (props: { target: string; type: MemberLikeType; like: number }) => {
     const likeCount = ref(props.like)
     const session = useSessionStore()
     const message = useMessage()
@@ -35,6 +36,7 @@ const LikeState = defineComponent(
           .like({
             memberId: session.id,
             target: props.target!,
+            type: props.type,
             dislike: dislike
           })
           .then((data) => {
@@ -70,7 +72,7 @@ const LikeState = defineComponent(
     )
   },
   {
-    props: ["target", "like"]
+    props: ["target", "type", "like"]
   }
 )
 

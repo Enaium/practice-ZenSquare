@@ -38,7 +38,7 @@ const ThreadBottom = defineComponent(
     return () => (
       <>
         <div class={"flex justify-between"}>
-          <LikeState target={props.thread.id} like={props.thread.like} />
+          <LikeState target={props.thread.id} type={"THREAD"} like={props.thread.like} />
           <NPopover
             trigger={"click"}
             onClickoutside={() => (showPop.value = false)}

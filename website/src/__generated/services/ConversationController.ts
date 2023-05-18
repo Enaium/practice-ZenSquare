@@ -1,6 +1,6 @@
 import type { Executor } from '../';
 import type { ThreadDto } from '../model/dto';
-import type { Page, ThreadInput, UUID, Unit } from '../model/static';
+import type { Page, ThreadInput, Unit } from '../model/static';
 
 export class ConversationController {
     

@@ -1,8 +1,10 @@
 import type { Executor } from './';
 
-import { CategoryController, ConversationController, ForumController, ImageController, MemberController, MemberFollowController, MemberLikeController, MemberProfileController, MemberRankController, PostController, ReplyController, ReportController, SessionController, ThreadController } from './services';
+import { AlertController, CategoryController, ConversationController, ForumController, ImageController, MemberController, MemberFollowController, MemberLikeController, MemberProfileController, MemberRankController, PostController, ReplyController, ReportController, SessionController, ThreadController } from './services';
 
 export class Api {
+    
+    readonly alertController: AlertController;
     
     readonly categoryController: CategoryController;
     
@@ -33,6 +35,7 @@ export class Api {
     readonly threadController: ThreadController;
     
     constructor(executor: Executor) {
+        this.alertController = new AlertController(executor);
         this.categoryController = new CategoryController(executor);
         this.conversationController = new ConversationController(executor);
         this.forumController = new ForumController(executor);

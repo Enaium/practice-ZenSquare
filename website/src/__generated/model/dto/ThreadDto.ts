@@ -6,9 +6,11 @@ export type ThreadDto = {
         readonly createdTime: string, 
         readonly modifiedTime: string, 
         readonly title: string, 
-        readonly memberId?: string, 
+        readonly memberId: string, 
         readonly forumId?: string, 
         readonly type: ThreadType, 
+        readonly essence: boolean, 
+        readonly priority: number, 
         readonly member: {
             readonly id: string, 
             readonly profile?: {
@@ -34,9 +36,11 @@ export type ThreadDto = {
         readonly modifiedTime: string, 
         readonly title: string, 
         readonly content: string, 
-        readonly memberId?: string, 
+        readonly memberId: string, 
         readonly forumId?: string, 
         readonly type: ThreadType, 
+        readonly essence: boolean, 
+        readonly priority: number, 
         readonly member: {
             readonly id: string, 
             readonly profile?: {
@@ -67,9 +71,11 @@ export type ThreadDto = {
         readonly modifiedTime: string, 
         readonly title: string, 
         readonly content: string, 
-        readonly memberId?: string, 
+        readonly memberId: string, 
         readonly forumId?: string, 
         readonly type: ThreadType, 
+        readonly essence: boolean, 
+        readonly priority: number, 
         readonly member: {
             readonly id: string, 
             readonly profile?: {
@@ -83,7 +89,7 @@ export type ThreadDto = {
                 }
             }
         }, 
-        readonly forum: {
+        readonly forum?: {
             readonly id: string, 
             readonly createdTime: string, 
             readonly modifiedTime: string, 

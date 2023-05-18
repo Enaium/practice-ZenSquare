@@ -1,8 +1,6 @@
-import type { byte } from './';
-
 export interface InetAddress {
     
-    readonly address: ReadonlyArray<byte>;
+    readonly address: ReadonlyArray<number>;
     
     readonly anyLocalAddress: boolean;
     

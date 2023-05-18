@@ -1,8 +1,8 @@
-import type { InputStream, URI, URL, byte } from './';
+import type { InputStream, URI, URL } from './';
 
 export interface Resource {
     
-    readonly contentAsByteArray: ReadonlyArray<byte>;
+    readonly contentAsByteArray: ReadonlyArray<number>;
     
     readonly description: string;
     

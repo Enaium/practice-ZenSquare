@@ -91,6 +91,7 @@ class MemberLikeServiceImpl(
                 val insert = memberLikeRepository.insert(new(MemberLike::class).by {
                     this.memberId = memberId
                     this.target = target
+                    this.type = type
                     this.dislike = true
                 })
 
@@ -131,6 +132,7 @@ class MemberLikeServiceImpl(
                 memberLikeRepository.insert(new(MemberLike::class).by {
                     this.memberId = memberId
                     this.target = target
+                    this.type = type
                     this.dislike = false
                 })
             }

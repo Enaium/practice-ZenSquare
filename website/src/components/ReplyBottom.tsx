@@ -40,7 +40,7 @@ const ReplyBottom = defineComponent(
       <>
         <div class={"flex justify-between"}>
           {/*left*/}
-          <LikeState target={props.reply.id} like={props.reply.like} />
+          <LikeState target={props.reply.id} type={"REPLY"} like={props.reply.like} />
           {/*middle*/}
           {props.reply.child > 0 && (
             <NButton type={"primary"} text onClick={() => (showChild.value = true)}>

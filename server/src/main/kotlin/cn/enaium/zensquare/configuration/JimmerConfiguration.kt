@@ -19,6 +19,8 @@
 
 package cn.enaium.zensquare.configuration
 
+import cn.enaium.zensquare.model.entity.AlertType
+import cn.enaium.zensquare.model.entity.MemberLikeType
 import cn.enaium.zensquare.model.entity.ReportType
 import cn.enaium.zensquare.model.entity.ThreadType
 import org.babyfish.jimmer.sql.EnumItem
@@ -40,6 +42,8 @@ class JimmerConfiguration {
         it.addScalarProvider(UUIDScalar())
         it.addScalarProvider(EnumScalar(ReportType::class))
         it.addScalarProvider(EnumScalar(ThreadType::class))
+        it.addScalarProvider(EnumScalar(AlertType::class))
+        it.addScalarProvider(EnumScalar(MemberLikeType::class))
     }
 
     private class UUIDScalar : ScalarProvider<UUID, PGobject>() {

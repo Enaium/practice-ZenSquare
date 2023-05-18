@@ -1,5 +1,6 @@
 import type { Executor } from '../';
 import type { MemberLikeDto } from '../model/dto';
+import type { MemberLikeType } from '../model/enums';
 
 export class MemberLikeController {
     
@@ -22,6 +23,8 @@ export class MemberLikeController {
         _uri += '/likes/';
         _uri += encodeURIComponent(options.target);
         _uri += '/';
+        _uri += encodeURIComponent(options.type);
+        _uri += '/';
         let _separator = _uri.indexOf('?') === -1 ? '?' : '&';
         let _value: any = undefined;
         _value = options.dislike;
@@ -40,6 +43,7 @@ export type MemberLikeControllerOptions = {
     'like': {
         readonly memberId: string, 
         readonly target: string, 
+        readonly type: MemberLikeType, 
         readonly dislike: boolean
     }
 }
