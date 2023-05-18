@@ -26,6 +26,32 @@ CREATE SCHEMA forums;
 ALTER SCHEMA forums OWNER TO postgres;
 
 --
+-- Name: alert_type; Type: TYPE; Schema: forums; Owner: postgres
+--
+
+CREATE TYPE forums.alert_type AS ENUM (
+    'create_thread',
+    'create_reply',
+    'like_thread',
+    'like_reply'
+);
+
+
+ALTER TYPE forums.alert_type OWNER TO postgres;
+
+--
+-- Name: member_like_type; Type: TYPE; Schema: forums; Owner: postgres
+--
+
+CREATE TYPE forums.member_like_type AS ENUM (
+    'thread',
+    'reply'
+);
+
+
+ALTER TYPE forums.member_like_type OWNER TO postgres;
+
+--
 -- Name: report_type; Type: TYPE; Schema: forums; Owner: postgres
 --
 
@@ -63,31 +89,15 @@ CREATE TABLE forums.alert (
     created_time timestamp without time zone NOT NULL,
     modified_time timestamp without time zone NOT NULL,
     id uuid NOT NULL,
-    alert_type_id uuid NOT NULL,
     source_member_id uuid NOT NULL,
     target_member_id uuid NOT NULL,
     target uuid NOT NULL,
-    unread boolean DEFAULT true NOT NULL
+    unread boolean DEFAULT true NOT NULL,
+    type forums.alert_type NOT NULL
 );
 
 
 ALTER TABLE forums.alert OWNER TO postgres;
-
---
--- Name: alert_type; Type: TABLE; Schema: forums; Owner: postgres
---
-
-CREATE TABLE forums.alert_type (
-    deleted boolean DEFAULT false NOT NULL,
-    created_time timestamp without time zone NOT NULL,
-    modified_time timestamp without time zone NOT NULL,
-    id uuid NOT NULL,
-    name character varying(10) NOT NULL,
-    description character varying(20) NOT NULL
-);
-
-
-ALTER TABLE forums.alert_type OWNER TO postgres;
 
 --
 -- Name: category; Type: TABLE; Schema: forums; Owner: postgres
@@ -189,7 +199,8 @@ CREATE TABLE forums.member_like (
     id uuid NOT NULL,
     member_id uuid NOT NULL,
     target uuid NOT NULL,
-    dislike boolean NOT NULL
+    dislike boolean NOT NULL,
+    type forums.member_like_type NOT NULL
 );
 
 
@@ -313,7 +324,9 @@ CREATE TABLE forums.thread (
     content text NOT NULL,
     member_id uuid NOT NULL,
     forum_id uuid,
-    type forums.thread_type NOT NULL
+    type forums.thread_type NOT NULL,
+    essence boolean DEFAULT false NOT NULL,
+    priority integer DEFAULT 0 NOT NULL
 );
 
 
@@ -323,15 +336,7 @@ ALTER TABLE forums.thread OWNER TO postgres;
 -- Data for Name: alert; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.alert (deleted, created_time, modified_time, id, alert_type_id, source_member_id, target_member_id, target, unread) FROM stdin;
-\.
-
-
---
--- Data for Name: alert_type; Type: TABLE DATA; Schema: forums; Owner: postgres
---
-
-COPY forums.alert_type (deleted, created_time, modified_time, id, name, description) FROM stdin;
+COPY forums.alert (deleted, created_time, modified_time, id, source_member_id, target_member_id, target, unread, type) FROM stdin;
 \.
 
 
@@ -397,7 +402,7 @@ f	2023-05-04 19:47:14.181918	2023-05-15 16:42:21.446138	0cee6d54-c445-4fff-9c04-
 -- Data for Name: member_like; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.member_like (disabled, created_time, modified_time, id, member_id, target, dislike) FROM stdin;
+COPY forums.member_like (disabled, created_time, modified_time, id, member_id, target, dislike, type) FROM stdin;
 \.
 
 
@@ -556,35 +561,35 @@ fe1f2744-9d6c-47d4-aef1-0898ba822bc6	169f4365-99b6-4587-aac4-44bb43e3030b
 -- Data for Name: thread; Type: TABLE DATA; Schema: forums; Owner: postgres
 --
 
-COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id, type) FROM stdin;
-f	2023-05-08 10:57:12.724329	2023-05-08 10:57:12.723818	2748fe13-42e4-42fb-aee2-ed795834ab94	Test	Test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:14:06.859017	2023-05-11 16:14:06.857461	be55dc0d-750e-41c7-8c51-a8ca807b8253	test	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:24.157192	2023-05-11 16:50:24.157192	f29ac71b-ad67-401e-900a-5cc46723fa4d	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:25.889803	2023-05-11 16:50:25.889803	b9b30116-51bd-4ba3-a342-ab2e53af6f65	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:26.245645	2023-05-11 16:50:26.245645	05f97b25-d34e-40de-879d-3484de077308	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:26.882128	2023-05-11 16:50:26.882128	f795ae4c-d7c4-4d26-8033-a93b476ef712	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:27.093543	2023-05-11 16:50:27.093543	a07e2bce-a6c4-4919-9f26-d3cf07cd4d01	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:27.546678	2023-05-11 16:50:27.546678	804e613f-276c-47e7-a89c-67bfb5173e81	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:28.034152	2023-05-11 16:50:28.034152	29238542-05f0-4716-9043-4f2733627a63	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:28.391084	2023-05-11 16:50:28.391084	2774e359-6ffd-490e-91c5-8085a66cef77	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:28.800708	2023-05-11 16:50:28.800708	1c68e296-e70b-4bf6-a424-49c856c0a4a6	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:29.247294	2023-05-11 16:50:29.246791	aea5ed2e-f00a-45b9-8086-5a1759abae7f	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-11 16:50:29.75933	2023-05-11 16:50:29.75933	b020f1d3-1bff-45e0-9a1e-3061bb0a0c6d	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:31.831156	2023-05-12 09:01:31.830645	f885e58b-daba-4c64-91fd-4ea075ce3841	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:32.339339	2023-05-12 09:01:32.339339	eb542d9b-c4fd-4602-a025-2edffac648a0	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:32.739002	2023-05-12 09:01:32.739002	68a37270-95b7-4bf3-aad3-777d0e76bf64	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:33.108001	2023-05-12 09:01:33.108001	5cf62bf1-5570-4422-baf1-1df362515875	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:33.664268	2023-05-12 09:01:33.664268	1a812d76-a231-4166-8dc4-61886a2191ef	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:34.307129	2023-05-12 09:01:34.307129	2227ff20-a2e8-4ed1-a227-3a77ca272a9b	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:34.425681	2023-05-12 09:01:34.425681	2d9d3863-830f-4fee-bf4b-119b7d38e8ae	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:34.847722	2023-05-12 09:01:34.847722	9a76cf20-f570-43bd-ad64-4887c1bb8307	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:35.197421	2023-05-12 09:01:35.197421	a2529d4c-c219-4d06-b5fd-f6f5aaeab951	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:35.664859	2023-05-12 09:01:35.664859	c5a814a5-44af-48ab-bc8a-ef800b21be0d	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:37.463032	2023-05-12 09:01:37.463032	caff84e6-7142-420e-b14a-43a00c9c4598	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-12 09:01:37.763683	2023-05-12 09:01:37.763683	14243b20-3f3d-411d-a855-b2811ec1c4eb	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post
-f	2023-05-07 11:30:13.115439	2023-05-17 19:32:44.339098	b692ea79-12a8-4e10-aad1-9a35d76bc561	Welcome to ZenSquare	Welcome to ZenSquare! This is the community forum space for our open source community - here we ask questions, give answers and talk about everything related to our projects.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6	post
-f	2023-05-17 19:32:54.782313	2023-05-17 19:32:54.782313	8701320d-4f8d-484c-bd6c-5e9da6209d10	test	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6	post
-f	2023-05-17 15:13:22.492426	2023-05-18 14:50:12.7765	53dfc14b-b2cd-4c84-8283-f25a0b641b24	Conversations	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	\N	conversation
+COPY forums.thread (deleted, created_time, modified_time, id, title, content, member_id, forum_id, type, essence, priority) FROM stdin;
+f	2023-05-08 10:57:12.724329	2023-05-08 10:57:12.723818	2748fe13-42e4-42fb-aee2-ed795834ab94	Test	Test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:14:06.859017	2023-05-11 16:14:06.857461	be55dc0d-750e-41c7-8c51-a8ca807b8253	test	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:24.157192	2023-05-11 16:50:24.157192	f29ac71b-ad67-401e-900a-5cc46723fa4d	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:25.889803	2023-05-11 16:50:25.889803	b9b30116-51bd-4ba3-a342-ab2e53af6f65	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:26.245645	2023-05-11 16:50:26.245645	05f97b25-d34e-40de-879d-3484de077308	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:26.882128	2023-05-11 16:50:26.882128	f795ae4c-d7c4-4d26-8033-a93b476ef712	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:27.093543	2023-05-11 16:50:27.093543	a07e2bce-a6c4-4919-9f26-d3cf07cd4d01	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:27.546678	2023-05-11 16:50:27.546678	804e613f-276c-47e7-a89c-67bfb5173e81	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:28.034152	2023-05-11 16:50:28.034152	29238542-05f0-4716-9043-4f2733627a63	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:28.391084	2023-05-11 16:50:28.391084	2774e359-6ffd-490e-91c5-8085a66cef77	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:28.800708	2023-05-11 16:50:28.800708	1c68e296-e70b-4bf6-a424-49c856c0a4a6	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:29.247294	2023-05-11 16:50:29.246791	aea5ed2e-f00a-45b9-8086-5a1759abae7f	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-11 16:50:29.75933	2023-05-11 16:50:29.75933	b020f1d3-1bff-45e0-9a1e-3061bb0a0c6d	t	t	5b36da4a-80ab-494d-b7b0-8c548b8adebe	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:31.831156	2023-05-12 09:01:31.830645	f885e58b-daba-4c64-91fd-4ea075ce3841	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:32.339339	2023-05-12 09:01:32.339339	eb542d9b-c4fd-4602-a025-2edffac648a0	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:32.739002	2023-05-12 09:01:32.739002	68a37270-95b7-4bf3-aad3-777d0e76bf64	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:33.108001	2023-05-12 09:01:33.108001	5cf62bf1-5570-4422-baf1-1df362515875	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:33.664268	2023-05-12 09:01:33.664268	1a812d76-a231-4166-8dc4-61886a2191ef	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:34.307129	2023-05-12 09:01:34.307129	2227ff20-a2e8-4ed1-a227-3a77ca272a9b	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:34.425681	2023-05-12 09:01:34.425681	2d9d3863-830f-4fee-bf4b-119b7d38e8ae	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:34.847722	2023-05-12 09:01:34.847722	9a76cf20-f570-43bd-ad64-4887c1bb8307	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:35.197421	2023-05-12 09:01:35.197421	a2529d4c-c219-4d06-b5fd-f6f5aaeab951	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:35.664859	2023-05-12 09:01:35.664859	c5a814a5-44af-48ab-bc8a-ef800b21be0d	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:37.463032	2023-05-12 09:01:37.463032	caff84e6-7142-420e-b14a-43a00c9c4598	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-12 09:01:37.763683	2023-05-12 09:01:37.763683	14243b20-3f3d-411d-a855-b2811ec1c4eb	t	t	0cee6d54-c445-4fff-9c04-895b53441dad	9b5d2890-4dea-4f98-a418-afe51a42d82a	post	f	0
+f	2023-05-07 11:30:13.115439	2023-05-17 19:32:44.339098	b692ea79-12a8-4e10-aad1-9a35d76bc561	Welcome to ZenSquare	Welcome to ZenSquare! This is the community forum space for our open source community - here we ask questions, give answers and talk about everything related to our projects.	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6	post	f	0
+f	2023-05-17 19:32:54.782313	2023-05-17 19:32:54.782313	8701320d-4f8d-484c-bd6c-5e9da6209d10	test	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	f6cf0cfe-2d69-4e7d-a2ae-92e74eca3dd6	post	f	0
+f	2023-05-17 15:13:22.492426	2023-05-18 14:50:12.7765	53dfc14b-b2cd-4c84-8283-f25a0b641b24	Conversations	test	5b36da4a-80ab-494d-b7b0-8c548b8adebe	\N	conversation	f	0
 \.
 
 
@@ -594,14 +599,6 @@ f	2023-05-17 15:13:22.492426	2023-05-18 14:50:12.7765	53dfc14b-b2cd-4c84-8283-f2
 
 ALTER TABLE ONLY forums.alert
     ADD CONSTRAINT alert_pk PRIMARY KEY (id);
-
-
---
--- Name: alert_type alert_type_pk; Type: CONSTRAINT; Schema: forums; Owner: postgres
---
-
-ALTER TABLE ONLY forums.alert_type
-    ADD CONSTRAINT alert_type_pk PRIMARY KEY (id);
 
 
 --
@@ -730,14 +727,6 @@ ALTER TABLE ONLY forums.role
 
 ALTER TABLE ONLY forums.forum
     ADD CONSTRAINT thread_pk PRIMARY KEY (id);
-
-
---
--- Name: alert alert_alert_type_id_fk; Type: FK CONSTRAINT; Schema: forums; Owner: postgres
---
-
-ALTER TABLE ONLY forums.alert
-    ADD CONSTRAINT alert_alert_type_id_fk FOREIGN KEY (alert_type_id) REFERENCES forums.alert_type(id);
 
 
 --
