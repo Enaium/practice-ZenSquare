@@ -39,6 +39,7 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member post
 - [ ] Post top
 - [ ] Post essence
+- [ ] Post search
 - [x] Member reply
 - [ ] Member delete thread
 - [ ] Member delete reply
@@ -61,6 +62,8 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 - [x] Member report thread
 - [x] Member report reply
 - [x] Member report member
+- [ ] Member mute
+- [ ] Member ban
 - [ ] Administrator delete thread
 - [ ] Administrator delete reply
 - [ ] Backstage management
