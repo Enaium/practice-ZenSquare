@@ -46,4 +46,6 @@ interface MemberLike : BaseEntity {
     val reply: Reply?
 
     val dislike: Boolean
+
+    val type: MemberLikeType
 }

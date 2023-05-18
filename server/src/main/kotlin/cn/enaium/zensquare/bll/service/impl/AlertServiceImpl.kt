@@ -17,36 +17,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.model.entity.input
+package cn.enaium.zensquare.bll.service.impl
 
+import cn.enaium.zensquare.bll.service.AlertService
+import cn.enaium.zensquare.model.entity.Alert
 import cn.enaium.zensquare.model.entity.AlertType
-import org.babyfish.jimmer.Input
-import org.mapstruct.BeanMapping
-import org.mapstruct.Mapper
-import org.mapstruct.NullValueCheckStrategy
-import org.mapstruct.ReportingPolicy
-import org.mapstruct.factory.Mappers
+import cn.enaium.zensquare.model.entity.by
+import cn.enaium.zensquare.repository.AlertRepository
+import org.babyfish.jimmer.kt.new
+import org.springframework.stereotype.Service
 import java.util.*
 
-data class AlertTypeInput(
-    val id: UUID?,
-    val name: String?,
-    val description: String?,
-) : Input<AlertType> {
-
-    override fun toEntity(): AlertType {
-        return CONVERTER.toAlertType(this)
-    }
-
-    @Mapper
-    interface Converter {
-        @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-        fun toAlertType(input: AlertTypeInput): AlertType
-    }
-
-    companion object {
-        @JvmStatic
-        private val CONVERTER = Mappers.getMapper(Converter::class.java)
+/**
+ * @author Enaium
+ */
+@Service
+class AlertServiceImpl(
+    val alertRepository: AlertRepository
+) : AlertService {
+    override fun createAlert(sourceMemberId: UUID, targetMemberId: UUID, target: UUID, type: AlertType) {
+        alertRepository.save(new(Alert::class).by {
+            this.sourceMemberId = sourceMemberId
+            this.targetMemberId = targetMemberId
+            this.target = target
+            this.type = type
+        })
     }
 }
-

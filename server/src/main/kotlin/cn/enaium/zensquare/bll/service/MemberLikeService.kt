@@ -20,6 +20,7 @@
 package cn.enaium.zensquare.bll.service
 
 import cn.enaium.zensquare.model.entity.MemberLike
+import cn.enaium.zensquare.model.entity.MemberLikeType
 import java.util.*
 
 /**
@@ -28,5 +29,5 @@ import java.util.*
 interface MemberLikeService {
     fun findLike(memberId: UUID, target: UUID): MemberLike?
 
-    fun like(memberId: UUID, target: UUID, dislike: Boolean): Long
+    fun like(memberId: UUID, target: UUID, type: MemberLikeType, dislike: Boolean): Long
 }

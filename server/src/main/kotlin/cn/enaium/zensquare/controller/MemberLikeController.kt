@@ -53,11 +53,14 @@ class MemberLikeController(val memberLikeService: MemberLikeService) {
      * @param dislike dislike
      * @return like count
      */
-    @PutMapping("/members/{memberId}/likes/{target}/")
+    @PutMapping("/members/{memberId}/likes/{target}/{type}")
     @ResponseStatus(HttpStatus.OK)
     fun like(
-        @PathVariable memberId: UUID, @PathVariable target: UUID, @RequestParam dislike: Boolean
+        @PathVariable memberId: UUID,
+        @PathVariable target: UUID,
+        @RequestParam type: String,
+        @RequestParam dislike: Boolean,
     ): Long {
-        return memberLikeService.like(memberId, target, dislike)
+        return memberLikeService.like(memberId, target, type, dislike)
     }
 }

@@ -20,11 +20,13 @@
 package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
+import cn.enaium.zensquare.bll.service.AlertService
 import cn.enaium.zensquare.bll.service.PostService
+import cn.enaium.zensquare.model.entity.AlertType
 import cn.enaium.zensquare.model.entity.Thread
 import cn.enaium.zensquare.model.entity.ThreadType
-import cn.enaium.zensquare.model.entity.input.ThreadInput
 import cn.enaium.zensquare.model.entity.fetcher.ThreadFetcher
+import cn.enaium.zensquare.model.entity.input.ThreadInput
 import cn.enaium.zensquare.repository.ThreadRepository
 import cn.enaium.zensquare.util.getSession
 import cn.enaium.zensquare.util.i18n
@@ -41,6 +43,7 @@ import java.util.*
 @Service
 class PostServiceImpl(
     val threadRepository: ThreadRepository,
+    val alertService: AlertService,
     val messageSource: MessageSource
 ) : PostService {
 
@@ -99,21 +102,21 @@ class PostServiceImpl(
         threadInput.memberId = getSession()
         threadInput.type = ThreadType.POST
 
-//        //Check title
-//        if (threadInput.title.isNullOrBlank()) {
-//            throw ServiceException(
-//                HttpStatus.BAD_REQUEST,
-//                messageSource.i18n("controller.thread.titleIsEmpty")
-//            )
-//        }
-//
-//        //Check content
-//        if (threadInput.content.isNullOrBlank()) {
-//            throw ServiceException(
-//                HttpStatus.BAD_REQUEST,
-//                messageSource.i18n("controller.thread.contentIsEmpty")
-//            )
-//        }
+        //Check title
+        if (threadInput.title.isNullOrBlank()) {
+            throw ServiceException(
+                HttpStatus.BAD_REQUEST,
+                messageSource.i18n("controller.thread.titleIsEmpty")
+            )
+        }
+
+        //Check content
+        if (threadInput.content.isNullOrBlank()) {
+            throw ServiceException(
+                HttpStatus.BAD_REQUEST,
+                messageSource.i18n("controller.thread.contentIsEmpty")
+            )
+        }
 
         //Check forum exist
         if (threadInput.forumId == null) {
@@ -122,6 +125,7 @@ class PostServiceImpl(
                 messageSource.i18n("controller.thread.forumDoesntExist")
             )
         }
-        threadRepository.save(threadInput)
+        val thread = threadRepository.insert(threadInput)
+        alertService.createAlert(thread.memberId, thread.memberId, thread.id, AlertType.CREATE_THREAD)
     }
 }

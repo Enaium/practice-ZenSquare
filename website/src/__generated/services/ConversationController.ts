@@ -63,5 +63,5 @@ export type ConversationControllerOptions = {
         readonly size?: number, 
         readonly memberId: string
     },
-    'saveConversations': {readonly body: ThreadInput, readonly members: ReadonlyArray<UUID>}
+    'saveConversations': {readonly body: ThreadInput, readonly members: ReadonlyArray<string>}
 }

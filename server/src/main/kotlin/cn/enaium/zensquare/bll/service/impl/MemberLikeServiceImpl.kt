@@ -20,10 +20,15 @@
 package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
+import cn.enaium.zensquare.bll.service.AlertService
 import cn.enaium.zensquare.bll.service.MemberLikeService
+import cn.enaium.zensquare.model.entity.AlertType
 import cn.enaium.zensquare.model.entity.MemberLike
+import cn.enaium.zensquare.model.entity.MemberLikeType
 import cn.enaium.zensquare.model.entity.by
 import cn.enaium.zensquare.repository.MemberLikeRepository
+import cn.enaium.zensquare.repository.ReplyRepository
+import cn.enaium.zensquare.repository.ThreadRepository
 import cn.enaium.zensquare.util.checkId
 import cn.enaium.zensquare.util.i18n
 import org.babyfish.jimmer.kt.new
@@ -39,6 +44,9 @@ import java.util.*
 @Service
 class MemberLikeServiceImpl(
     val memberLikeRepository: MemberLikeRepository,
+    val threadRepository: ThreadRepository,
+    val replyRepository: ReplyRepository,
+    val alertService: AlertService,
     val messageSource: MessageSource
 ) : MemberLikeService {
 
@@ -60,7 +68,7 @@ class MemberLikeServiceImpl(
      * @param target thread id or reply id
      * @param dislike dislike
      */
-    override fun like(memberId: UUID, target: UUID, dislike: Boolean): Long {
+    override fun like(memberId: UUID, target: UUID, type: MemberLikeType, dislike: Boolean): Long {
         if (!checkId(memberId)) {
             throw ServiceException(HttpStatus.FORBIDDEN, messageSource.i18n("error.forbidden"))
         }
@@ -80,11 +88,30 @@ class MemberLikeServiceImpl(
                     })
                 }
             } ?: let {// If it is not liked, insert a new like with dislike true
-                memberLikeRepository.insert(new(MemberLike::class).by {
+                val insert = memberLikeRepository.insert(new(MemberLike::class).by {
                     this.memberId = memberId
                     this.target = target
                     this.dislike = true
                 })
+
+                val targetMemberId = when (type) {
+                    MemberLikeType.THREAD -> threadRepository.findNullable(target)?.memberId ?: throw ServiceException(
+                        HttpStatus.NOT_FOUND,
+                        messageSource.i18n("controller.thread.doesntExist")
+                    )
+
+                    MemberLikeType.REPLY -> replyRepository.findNullable(target)?.memberId ?: throw ServiceException(
+                        HttpStatus.NOT_FOUND,
+                        messageSource.i18n("controller.reply.doesntExist")
+                    )
+                }
+
+                alertService.createAlert(
+                    insert.memberId, targetMemberId, insert.target, when (type) {
+                        MemberLikeType.THREAD -> AlertType.LIKE_THREAD
+                        MemberLikeType.REPLY -> AlertType.LIKE_THREAD
+                    }
+                )
             }
         } else {// If dislike is false, like
             memberLikeRepository.findByMemberIdAndTarget(memberId, target)?.let {

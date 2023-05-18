@@ -20,6 +20,7 @@
 package cn.enaium.zensquare.controller
 
 import cn.dev33.satoken.annotation.SaCheckPermission
+import cn.dev33.satoken.annotation.SaCheckRole
 import cn.dev33.satoken.annotation.SaIgnore
 import cn.enaium.zensquare.bll.service.PostService
 import cn.enaium.zensquare.model.entity.Thread
@@ -115,4 +116,16 @@ class PostController(
     fun savePost(@RequestBody threadInput: ThreadInput) {
         postService.createPost(threadInput)
     }
+
+//    @SaCheckRole("thread-manager")
+//    @PutMapping("/categories/forums/threads/posts/{id}/")
+//    fun putEssence(@PathVariable id: UUID) {
+//
+//    }
+//
+//    @SaCheckRole("thread-manager")
+//    @DeleteMapping("/categories/forums/threads/posts/{id}/")
+//    fun deleteEssence(@PathVariable id: UUID) {
+//
+//    }
 }

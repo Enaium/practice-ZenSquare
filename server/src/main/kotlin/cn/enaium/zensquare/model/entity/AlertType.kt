@@ -19,22 +19,21 @@
 
 package cn.enaium.zensquare.model.entity
 
-import cn.enaium.zensquare.model.entity.common.BaseEntity
-import org.babyfish.jimmer.sql.Entity
-import org.babyfish.jimmer.sql.GeneratedValue
-import org.babyfish.jimmer.sql.GenerationType
-import org.babyfish.jimmer.sql.Id
-import org.babyfish.jimmer.sql.meta.UUIDIdGenerator
-import java.util.*
+import org.babyfish.jimmer.sql.EnumItem
 
 /**
  * @author Enaium
  */
-@Entity
-interface AlertType : BaseEntity {
-    @Id
-    @GeneratedValue(generatorType = UUIDIdGenerator::class)
-    val id: UUID
-    val name: String
-    val description: String
+enum class AlertType {
+    @EnumItem(name = "create_thread")
+    CREATE_THREAD,
+
+    @EnumItem(name = "create_reply")
+    CREATE_REPLY,
+
+    @EnumItem(name = "like_thread")
+    LIKE_THREAD,
+
+    @EnumItem(name = "like_reply")
+    LIKE_REPLY,
 }

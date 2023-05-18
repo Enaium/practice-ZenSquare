@@ -20,7 +20,9 @@
 package cn.enaium.zensquare.bll.service.impl
 
 import cn.enaium.zensquare.bll.error.ServiceException
+import cn.enaium.zensquare.bll.service.AlertService
 import cn.enaium.zensquare.bll.service.ReplyService
+import cn.enaium.zensquare.model.entity.AlertType
 import cn.enaium.zensquare.model.entity.Thread
 import cn.enaium.zensquare.model.entity.ThreadType
 import cn.enaium.zensquare.model.entity.id
@@ -44,6 +46,7 @@ import org.springframework.stereotype.Service
 class ReplyServiceImpl(
     val replyRepository: ReplyRepository,
     val threadRepository: ThreadRepository,
+    val alertService: AlertService,
     val sql: KSqlClient,
     val messageSource: MessageSource
 ) : ReplyService {
@@ -58,12 +61,12 @@ class ReplyServiceImpl(
             val reply = replyRepository.findNullable(it)
                 ?: throw ServiceException(
                     HttpStatus.NOT_FOUND,
-                    messageSource.i18n("controller.thread.reply.doesntExist")
+                    messageSource.i18n("controller.reply.doesntExist")
                 )// If reply is null
             if (reply.threadId != replyInput.threadId) {// If parentId is not null and threadId is not equal
                 throw ServiceException(
                     HttpStatus.BAD_REQUEST,
-                    messageSource.i18n("controller.thread.reply.wrongThread")
+                    messageSource.i18n("controller.reply.wrongThread")
                 )
             }
         }
@@ -81,6 +84,23 @@ class ReplyServiceImpl(
                 )// If threadId is not null and type is conversation and member is not in the conversation
             }
         }
-        replyRepository.save(replyInput)
+
+        replyInput.id?.let {
+            replyRepository.update(replyInput)
+        } ?: let {
+            val reply = replyRepository.insert(replyInput)
+
+            val targetMemberId = reply.parentId?.let {
+                replyRepository.findNullable(it)?.memberId ?: throw ServiceException(
+                    HttpStatus.NOT_FOUND,
+                    messageSource.i18n("controller.reply.doesntExist")
+                )
+            } ?: threadRepository.findNullable(reply.threadId)?.memberId ?: throw ServiceException(
+                HttpStatus.NOT_FOUND,
+                messageSource.i18n("controller.thread.doesntExist")
+            )
+
+            alertService.createAlert(reply.memberId, targetMemberId, reply.threadId, AlertType.CREATE_REPLY)
+        }
     }
 }

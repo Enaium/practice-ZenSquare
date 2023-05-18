@@ -41,7 +41,7 @@ interface Thread : BaseEntity {
 
     val content: String
 
-    val memberId: UUID?
+    val memberId: UUID
 
     @ManyToOne
     val member: Member
@@ -89,4 +89,8 @@ interface Thread : BaseEntity {
     @ManyToMany
     @JoinTable(name = "conversation_mapping", joinColumnName = "thread_id", inverseJoinColumnName = "member_id")
     val members: List<Member>
+
+    val essence: Boolean
+
+    val priority: Int
 }

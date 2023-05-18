@@ -17,15 +17,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.repository
+package cn.enaium.zensquare.controller
 
-import cn.enaium.zensquare.model.entity.AlertType
-import org.babyfish.jimmer.spring.repository.KRepository
-import org.springframework.stereotype.Repository
-import java.util.*
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * @author Enaium
  */
-@Repository
-interface AlertTypeRepository : KRepository<AlertType, UUID>
+@RestController
+class AlertController {
+
+}
