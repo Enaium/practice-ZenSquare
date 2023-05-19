@@ -35,7 +35,6 @@ interface Alert : BaseEntity {
     @Id
     @GeneratedValue(generatorType = UUIDIdGenerator::class)
     val id: UUID
-    val alertTypeId: UUID
     val sourceMemberId: UUID
 
     @ManyToOne

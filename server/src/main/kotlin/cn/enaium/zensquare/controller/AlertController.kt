@@ -19,12 +19,29 @@
 
 package cn.enaium.zensquare.controller
 
+import cn.enaium.zensquare.bll.service.AlertService
+import cn.enaium.zensquare.model.entity.Alert
+import cn.enaium.zensquare.model.entity.fetcher.AlertFetcher
+import org.babyfish.jimmer.client.FetchBy
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 /**
  * @author Enaium
  */
 @RestController
-class AlertController {
-
+class AlertController(val alertService: AlertService) {
+    @GetMapping("/members/{memberId}/alerts/")
+    fun findAlerts(
+        @RequestParam(defaultValue = "0") page: Int = 0,
+        @RequestParam(defaultValue = "10") size: Int = 10,
+        @PathVariable memberId: UUID
+    ): Page<@FetchBy("DEFAULT_FETCHER", ownerType = AlertFetcher::class) Alert> {
+        return alertService.findAlertsByMemberId(PageRequest.of(page, size), memberId)
+    }
 }

@@ -23,8 +23,14 @@ import cn.enaium.zensquare.bll.service.AlertService
 import cn.enaium.zensquare.model.entity.Alert
 import cn.enaium.zensquare.model.entity.AlertType
 import cn.enaium.zensquare.model.entity.by
+import cn.enaium.zensquare.model.entity.fetcher.AlertFetcher
+import cn.enaium.zensquare.model.entity.targetMemberId
 import cn.enaium.zensquare.repository.AlertRepository
 import org.babyfish.jimmer.kt.new
+import org.babyfish.jimmer.sql.kt.KSqlClient
+import org.babyfish.jimmer.sql.kt.ast.expression.eq
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -33,7 +39,8 @@ import java.util.*
  */
 @Service
 class AlertServiceImpl(
-    val alertRepository: AlertRepository
+    val alertRepository: AlertRepository,
+    val sql: KSqlClient
 ) : AlertService {
     override fun createAlert(sourceMemberId: UUID, targetMemberId: UUID, target: UUID, type: AlertType) {
         alertRepository.save(new(Alert::class).by {
@@ -41,6 +48,13 @@ class AlertServiceImpl(
             this.targetMemberId = targetMemberId
             this.target = target
             this.type = type
+        })
+    }
+
+    override fun findAlertsByMemberId(pageable: Pageable, memberId: UUID): Page<Alert> {
+        return alertRepository.pager(pageable).execute(sql.createQuery(Alert::class) {
+            where(table.targetMemberId eq memberId)
+            select(table.fetch(AlertFetcher.DEFAULT_FETCHER))
         })
     }
 }

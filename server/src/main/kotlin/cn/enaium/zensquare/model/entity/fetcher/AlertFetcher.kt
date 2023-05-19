@@ -17,18 +17,37 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.bll.service
+package cn.enaium.zensquare.model.entity.fetcher
 
 import cn.enaium.zensquare.model.entity.Alert
-import cn.enaium.zensquare.model.entity.AlertType
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import java.util.*
+import cn.enaium.zensquare.model.entity.by
+import org.babyfish.jimmer.sql.kt.fetcher.newFetcher
 
 /**
  * @author Enaium
  */
-interface AlertService {
-    fun createAlert(sourceMemberId: UUID, targetMemberId: UUID, target: UUID, type: AlertType)
-    fun findAlertsByMemberId(pageable: Pageable, memberId: UUID): Page<Alert>
+object AlertFetcher {
+    val DEFAULT_FETCHER = newFetcher(Alert::class).by {
+        allScalarFields()
+        sourceMember {
+            profile {
+                nickname()
+                avatar()
+                role {
+                    name()
+                    description()
+                }
+            }
+        }
+        targetMember {
+            profile {
+                nickname()
+                avatar()
+                role {
+                    name()
+                    description()
+                }
+            }
+        }
+    }
 }

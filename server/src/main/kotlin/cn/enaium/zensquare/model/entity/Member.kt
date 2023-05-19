@@ -44,9 +44,6 @@ interface Member : BaseEntity {
     @OneToOne(mappedBy = "member")
     val profile: MemberProfile?
 
-    @OneToMany(mappedBy = "targetMember")
-    val alerts: List<Alert>
-
     @ManyToMany
     @JoinTable(name = "follow_mapping", joinColumnName = "follower_id", inverseJoinColumnName = "following_id")
     val followers: List<Member>
@@ -68,9 +65,6 @@ interface Member : BaseEntity {
 
     @Transient(MemberMessageCountResolver::class)
     val message: Long
-
-    @OneToMany(mappedBy = "targetMember")
-    val reports: List<Report>
 
     /**
      * conversations that this member is in

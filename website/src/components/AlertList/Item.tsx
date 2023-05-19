@@ -17,18 +17,21 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package cn.enaium.zensquare.bll.service
+import type { AlertDto } from "@/__generated/model/dto"
+import { defineComponent } from "vue"
 
-import cn.enaium.zensquare.model.entity.Alert
-import cn.enaium.zensquare.model.entity.AlertType
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import java.util.*
+const Item = defineComponent(
+  (props: { alert: AlertDto["AlertFetcher/DEFAULT_FETCHER"] }) => {
+    return () => {
+      switch (props.alert.type) {
+        case "CREATE_REPLY":
+          return <div>{props.alert.sourceMember.profile?.nickname} replied to your post</div>
+        default:
+          return <div>{props.alert.type}</div>
+      }
+    }
+  },
+  { props: ["alert"] }
+)
 
-/**
- * @author Enaium
- */
-interface AlertService {
-    fun createAlert(sourceMemberId: UUID, targetMemberId: UUID, target: UUID, type: AlertType)
-    fun findAlertsByMemberId(pageable: Pageable, memberId: UUID): Page<Alert>
-}
+export default Item

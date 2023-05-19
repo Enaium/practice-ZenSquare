@@ -28,12 +28,14 @@ import Avatar from "@/components/Avatar"
 import ProfileForm from "../ProfileForm"
 import { Alert24Regular, Mail24Regular, Search24Regular } from "@vicons/fluent"
 import ConversationList from "@/components/ConversationList"
+import AlertList from "../AlertList"
 
 const showModifyProfile = ref(false)
 
 const Sessional = defineComponent(() => {
   const showVistorMenu = ref(false)
   const showConversation = ref(false)
+  const showAlert = ref(false)
 
   const session = useSessionStore()
 
@@ -77,11 +79,21 @@ const Sessional = defineComponent(() => {
                 default: () => <ConversationList size={3} onPush={() => (showConversation.value = false)} />
               }}
             />
-            <NButton>
-              <NIcon size={24}>
-                <Alert24Regular />
-              </NIcon>
-            </NButton>
+            <NPopover
+              raw
+              show={showAlert.value}
+              onClickoutside={() => (showAlert.value = false)}
+              v-slots={{
+                trigger: () => (
+                  <NButton onClick={() => (showAlert.value = true)}>
+                    <NIcon size={24}>
+                      <Alert24Regular />
+                    </NIcon>
+                  </NButton>
+                ),
+                default: () => <AlertList size={3} onPush={() => (showAlert.value = false)} />
+              }}
+            />
           </NButtonGroup>
           <NButton renderIcon={() => <Search24Regular />}>Search</NButton>
         </div>
