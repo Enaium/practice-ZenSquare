@@ -2,12 +2,11 @@
 
 中文版: [README_zh.md](README_zh.md)
 
-**This project is still under development and is not yet complete**
+**This project is currently under development and is not yet completed.**
 
-This is an open source project based on the AGPLv3 license. This project is mainly to use SpringBoot+Vue to replicate a
-forum system similar to [XenForo](https://xenforo.com/solutions/)
+This is an open-source project based on the AGPLv3 license. The project mainly uses SpringBoot+Vue to replicate a forum system similar to [XenForo](https://xenforo.com/solutions/).
 
-## Usage of stack
+## Technologies Used
 
 ### Backend
 
@@ -29,41 +28,41 @@ forum system similar to [XenForo](https://xenforo.com/solutions/)
 
 ## Features
 
-- [x] Internationalization and multilingualism
-- [x] Member register
+- [x] Internationalization and multiple languages
+- [x] Member registration
 - [x] Member login
 - [x] Member logout
-- [x] Member profile modify
-- [x] Member avatar modify
-- [x] Member password modify
-- [x] Member post
-- [ ] Post top
+- [x] Member information modification
+- [x] Member avatar modification
+- [x] Member password modification
+- [x] Member post creation
+- [ ] Post topping
 - [ ] Post essence
 - [ ] Post search
-- [x] Member reply
-- [ ] Member delete thread
-- [ ] Member delete reply
-- [x] Member modify thread
-- [x] Member modify reply
-- [x] Member like thread
-- [x] Member dislike thread
-- [x] Member like reply
-- [x] Member dislike reply
-- [x] Member cancel like thread
-- [x] Member cancel dislike thread
-- [x] Member cancel like reply
-- [x] Member cancel dislike reply
+- [x] Member reply creation
+- [ ] Member post deletion
+- [ ] Member reply deletion
+- [x] Member post modification
+- [x] Member reply modification
+- [x] Member post like
+- [x] Member post dislike
+- [x] Member reply like
+- [x] Member reply dislike
+- [x] Member cancel post like
+- [x] Member cancel post dislike
+- [x] Member cancel reply like
+- [x] Member cancel reply dislike
 - [x] Member follow member
 - [x] Member unfollow member
-- [x] Private letter between multiple members
-- [x] Private letter between members
-- [x] Alert of posting, replying, liking, etc.
-- [x] Member rank
-- [x] Member report thread
+- [x] Private messages between multiple members
+- [x] Private messages between members
+- [x] Notifications for post, reply, and like actions
+- [x] Member rankings
+- [x] Member report post
 - [x] Member report reply
 - [x] Member report member
 - [ ] Member mute
 - [ ] Member ban
-- [ ] Administrator delete thread
-- [ ] Administrator delete reply
-- [ ] Backstage management
+- [ ] Admin delete post
+- [ ] Admin delete reply
+- [ ] Backend management
