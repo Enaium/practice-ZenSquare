@@ -2,8 +2,6 @@
 
 中文版: [README_zh.md](README_zh.md)
 
-**This project is currently under development and is not yet completed.**
-
 This is an open-source project based on the AGPLv3 license. The project mainly uses SpringBoot+Vue to replicate a forum system similar to [XenForo](https://xenforo.com/solutions/).
 
 ## Technologies Used
@@ -36,12 +34,8 @@ This is an open-source project based on the AGPLv3 license. The project mainly u
 - [x] Member avatar modification
 - [x] Member password modification
 - [x] Member post creation
-- [ ] Post topping
-- [ ] Post essence
 - [ ] Post search
 - [x] Member reply creation
-- [ ] Member post deletion
-- [ ] Member reply deletion
 - [x] Member post modification
 - [x] Member reply modification
 - [x] Member post like
@@ -61,8 +55,3 @@ This is an open-source project based on the AGPLv3 license. The project mainly u
 - [x] Member report post
 - [x] Member report reply
 - [x] Member report member
-- [ ] Member mute
-- [ ] Member ban
-- [ ] Admin delete post
-- [ ] Admin delete reply
-- [ ] Backend management

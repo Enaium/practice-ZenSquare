@@ -17,16 +17,38 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { defineComponent, reactive } from "vue"
+import { defineComponent, reactive, ref } from "vue"
 import { api } from "@/common/ApiInstance"
-import { useMessage, NSpin } from "naive-ui"
+import { useMessage, NSpin, NButton, NForm, NFormItem, NInput, type FormInst } from "naive-ui"
 import { useRoute } from "vue-router"
 import { useQuery } from "@tanstack/vue-query"
 import type { RequestOf } from "@/__generated"
 import ThreadForm from "@/components/ThreadForm"
+import Editor from "@/components/Editor"
+import type { ThreadInput } from "@/__generated/model/static"
 
 const NewPost = defineComponent(() => {
   const route = useRoute()
+
+  const message = useMessage()
+
+  const form = reactive<ThreadInput>({ forumId: route.params.forum as string })
+  const formRef = ref<FormInst | null>(null)
+
+  const submit = () => {
+    formRef.value?.validate((errors) => {
+      if (!errors) {
+        api.postController
+          .savePost({ body: form })
+          .then(() => {
+            message.success(window.$i18n("common.success"))
+          })
+          .catch((error) => {
+            message.error(error)
+          })
+      }
+    })
+  }
 
   const options = reactive<RequestOf<typeof api.postController.findPost>>({ id: route.params.thread as string })
 
@@ -44,7 +66,25 @@ const NewPost = defineComponent(() => {
         <ThreadForm thread={{ ...data.value }} />
       )
     ) : (
-      <ThreadForm thread={{ forumId: route.params.forum as string }} />
+      <NForm model={form} ref={formRef}>
+        <NFormItem
+          path={"title"}
+          label={window.$i18n("component.threadForm.title.label")}
+          rule={[{ required: true, message: window.$i18n("component.threadForm.title.message") }]}
+        >
+          <NInput v-model:value={form.title} />
+        </NFormItem>
+        <NFormItem
+          path={"content"}
+          label={window.$i18n("component.threadForm.content.label")}
+          rule={[{ required: true, message: window.$i18n("component.threadForm.content.message") }]}
+        >
+          <Editor v-model={form.content} />
+        </NFormItem>
+        <NButton onClick={submit} type={"primary"}>
+          {window.$i18n("common.submit")}
+        </NButton>
+      </NForm>
     )
 })
 

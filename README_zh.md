@@ -2,8 +2,6 @@
 
 English version: [README.md](README.md)
 
-**这个项目还在开发中,目前还没有完成**
-
 这是一个开源的项目,基于AGPLv3协议,这个项目主要是使用SpringBoot+Vue来复刻类似于[XenForo](https://xenforo.com/solutions/)的论坛系统
 
 ## 使用的技术
@@ -36,12 +34,8 @@ English version: [README.md](README.md)
 - [x] 会员头像修改
 - [x] 会员密码修改
 - [x] 会员发帖
-- [ ] 帖子置顶
-- [ ] 帖子加精
 - [ ] 帖子搜索
 - [x] 会员回帖
-- [ ] 会员删除帖子
-- [ ] 会员删除回帖
 - [x] 会员修改帖子
 - [x] 会员修改回帖
 - [x] 会员喜欢帖子
@@ -61,8 +55,3 @@ English version: [README.md](README.md)
 - [x] 会员举报帖子
 - [x] 会员举报回帖
 - [x] 会员举报会员
-- [ ] 会员禁言
-- [ ] 会员封禁
-- [ ] 管理员删除帖子
-- [ ] 管理员删除回帖
-- [ ] 后台管理
